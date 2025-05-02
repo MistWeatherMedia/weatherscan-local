@@ -43,11 +43,9 @@ However, if you are looking for extra customization beyond the in-app settings m
 4. Line 1 is where your *weather.com*  API key goes. Replace `"YOUR_API_KEY"` with your *weather.com* API key.
 5. Line 2 is where your *mapbox.com*  API key goes. Replace `"YOUR_API_KEY"` with your *mapbox.com* API key.
 6. Save your changes to `config.js` and close out of it.
-7. Now, open `radar.js` in the same folder.
-8. Line 8, or wherever *mapboxgl.accessToken* is located, is the second place your *mapbox.com*  API key goes. Replace `"map_key"` with your *mapbox.com* API key.
-9. Save your changes to `radar.js` and close out of it.
-10. In terminal / command prompt within the webroot directory, run `npm install --production`. This will install all dependencies required to run.
-11. In terminal / command prompt within the webroot directory, run `npm start`. This will start a local web server, which is required to run the sim.
+7. Save your changes to `radar.js` and close out of it.
+8. In terminal / command prompt within the webroot directory, run `npm install --production`. This will install all dependencies required to run.
+9. In terminal / command prompt within the webroot directory, run `npm start`. This will start a local web server, which is required to run the sim.
 
 ------------
 
