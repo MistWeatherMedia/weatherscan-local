@@ -531,7 +531,7 @@ function grabData() {
 function grabAirportData() {
   function grabAirportDelays() {
     weatherData.airportDelayList = []
-    $.getJSON('http://'+document.location.hostname+':8081/https://nasstatus.faa.gov/api/airport-events', function(eventdata) {
+    $.getJSON('http://'+document.location.hostname+':8080/https://nasstatus.faa.gov/api/airport-events', function(eventdata) {
       for (const airportevent of eventdata) {
         var delay = {delayTime:"", iataCode:""}
         if (airportevent.airportClosure) {
