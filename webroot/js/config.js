@@ -20,55 +20,6 @@ var slideSettings = {//Don't change this
           { function: "introSlide" },
           { function: "providerSlide" },
         ]},
-        /*{group: "forecast", slides: [
-          { function: "upNext" }, //
-          { function: "bulletin"}, // 
-          { function: "dopplerRadar" }, // 
-          { function: "currentConditions" }, // 
-          { function: "nearbyCities" },//
-          { function: "dopplerRadar" }, //
-          { function: "dayDesc" }, //
-          { function: "extendedForecast" }, //
-          { function: "almanac" }, //
-          { function: "regionalSat" },
-          { function: "regionalRadar" },
-          { function: "dopplerRadar" },
-        ]},
-        {group: "extralocal", slides: [ //
-          { function: "upNext" },
-          { function: "extraCurrentConditions"}, //
-          { function: "extraDayDesc"}, //
-          { function: "extraExtendedForecast"}, 
-        ]},
-        {group: "minicore", slides: [ //
-          { function: "upNext" },
-          { function: "dopplerRadar" },
-          { function: "currentConditions" },
-          { function: "dayDesc" },
-          { function: "extendedForecast" },
-          { function: "dopplerRadar" },
-        ]},
-        {group: "spanish", slides: [
-          { function: "upNext" },
-          { function: "EScurrentConditions" }, //
-          { function: "ESnearbyCities" }, //
-          { function: "ESextendedForecast" }, //
-          { function: "ESalmanac" }, //
-        ]},
-        {group: "golf", slides: [
-          { function: "upNext" },
-          { function: "courseForecast" } //
-        ]},
-        {group: "health", slides: [
-          { function: "upNext" },
-          { function: "healthTip" }, //
-          { function: "uvIndex" }, /-
-        ]},
-        {group: "airport", slides: [
-          { function: "upNext" },
-          { function: "airportConditions" }, //
-          { function: "nationalAirports" }, //
-        ]}*/
       ]},
   ],
 };
