@@ -13,9 +13,10 @@ Online demo: [local.weatherscan.net](https://local.weatherscan.net)
 **Special thanks to these talented minds who made this project possible!**
 
 **Joe Molinelli (TheGoldDiamond9)** - Lead Developer  
-**COLSTER** - Lead Designer / Developer  
-**PicelBoi** - Developer  
-**JensonWx** - Developer  
+**COLSTER** - Lead Designer / Developer (CSS) 
+**PicelBoi** - Developer (Radar)  
+**JensonWx** - Developer (HTML) 
+**SSPWXR** - Developer (Express Conversion) 
 **zachNet** - Audio Engineer  
 
 and the rest of the Mist Creative Team for their support!
@@ -26,26 +27,16 @@ Need support beyond the scope of this README? Have any questions? Feel free to j
 
 [***mist weather media*** on Discord](https://discord.gg/hV2w5sZQxz)
 
-# Initial Setup (Releases)
-
-![](https://img.shields.io/github/release/MistWeatherMedia/weatherscan-local.svg)
-
-There is no setup required to run the packaged releases. Simply click on the .exe and go! 
-
-However, if you are looking for extra customization beyond the in-app settings menu, you'll want to stick to the source code.
-
-# Initial Setup (Source code)
+# Initial Setup
 
 1. Install [node.js LTS](https://nodejs.org/en/).
 2. Acquire *weather.com* and *mapbox.com* API keys. These are required for weather data and radar frames respectively.
-(Please note that you will have to install the Mapbox API key in two places.)
 3. Go to `/webroot/js` and open `config.js`.
 4. Line 1 is where your *weather.com*  API key goes. Replace `"YOUR_API_KEY"` with your *weather.com* API key.
 5. Line 2 is where your *mapbox.com*  API key goes. Replace `"YOUR_API_KEY"` with your *mapbox.com* API key.
 6. Save your changes to `config.js` and close out of it.
-7. Save your changes to `radar.js` and close out of it.
-8. In terminal / command prompt within the webroot directory, run `npm install --production`. This will install all dependencies required to run.
-9. In terminal / command prompt within the webroot directory, run `npm start`. This will start a local web server, which is required to run the sim.
+7. In terminal / command prompt within the webroot directory, run `npm install`. This will install all dependencies required to run.
+8. In terminal / command prompt within the webroot directory, run `npm start`. This will start a local web server, which is required to run the sim.
 
 ------------
 
