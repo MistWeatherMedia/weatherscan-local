@@ -1,28 +1,15 @@
 {
-  "name": "weatherscan",
-  "description": "weatherscan emulator",
-  "scripts": {
-    "cors": "node ./webroot/js/cors.js",
-    "http-server": "http-server ./webroot",
-    "dev-server": "live-server ./webroot",
-    "start": "npm-run-all --parallel cors dev-server"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jessecar96/Weatherscan.git"
-  },
+  "name": "weatherscan-xl",
+  "version": "1.0.0",
+  "description": "Weatherscan Local XL is a simulated recreation of Weatherscan Local by The Weather Channel in HTML/CSS/JS, by mist weather media",
+  "main": "app.js",
   "dependencies": {
-    "cors-anywhere": "^0.4.4",
-    "date-fns": "^2.23.0",
-    "http-server": "^14.1.0",
-    "live-server": "^1.1.0",
-    "npm-run-all": "^4.1.5"
+    "express": "^5.1.0"
   },
-  "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^6.1.0",
-    "gulp-clean-css": "^4.2.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^2.6.5"
-  }
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Mist Weather Media"
 }
