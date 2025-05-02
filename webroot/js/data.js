@@ -1328,7 +1328,6 @@ setInterval(
 setTimeout(function() {
   startPrograms()
   createMaps()
-  console.log(weatherData)
  setTimeout(() => {
   locradar.setCenter([locationConfig.radar.localCoords.lon, locationConfig.radar.localCoords.lat]);
   regradar.setCenter([locationConfig.radar.regionalCoords.lon, locationConfig.radar.regionalCoords.lat]);
