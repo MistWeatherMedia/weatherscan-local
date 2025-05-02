@@ -1,0 +1,2561 @@
+@font-face {
+  font-family: "Akzidenz Regular";
+  src: url("fonts/AkzidenzGroteskBERegular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Akzidenz Bold";
+  src: url("fonts/AkzidenzGroteskBEBold.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Akzidenz Extended";
+  src: url(/fonts/Frutiger.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Helvetica XL";
+  src: url(fonts/HelveticaNeueLT-BoldCond.otf) format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Extended.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: expanded;
+}
+
+/*stay in school kids, these fonts suck*/
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Medium Extended.otf")
+    format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Medium Extended.otf")
+    format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: expanded;
+}
+
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Medium Condensed.otf")
+    format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: condensed;
+}
+
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  src: url("fonts/Berthold Akzidenz Grotesk BE Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Univers";
+  src: url("fonts/Univers Ultra Condensed.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: ultra-condensed;
+}
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slideFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+a,
+body,
+div,
+h1,
+html,
+p {
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+  color: #e8e8e8;
+  font-style: normal;
+  font-family: "Berthold Akzidenz Grotesk BE", "Univers", Arial, Helvetica,
+    sans-serif;
+  font-weight: bold;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+html * {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+body,
+html {
+  height: 100%;
+  background-color: #000;
+  font-size: 100%;
+}
+
+/* BUTTONS AND UTILITIES*/
+button {
+  background-color: #161418;
+  border: #00000000;
+  border-radius: 15px;
+  color: #dddddd;
+  font-weight: 700;
+  padding: 1%;
+  text-shadow: #000 3px 3px 3px;
+}
+
+/*SETTINGS PANEL*/
+.start-button {
+  position: absolute;
+  cursor: pointer;
+  bottom: 40%;
+  left: 48%;
+  font-size: 50px;
+}
+#settingspanel {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  z-index: 10000;
+  background-image: url(images/setup/setup-background.png);
+  background-size: 100% 100%;
+}
+#settingspanel .checkmarkbox {
+  position: absolute;
+  z-index: 12000;
+  cursor: pointer;
+  font-size: 35px;
+  height: 50px;
+  width: 50px;
+}
+#settingspanel .button {
+  position: absolute;
+  z-index: 12000;
+  cursor: pointer;
+  font-size: 35px;
+}
+#settingspanel .dropdown {
+  position: absolute;
+  height: 50px;
+  text-align: center;
+  z-index: 20000;
+  font-size: 35px;
+}
+#settingspanel .dropdown option {
+  font-size: 15px;
+  text-align: center;
+}
+#settingspanel .input {
+  position: absolute;
+  height: 50px;
+  z-index: 20000;
+  font-size: 35px;
+  text-align: left;
+}
+#setup-swoosh {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10001;
+  background-size: 100% 100%;
+}
+#setup-hint {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10002;
+  background-size: 100% 100%;
+}
+#settingspanel .pageindic {
+  position: absolute;
+  font-size: 50px;
+  top: 63%;
+  right: 5%;
+  text-align: right;
+}
+.settings-subpage {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10002;
+}
+#setup-welcome {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/welcome-setup.png);
+  background-size: 100% 100%;
+}
+#setup-welcome .proceed-button {
+  position: absolute;
+  height: 70px;
+  width: 510px;
+  top: 54%;
+  left: 11%;
+  opacity: 0;
+}
+#setup-welcome .skipall-button {
+  position: absolute;
+  height: 70px;
+  width: 670px;
+  top: 64%;
+  left: 11%;
+  opacity: 0;
+}
+.setup-list {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10004;
+  background-image: url(images/setup/setup-list.png);
+  background-size: 100% 100%;
+}
+.list-indicators {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+}
+.list-indicators .indic {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  background-color: #e8e8e8;
+  border-radius: 40%;
+  left: 2.5%;
+}
+#mainloc-displayname {
+  top: 48%;
+  left: 68%;
+}
+.list-indicators .indic.one {
+  top: 25.5%;
+}
+.list-indicators .indic.two {
+  top: 37%;
+}
+.list-indicators .indic.three {
+  top: 50.5%;
+}
+.list-indicators .indic.four {
+  top: 62%;
+}
+.list-indicators .indic.five {
+  top: 75%;
+}
+#setup-mainloc {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/mainloc-setup.png);
+  background-size: 100% 100%;
+}
+#mainloc-dropdown {
+  width: 210px;
+  top: 41%;
+  right: 34%;
+}
+#mainloc-data {
+  top: 41%;
+  left: 68%;
+}
+.mainloc-next-button {
+  top: 55%;
+  right: 5%;
+}
+.mainloc-skip-button {
+  top: 55%;
+  right: 13%;
+}
+
+#setup-extraloc {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/extraloc-setup.png);
+  background-size: 100% 100%;
+}
+#extraloc-displayname {
+  top: 48%;
+  left: 68%;
+}
+#extraloc-dropdown {
+  width: 210px;
+  top: 41%;
+  right: 34%;
+}
+#extraloc-data {
+  top: 41%;
+  left: 68%;
+}
+.extraloc-next-button {
+  top: 55%;
+  right: 5%;
+}
+.extraloc-skip-button {
+  top: 55%;
+  right: 13%;
+}
+#setup-nearbylocs {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/nearbylocs-setup.png);
+  background-size: 100% 100%;
+}
+.nearbylocs-page {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+}
+#nearbylocs-displayname-one,
+#nearbylocs-displayname-two,
+#nearbylocs-displayname-three,
+#nearbylocs-displayname-four,
+#nearbylocs-displayname-five,
+#nearbylocs-displayname-six,
+#nearbylocs-displayname-seven,
+#nearbylocs-displayname-eight {
+  top: 48%;
+  left: 68%;
+}
+#nearbylocs-dropdown-one,
+#nearbylocs-dropdown-two,
+#nearbylocs-dropdown-three,
+#nearbylocs-dropdown-four,
+#nearbylocs-dropdown-five,
+#nearbylocs-dropdown-six,
+#nearbylocs-dropdown-seven,
+#nearbylocs-dropdown-eight {
+  width: 210px;
+  top: 41%;
+  right: 34%;
+}
+#nearbylocs-data-one,
+#nearbylocs-data-two,
+#nearbylocs-data-three,
+#nearbylocs-data-four,
+#nearbylocs-data-five,
+#nearbylocs-data-six,
+#nearbylocs-data-seven,
+#nearbylocs-data-eight {
+  top: 41%;
+  left: 68%;
+}
+.nearbylocs-next-button {
+  top: 55%;
+  right: 5%;
+}
+.nearbylocs-skip-button {
+  top: 55%;
+  right: 13%;
+}
+#setup-airports {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/airports-setup.png);
+  background-size: 100% 100%;
+}
+.airports-page {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+}
+#airports-displayname-one,
+#airports-displayname-two {
+  top: 48%;
+  left: 68%;
+}
+#airports-data-one,
+#airports-data-two {
+  top: 41%;
+  left: 68%;
+}
+.airports-next-button {
+  top: 55%;
+  right: 5%;
+}
+.airports-skip-button {
+  top: 55%;
+  right: 13%;
+}
+#setup-courses {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/courses-setup.png);
+  background-size: 100% 100%;
+}
+#setup-courses .pageindic {
+  top: 65%;
+}
+.courses-page {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+}
+#courses-displayname-one,
+#courses-displayname-two,
+#courses-displayname-three {
+  top: 50%;
+  left: 68%;
+}
+#courses-dropdown-one,
+#courses-dropdown-two,
+#courses-dropdown-three {
+  width: 210px;
+  top: 43%;
+  right: 34%;
+}
+#courses-data-one,
+#courses-data-two,
+#courses-data-three {
+  top: 43%;
+  left: 68%;
+}
+.courses-next-button {
+  top: 57%;
+  right: 5%;
+}
+.courses-skip-button {
+  top: 57%;
+  right: 13%;
+}
+#setup-packages {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/packages-setup.png);
+  background-size: 100% 100%;
+}
+#setup-packages .checkmarkbox {
+  left: 48%;
+}
+#setup-packages #package-check-one {
+  top: 42.7%;
+}
+#setup-packages #package-check-two {
+  top: 48.7%;
+}
+#setup-packages #package-check-three {
+  top: 54.7%;
+}
+#setup-packages #package-check-four {
+  top: 60.7%;
+}
+#setup-packages #package-check-five {
+  top: 66.7%;
+}
+#setup-packages #package-check-six {
+  top: 72.7%;
+}
+#setup-packages .dropdown {
+  left: 53%;
+}
+#setup-packages #package-list-one {
+  top: 43%;
+}
+#setup-packages #package-list-two {
+  top: 49%;
+}
+#setup-packages #package-list-three {
+  top: 55%;
+}
+#setup-packages #package-list-four {
+  top: 61%;
+}
+#setup-packages #package-list-five {
+  top: 67%;
+}
+#setup-packages #package-list-six {
+  top: 73%;
+}
+#setup-packages .default-packages-button {
+  top: 43%;
+  right: 5%;
+}
+#setup-packages .next-packages-button {
+  top: 43%;
+  right: 16%;
+}
+#setup-thankyou {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/thankyou-setup.png);
+  background-size: 100% 100%;
+}
+#setup-thankyou .start-button {
+  position: absolute;
+  height: 75px;
+  width: 275px;
+  top: 62%;
+  left: 41.1%;
+  opacity: 0;
+}
+#setup-pause {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 10005;
+  background-image: url(images/setup/pause-setup.png);
+  background-size: 100% 100%;
+}
+#setup-pause .locations-pause {
+  top: 38.5%;
+  left: 25%;
+  width: 800px;
+  height: 90px;
+  opacity: 0;
+}
+#setup-pause .packages-pause {
+  top: 48.5%;
+  left: 25%;
+  width: 800px;
+  height: 90px;
+  opacity: 0;
+}
+#setup-pause .unpause {
+  top: 66%;
+  left: 46%;
+  width: 130px;
+  height: 60px;
+  opacity: 0;
+}
+/*END OF SETTINGS PANEL*/
+#startup {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  overflow: hidden;
+}
+#startup-background {
+  width: 1620px;
+  height: 1080px;
+}
+#main {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  width: 1620px;
+  height: 1080px;
+  will-change: transform;
+}
+#date-time * {
+  font-family: "Berthold Akzidenz Grotesk BE";
+  color: #e8e8e8;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: expanded;
+  font-size: 40px;
+}
+#date-time {
+  position: absolute;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  color: #e8e8e8;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: expanded;
+  font-size: 40px;
+  bottom: 80px;
+  right: 123px;
+  text-align: right;
+  z-index: 10;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 2.5px;
+  width: 400px;
+}
+#time {
+  position: absolute;
+  right: 0px;
+}
+#date {
+  white-space: pre-wrap;
+}
+#provider {
+  position: absolute;
+  top: 0px;
+  width: 1620px;
+  height: 1080px;
+  z-index: 15;
+}
+#provider img {
+  min-width: 100%;
+}
+#slides {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.skeleton {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 1;
+}
+.slide-data {
+  position: absolute;
+  z-index: 1;
+  width: 1620px;
+  height: 1080px;
+}
+
+#slides * {
+  z-index: 1;
+}
+.tempunavailable {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  background: transparent url(images/skeletons/tempunavailable.png) no-repeat;
+  z-index: 10 !important;
+  background-size: 100%, 100%;
+}
+.radar-container {
+  position: absolute;
+
+  width: 1620px;
+  height: 1080px;
+}
+#locradar {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+  filter: drop-shadow(2px 2px 0 #000);
+}
+
+#satradar {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
+
+#regradar {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+  filter: drop-shadow(2px 2px 0 #000);
+}
+.radar-overlay {
+  z-index: 8 !important;
+}
+.radar-doppler .radar-overlay {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 8;
+  background-size: 100%, 100%;
+}
+.radar-doppler {
+  width: 1620px;
+  height: 1080px;
+  position: absolute;
+}
+
+#radar-basemap-container-doppler {
+  z-index: 2;
+  position: absolute;
+  width: 540px;
+  height: 360px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleX(calc(1620 / 540))
+     scaleY(calc(1080 / 360));
+  overflow: hidden;
+}
+
+#radar-basemap-container-doppler-cities {
+  z-index: 5;
+  position: absolute;
+  width: 540px;
+  height: 360px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleX(calc(1620 / 540))
+     scaleY(calc(1080 / 360));
+  overflow: hidden;
+}
+
+#radar-basemap-container-sat {
+  z-index: 2;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+#radar-basemap-container-sat-borders {
+  z-index: 5;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+#radar-basemap-container-regional {
+  z-index: 2;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+#radar-basemap-container-regional-borders {
+  z-index: 5;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+#radar-doppler-map {
+  position: absolute;
+  z-index: 2;
+  background-color: #080069;
+}
+
+#radar-doppler-map-cities {
+  position: absolute;
+  z-index: 5;
+  opacity: 50%;
+}
+
+#radar-doppler-map-cities-1 {
+  position: absolute;
+  z-index: 5;
+}
+
+#radar-sat-map {
+  position: absolute;
+  z-index: 2;
+}
+#radar-sat-map-borders {
+ position: absolute;
+ z-index: 5;
+}
+#radar-regional-map-borders {
+  position: absolute;
+  z-index: 5;
+ }
+#radar-regional-map {
+  position: absolute;
+  z-index: 2;
+}
+.regional-sat .radar-overlay {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 8;
+  background-size: 100%, 100%;
+}
+.regional-sat {
+  width: 1620px;
+  height: 1080px;
+  position: absolute;
+}
+#regional-sat-map {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.regional-radar .radar-overlay {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 8;
+  background-size: 100%, 100%;
+}
+.regional-radar {
+  width: 1620px;
+  height: 1080px;
+  position: absolute;
+}
+#regional-radar-map {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+/*EXTRA*/
+.extra-current-conditions {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.extra-current-conditions .skeleton {
+  background: transparent
+    url(images/skeletons/extra/current-conditions-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.extra-current-conditions .slide-data .left-panel {
+  position: absolute;
+  width: 52%;
+  text-align: right;
+  font-size: 53px;
+  left: 4%;
+  text-shadow: 2px 2px #000;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  top: 20px;
+  transform: translate(-10px, -3px);
+  letter-spacing: 0px;
+}
+.extra-current-conditions .slide-data .cityname {
+  position: absolute;
+  left: 199px;
+  top: 197px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-size: 44px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0.75px;
+}
+.extra-current-conditions .slide-data .humidity {
+  top: 35%;
+}
+.extra-current-conditions .slide-data .pressure {
+  top: 496px;
+  left: 70px;
+}
+.extra-current-conditions .slide-data .wind {
+  top: 57%;
+}
+.extra-current-conditions .slide-data .gusts {
+  top: 67.8%;
+}
+.extra-current-conditions .slide-data .right-panel {
+  position: absolute;
+  font-size: 50px;
+}
+.extra-current-conditions .slide-data .icon {
+  top: 21%;
+  left: 66.6%;
+  width: 300px;
+  height: 300px;
+  transform: scale(1.07);
+}
+.extra-current-conditions .slide-data .condition {
+  top: 525px;
+  left: 61%;
+  width: 30%;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.extra-current-conditions .slide-data .temperature {
+  top: 677px;
+  left: 993px;
+  width: 30%;
+  text-align: center;
+  font-size: 182px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px black;
+  transform: scale(1.1, 1);
+}
+.extra-daydesc-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.extra-daydesc-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/daydesc-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.extra-daydesc-forecast .cityname {
+  position: absolute;
+  font-size: 42px;
+  left: 186px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 197px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: -0.3px;
+}
+.extra-daydesc-forecast .daytitle {
+  color: #ddc879;
+  position: absolute;
+  font-size: 47px;
+  left: 182px;
+  font-weight: 500;
+  top: 279px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.extra-daydesc-forecast .daydesc {
+  position: absolute;
+  width: 78%;
+  max-height: 515px;
+  overflow: hidden;
+  /* font-stretch: condensed; */
+  font-size: 64px;
+  left: 180px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  /* font-weight: 500; */
+  top: 342px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: -0.48px;
+  line-height: 85px;
+}
+.extra-extended-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.extra-extended-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/extended-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.extra-extended-forecast .slide-data .cityname {
+  position: absolute;
+  font-size: 45px;
+  left: 192px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 199px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.extra-extended-forecast .slide-data .day {
+  position: absolute;
+  width: 16%;
+  height: 57%;
+  top: 25%;
+  left: 9%;
+}
+.extra-extended-forecast .slide-data .day.two {
+  margin-left: 16%;
+  transform: translate(5px, 0px);
+}
+.extra-extended-forecast .slide-data .day.three {
+  margin-left: 32%;
+  transform: translate(10px, 0px);
+}
+.extra-extended-forecast .slide-data .day.four {
+  margin-left: 48%;
+  transform: translate(15px, 0px);
+}
+.extra-extended-forecast .slide-data .day.five {
+  margin-left: 64.8%;
+  transform: translate(20px, 0px);
+}
+.extra-extended-forecast .slide-data .day .dayname {
+  position: absolute;
+  width: 99%;
+  top: 51px;
+  font-size: 49px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.extra-extended-forecast .slide-data .day .condition {
+  position: absolute;
+  width: 94%;
+  text-align: center;
+  font-size: 38px;
+  top: 350px;
+  text-shadow: 2px 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+  /* left: -6px; */
+}
+.extra-extended-forecast .slide-data .day .icon {
+  position: absolute;
+  top: 125px;
+  width: 219px;
+  height: 216px;
+  margin-left: 10%;
+  transform: scale(1.1);
+}
+.extra-extended-forecast .slide-data .day .high {
+  position: absolute;
+  margin-left: 55%;
+  width: 27%;
+  text-align: right;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  color: #ddc879;
+  left: -100px;
+}
+.extra-extended-forecast .slide-data .day .divider {
+  position: absolute;
+  width: 98%;
+  text-align: center;
+  font-size: 98px;
+  top: 481px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 200;
+}
+.extra-extended-forecast .slide-data .day .low {
+  position: absolute;
+  margin-left: 55%;
+  width: 45%;
+  text-align: left;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+}
+/*FORECAST*/
+.bulletin-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.bulletin-slide .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/bulletin-slide-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+
+.bulletin-slide .slide-data {
+  text-shadow: 2px 2px #000;
+}
+
+.bulletin-slide .slide-data .cityname {
+  position: absolute;
+  left: 305px;
+  top: 23%;
+  font-size: 44px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -1px;
+}
+.bulletin-slide .slide-data .NWS {
+  position: absolute;
+  left: 277px;
+  top: 338px;
+  color: #ddc879;
+  font-size: 48px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -1px;
+}
+.bulletin-slide .slide-data .alerts-container {
+  position: absolute;
+  width: 100%;
+  height: 78%;
+  overflow: hidden;
+}
+.bulletin-slide .slide-data .alerts {
+  position: absolute;
+  left: 274px;
+  top: 404px;
+  font-size: 62px;
+  width: 80%;
+  line-height: 86px;
+}
+.current-conditions {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.current-conditions .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/current-conditions-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+
+.current-conditions .slide-data .left-panel {
+  position: absolute;
+  width: 52%;
+  text-align: right;
+  font-size: 53px;
+  left: 4%;
+  text-shadow: 2px 2px #000;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  top: 20px;
+  transform: translate(-10px, -3px);
+  letter-spacing: 0px;
+}
+.current-conditions .slide-data .cityname {
+  position: absolute;
+  left: 199px;
+  top: 197px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-size: 44px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0.75px;
+}
+.current-conditions .slide-data .humidity {
+  top: 35%;
+}
+.current-conditions .slide-data .pressure {
+  top: 496px;
+  left: 70px;
+}
+.current-conditions .slide-data .wind {
+  top: 57%;
+}
+.current-conditions .slide-data .gusts {
+  top: 67.8%;
+}
+.current-conditions .slide-data .right-panel {
+  position: absolute;
+  font-size: 50px;
+}
+.current-conditions .slide-data .icon {
+  top: 21%;
+  left: 66.6%;
+  width: 300px;
+  height: 300px;
+  transform: scale(1.07);
+}
+.current-conditions .slide-data .condition {
+  top: 525px;
+  left: 61%;
+  width: 30%;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.current-conditions .slide-data .temperature {
+  top: 677px;
+  left: 993px;
+  width: 30%;
+  text-align: center;
+  font-size: 182px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px black;
+  transform: scale(1.1, 1);
+}
+.extended-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.extended-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/extended-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.extended-forecast .slide-data .cityname {
+  position: absolute;
+  font-size: 45px;
+  left: 192px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 199px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.extended-forecast .slide-data .day {
+  position: absolute;
+  width: 16%;
+  height: 57%;
+  top: 25%;
+  left: 9%;
+}
+.extended-forecast .slide-data .day.two {
+  margin-left: 16%;
+  transform: translate(5px, 0px);
+}
+.extended-forecast .slide-data .day.three {
+  margin-left: 32%;
+  transform: translate(10px, 0px);
+}
+.extended-forecast .slide-data .day.four {
+  margin-left: 48%;
+  transform: translate(15px, 0px);
+}
+.extended-forecast .slide-data .day.five {
+  margin-left: 64.8%;
+  transform: translate(20px, 0px);
+}
+.extended-forecast .slide-data .day .dayname {
+  position: absolute;
+  width: 99%;
+  top: 51px;
+  font-size: 49px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.extended-forecast .slide-data .day .condition {
+  position: absolute;
+  width: 94%;
+  text-align: center;
+  font-size: 38px;
+  top: 350px;
+  text-shadow: 2px 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+  /* left: -6px; */
+}
+.extended-forecast .slide-data .day .icon {
+  position: absolute;
+  top: 125px;
+  width: 219px;
+  height: 216px;
+  margin-left: 10%;
+  transform: scale(1.1);
+}
+.extended-forecast .slide-data .day .high {
+  position: absolute;
+  margin-left: 55%;
+  width: 27%;
+  text-align: right;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  color: #ddc879;
+  left: -100px;
+}
+.extended-forecast .slide-data .day .divider {
+  position: absolute;
+  width: 98%;
+  text-align: center;
+  font-size: 98px;
+  top: 481px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 200;
+}
+.extended-forecast .slide-data .day .low {
+  position: absolute;
+  margin-left: 55%;
+  width: 45%;
+  text-align: left;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+}
+.almanac-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.almanac-slide .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/almanac-slide-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.almanac-slide .slide-data .dayname-today {
+  position: absolute;
+  font-size: 40px;
+  color: #ddc879;
+  left: 588px;
+  top: 214px;
+  width: 300px;
+  text-align: center;
+  font-stretch: expanded;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+}
+.almanac-slide .slide-data .dayname-tomorrow {
+  position: absolute;
+  font-size: 40px;
+  color: #ddc879;
+  left: 1055px;
+  top: 214px;
+  width: 300px;
+  text-align: center;
+  font-stretch: expanded;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+}
+.almanac-slide .slide-data .sunrise-today {
+  position: absolute;
+  font-size: 50px;
+  left: 596px;
+  top: 290px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.almanac-slide .slide-data .sunset-today {
+  position: absolute;
+  font-size: 50px;
+  left: 596px;
+  top: 379px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.almanac-slide .slide-data .sunrise-tomorrow {
+  position: absolute;
+  font-size: 50px;
+  left: 1055px;
+  top: 290px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.almanac-slide .slide-data .sunset-tomorrow {
+  position: absolute;
+  font-size: 50px;
+  left: 1055px;
+  top: 378px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.almanac-slide .slide-data .phasecontainer {
+  position: absolute;
+  height: 100%;
+  width: 220px;
+}
+.almanac-slide .slide-data .phasecontainer.one {
+  left: 15%;
+}
+.almanac-slide .slide-data .phasecontainer.two {
+  left: 34%;
+}
+.almanac-slide .slide-data .phasecontainer.three {
+  left: 53%;
+}
+.almanac-slide .slide-data .phasecontainer.four {
+  left: 1165px;
+}
+.almanac-slide .slide-data .moonphase {
+  background-size: 100% 100%;
+  width: 156px;
+  height: 150px;
+  margin: auto;
+  margin-top: 589px;
+}
+.almanac-slide .slide-data .phasetext {
+  position: absolute;
+  width: 100%;
+  font-size: 42px;
+  top: 765px;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: -1px;
+  display: flex;
+  justify-content: center;
+}
+.almanac-slide .slide-data .phasedate {
+  position: absolute;
+  width: 100%;
+  font-size: 49px;
+  color: #ddc879;
+  top: 809px;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: -1px;
+  display: flex;
+  justify-content: center;
+}
+.daydesc-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.daydesc-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/daydesc-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.daydesc-forecast .cityname {
+  position: absolute;
+  font-size: 42px;
+  left: 186px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 197px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: -0.3px;
+}
+.daydesc-forecast .daytitle {
+  color: #ddc879;
+  position: absolute;
+  font-size: 47px;
+  left: 182px;
+  font-weight: 500;
+  top: 279px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.daydesc-forecast .daydesc {
+  position: absolute;
+  width: 78%;
+  max-height: 515px;
+  overflow: hidden;
+  /* font-stretch: condensed; */
+  font-size: 64px;
+  left: 180px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  /* font-weight: 500; */
+  top: 342px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: -0.48px;
+  line-height: 85px;
+}
+.nearby-cities {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.nearby-cities .skeleton {
+  background: transparent
+    url(images/skeletons/forecast/nearby-cities-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.nearby-cities .slide-data .cityname {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  font-size: 55px;
+  line-height: 70px;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+  top: -13px;
+  letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  /* line-height: 1000px; */
+  /* transform: scaleX(1.05); */
+  /* left: 26px; */
+}
+.nearby-cities .slide-data .temperature {
+  position: absolute;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  margin-left: 47%;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  /* line-height: 171px; */
+}
+.nearby-cities .slide-data .icon {
+  position: absolute;
+  height: 165px;
+  width: 165px;
+  margin-left: 59.9%;
+  transform: scale(1.1);
+  top: -12px;
+}
+.nearby-cities .slide-data .wind {
+  position: absolute;
+  text-align: right;
+  width: 89%;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  font-weight: 100;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  transform: scaleX(1.2);
+  right: 143px;
+  letter-spacing: -1px;
+}
+.nearby-cities .slide-data .city {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  height: 165px;
+  top: 20%;
+}
+.nearby-cities .slide-data .city.two {
+  margin-top: 171px;
+}
+.nearby-cities .slide-data .city.three {
+  margin-top: 341px;
+}
+.nearby-cities .slide-data .city.four {
+  margin-top: 509px;
+}
+.intro-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.intro-slide .skeleton {
+  background: transparent url(images/skeletons/intro-slide-skeleton.png)
+    no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.intro-slide .trademark {
+  position: absolute;
+  text-align: right;
+  font-size: 31px;
+  z-index: 1;
+  top: 916px;
+  right: 179px;
+  font-stretch: condensed;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-family: "Helvetica XL";
+  font-stretch: 147%;
+}
+.provider-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.provider-slide .skeleton {
+  background: transparent url(images/skeletons/provider-slide-skeleton.png)
+    no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.provider-slide .provider-text {
+  position: absolute;
+  left: 183px;
+  top: 273px;
+  white-space: pre-wrap;
+  font-size: 48px;
+  z-index: 1;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  line-height: 143%;
+  /* font-stretch: 52%; */
+  /* transform: scale(1.0, 1); */
+  letter-spacing: 1px;
+  text-shadow: 2px 2px black;
+}
+.upnext-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.upnext-slide .skeleton {
+  background: transparent
+    url(images/skeletons/upnext-slide-skeleton-forecast.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.upnext-slide .next {
+  position: absolute;
+  font-size: 53px;
+  top: 229px;
+  left: 278px;
+  white-space: pre;
+  line-height: 85px;
+  z-index: 1;
+  font-weight: 700;
+  text-shadow: 2px 2px black;
+  letter-spacing: -1px;
+  color: #ddc879;
+}
+.upnext-slide .next .current {
+  color: #e8e8e8;
+}
+.upnext-slide .upnext-arrow {
+  position: absolute;
+  height: 35px;
+  width: 35px;
+  top: 257px;
+  left: 209px;
+  background: transparent url(images/skeletons/upnext-arrow.png) no-repeat;
+  background-size: 100% 100%;
+  z-index: 1;
+  transform: scale(1.25);
+}
+
+/*AIRPORT*/
+.airport-conditions {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.airport-conditions .skeleton {
+  background: transparent
+    url(images/skeletons/airport/airport-conditions-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.airport-conditions .slide-data .airportname {
+  position: absolute;
+  left: 199px;
+  top: 197px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-size: 44px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0.75px;
+}
+.airport-conditions .slide-data .left-panel {
+  position: absolute;
+  width: 52%;
+  text-align: right;
+  font-size: 53px;
+  left: 4%;
+  text-shadow: 2px 2px #000;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  top: 20px;
+  transform: translate(-10px, -3px);
+  letter-spacing: 0px;
+}
+.airport-conditions .slide-data .delay {
+  top: 27.5%;
+}
+.airport-conditions .slide-data .humidity {
+  top: 39%;
+}
+.airport-conditions .slide-data .pressure {
+  top: 50%;
+}
+.airport-conditions .slide-data .wind {
+  top: 61.2%;
+}
+.airport-conditions .slide-data .gusts {
+  top: 72.9%;
+}
+.airport-conditions .slide-data .right-panel {
+  position: absolute;
+  font-size: 50px;
+}
+.airport-conditions .slide-data .icon {
+  top: 21%;
+  left: 66.6%;
+  width: 300px;
+  height: 300px;
+  transform: scale(1.07);
+}
+.airport-conditions .slide-data .condition {
+  top: 525px;
+  left: 61%;
+  width: 30%;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.airport-conditions .slide-data .temperature {
+  top: 677px;
+  left: 993px;
+  width: 30%;
+  text-align: center;
+  font-size: 182px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px black;
+  transform: scale(1.1, 1);
+}
+.national-airports {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.national-airports .skeleton {
+  background: transparent
+    url(images/skeletons/airport/national-airports-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.national-airports .slide-data .airportname {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  font-size: 55px;
+  line-height: 70px;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+  top: -13px;
+  letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  /* line-height: 1000px; */
+  /* transform: scaleX(1.05); */
+  /* left: 26px; */
+}
+.national-airports .slide-data .temperature {
+  position: absolute;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  margin-left: 47%;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  /* line-height: 171px; */
+}
+.national-airports .slide-data .icon {
+  position: absolute;
+  height: 165px;
+  width: 165px;
+  margin-left: 59.9%;
+  transform: scale(1.1);
+  top: -12px;
+}
+.national-airports .slide-data .delay {
+  position: absolute;
+  text-align: right;
+  width: 100%;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  font-weight: 100;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  transform: scaleX(1.2);
+  right: 10%;
+  letter-spacing: -1px;
+}
+.national-airports .slide-data .airport {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  height: 165px;
+  top: 20%;
+}
+.national-airports .slide-data .airport.two {
+  margin-top: 171px;
+}
+.national-airports .slide-data .airport.three {
+  margin-top: 341px;
+}
+.national-airports .slide-data .airport.four {
+  margin-top: 509px;
+}
+/*SPANISH*/
+.spanish-current-conditions {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.spanish-current-conditions .skeleton {
+  background: transparent
+    url(images/skeletons/spanish/current-conditions-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.spanish-current-conditions .slide-data .left-panel {
+  position: absolute;
+  width: 52%;
+  text-align: right;
+  font-size: 53px;
+  left: 4%;
+  text-shadow: 2px 2px #000;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  top: 20px;
+  transform: translate(-10px, -3px);
+  letter-spacing: 0px;
+}
+.spanish-current-conditions .slide-data .cityname {
+  position: absolute;
+  left: 199px;
+  top: 197px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-size: 44px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0.75px;
+}
+.spanish-current-conditions .slide-data .humidity {
+  top: 35%;
+}
+.spanish-current-conditions .slide-data .pressure {
+  top: 496px;
+  left: 70px;
+}
+.spanish-current-conditions .slide-data .wind {
+  top: 57%;
+}
+.spanish-current-conditions .slide-data .gusts {
+  top: 67.8%;
+}
+.spanish-current-conditions .slide-data .right-panel {
+  position: absolute;
+  font-size: 50px;
+}
+.spanish-current-conditions .slide-data .icon {
+  top: 21%;
+  left: 66.6%;
+  width: 300px;
+  height: 300px;
+  transform: scale(1.07);
+}
+.spanish-current-conditions .slide-data .condition {
+  top: 525px;
+  left: 61%;
+  width: 30%;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.spanish-current-conditions .slide-data .temperature {
+  top: 677px;
+  left: 993px;
+  width: 30%;
+  text-align: center;
+  font-size: 182px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px black;
+  transform: scale(1.1, 1);
+}
+.spanish-extended-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.spanish-extended-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/spanish/extended-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.spanish-extended-forecast .slide-data .cityname {
+  position: absolute;
+  font-size: 45px;
+  left: 192px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 199px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.spanish-extended-forecast .slide-data .day {
+  position: absolute;
+  width: 16%;
+  height: 57%;
+  top: 25%;
+  left: 9%;
+}
+.spanish-extended-forecast .slide-data .day.two {
+  margin-left: 16%;
+  transform: translate(5px, 0px);
+}
+.spanish-extended-forecast .slide-data .day.three {
+  margin-left: 32%;
+  transform: translate(10px, 0px);
+}
+.spanish-extended-forecast .slide-data .day.four {
+  margin-left: 48%;
+  transform: translate(15px, 0px);
+}
+.spanish-extended-forecast .slide-data .day.five {
+  margin-left: 64.8%;
+  transform: translate(20px, 0px);
+}
+.spanish-extended-forecast .slide-data .day .dayname {
+  position: absolute;
+  width: 99%;
+  top: 51px;
+  font-size: 49px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.spanish-extended-forecast .slide-data .day .condition {
+  position: absolute;
+  width: 94%;
+  text-align: center;
+  font-size: 38px;
+  top: 350px;
+  text-shadow: 2px 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+  /* left: -6px; */
+}
+.spanish-extended-forecast .slide-data .day .icon {
+  position: absolute;
+  top: 125px;
+  width: 219px;
+  height: 216px;
+  margin-left: 10%;
+  transform: scale(1.1);
+}
+.spanish-extended-forecast .slide-data .day .high {
+  position: absolute;
+  margin-left: 55%;
+  width: 27%;
+  text-align: right;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  color: #ddc879;
+  left: -100px;
+}
+.spanish-extended-forecast .slide-data .day .divider {
+  position: absolute;
+  width: 98%;
+  text-align: center;
+  font-size: 98px;
+  top: 481px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 200;
+}
+.spanish-extended-forecast .slide-data .day .low {
+  position: absolute;
+  margin-left: 55%;
+  width: 45%;
+  text-align: left;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+}
+.spanish-almanac-slide {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.spanish-almanac-slide .skeleton {
+  background: transparent
+    url(images/skeletons/spanish/almanac-slide-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.spanish-almanac-slide .slide-data .dayname-today {
+  position: absolute;
+  font-size: 40px;
+  color: #ddc879;
+  left: 588px;
+  top: 214px;
+  width: 300px;
+  text-align: center;
+  font-stretch: expanded;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+}
+.spanish-almanac-slide .slide-data .dayname-tomorrow {
+  position: absolute;
+  font-size: 40px;
+  color: #ddc879;
+  left: 1055px;
+  top: 214px;
+  width: 300px;
+  text-align: center;
+  font-stretch: expanded;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+}
+.spanish-almanac-slide .slide-data .sunrise-today {
+  position: absolute;
+  font-size: 50px;
+  left: 596px;
+  top: 290px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.spanish-almanac-slide .slide-data .sunset-today {
+  position: absolute;
+  font-size: 50px;
+  left: 596px;
+  top: 379px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.spanish-almanac-slide .slide-data .sunrise-tomorrow {
+  position: absolute;
+  font-size: 50px;
+  left: 1055px;
+  top: 290px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.spanish-almanac-slide .slide-data .sunset-tomorrow {
+  position: absolute;
+  font-size: 50px;
+  left: 1055px;
+  top: 378px;
+  width: 300px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+.spanish-almanac-slide .slide-data .phasecontainer {
+  position: absolute;
+  height: 100%;
+  width: 220px;
+}
+.spanish-almanac-slide .slide-data .phasecontainer.one {
+  left: 15%;
+}
+.spanish-almanac-slide .slide-data .phasecontainer.two {
+  left: 34%;
+}
+.spanish-almanac-slide .slide-data .phasecontainer.three {
+  left: 53%;
+}
+.spanish-almanac-slide .slide-data .phasecontainer.four {
+  left: 1165px;
+}
+.spanish-almanac-slide .slide-data .moonphase {
+  background-size: 100% 100%;
+  width: 156px;
+  height: 150px;
+  margin: auto;
+  margin-top: 589px;
+}
+.spanish-almanac-slide .slide-data .phasetext {
+  position: absolute;
+  width: 100%;
+  font-size: 42px;
+  top: 765px;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: -1px;
+  display: flex;
+  justify-content: center;
+}
+.spanish-almanac-slide .slide-data .phasedate {
+  position: absolute;
+  width: 100%;
+  font-size: 49px;
+  color: #ddc879;
+  top: 809px;
+  text-shadow: 2px 2px #000;
+  font-stretch: expanded;
+  font-weight: 500;
+  letter-spacing: -1px;
+  display: flex;
+  justify-content: center;
+}
+.spanish-nearby-cities {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.spanish-nearby-cities .skeleton {
+  background: transparent
+    url(images/skeletons/spanish/nearby-cities-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.spanish-nearby-cities .slide-data .cityname {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  font-size: 55px;
+  line-height: 70px;
+  font-weight: 500;
+  text-shadow: 2px 2px #000;
+  top: -13px;
+  letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  /* line-height: 1000px; */
+  /* transform: scaleX(1.05); */
+  /* left: 26px; */
+}
+.spanish-nearby-cities .slide-data .temperature {
+  position: absolute;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  margin-left: 47%;
+  font-style: normal;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  /* line-height: 171px; */
+}
+.spanish-nearby-cities .slide-data .icon {
+  position: absolute;
+  height: 165px;
+  width: 165px;
+  margin-left: 59.9%;
+  transform: scale(1.1);
+  top: -12px;
+}
+.spanish-nearby-cities .slide-data .wind {
+  position: absolute;
+  text-align: right;
+  width: 89%;
+  height: 100%;
+  font-size: 98px;
+  line-height: 165px;
+  font-weight: 100;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  transform: scaleX(1.2);
+  right: 143px;
+  letter-spacing: -1px;
+}
+.spanish-nearby-cities .slide-data .city {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  height: 165px;
+  top: 20%;
+}
+.spanish-nearby-cities .slide-data .city.two {
+  margin-top: 171px;
+}
+.spanish-nearby-cities .slide-data .city.three {
+  margin-top: 341px;
+}
+.spanish-nearby-cities .slide-data .city.four {
+  margin-top: 509px;
+}
+/*GOLF*/
+.course-forecast {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.course-forecast .skeleton {
+  background: transparent
+    url(images/skeletons/golf/course-forecast-skeleton.png) no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.course-forecast .slide-data .cityname {
+  position: absolute;
+  font-size: 45px;
+  left: 192px;
+  /* font-weight: 400; */
+  /* font-style: normal; */
+  font-weight: 500;
+  top: 199px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+}
+.course-forecast .slide-data .day {
+  position: absolute;
+  width: 16%;
+  height: 57%;
+  top: 25%;
+  left: 9%;
+}
+.course-forecast .slide-data .day.two {
+  margin-left: 16%;
+  transform: translate(5px, 0px);
+}
+.course-forecast .slide-data .day.three {
+  margin-left: 32%;
+  transform: translate(10px, 0px);
+}
+.course-forecast .slide-data .day.four {
+  margin-left: 48%;
+  transform: translate(15px, 0px);
+}
+.course-forecast .slide-data .day.five {
+  margin-left: 64.8%;
+  transform: translate(20px, 0px);
+}
+.course-forecast .slide-data .day .dayname {
+  position: absolute;
+  width: 99%;
+  top: 51px;
+  font-size: 49px;
+  text-align: center;
+  text-shadow: 2px 2px #000;
+}
+.course-forecast .slide-data .day .condition {
+  position: absolute;
+  width: 94%;
+  text-align: center;
+  font-size: 38px;
+  top: 350px;
+  text-shadow: 2px 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+  /* left: -6px; */
+}
+.course-forecast .slide-data .day .icon {
+  position: absolute;
+  top: 125px;
+  width: 219px;
+  height: 216px;
+  margin-left: 10%;
+  transform: scale(1.1);
+}
+.course-forecast .slide-data .day .high {
+  position: absolute;
+  margin-left: 55%;
+  width: 27%;
+  text-align: right;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+  color: #ddc879;
+  left: -100px;
+}
+.course-forecast .slide-data .day .divider {
+  position: absolute;
+  width: 98%;
+  text-align: center;
+  font-size: 98px;
+  top: 481px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 200;
+}
+.course-forecast .slide-data .day .low {
+  position: absolute;
+  margin-left: 55%;
+  width: 45%;
+  text-align: left;
+  font-size: 99px;
+  top: 479px;
+  font-stretch: condensed;
+  text-shadow: 2px 2px #000;
+  font-weight: 400;
+}
+/*HEALTH*/
+.health-tip {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.health-tip .skeleton {
+  background: transparent url(images/skeletons/health/health-tip-skeleton.png)
+    no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.health-tip .slide-data .healthtip {
+  position: absolute;
+  font-size: 43px;
+  width: 75%;
+  top: 380px;
+  left: 213px;
+  white-space: pre;
+  text-shadow: 1px 1px #000;
+  font-weight: 500;
+  font-stretch: expanded;
+  line-height: 50px;
+  letter-spacing: 1px;
+}
+.uv-index {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+.uv-index .skeleton {
+  background: transparent url(images/skeletons/health/uv-index-skeleton.png)
+    no-repeat;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+.uv-index .slide-data .cityname {
+  position: absolute;
+  left: 181px;
+  top: 196px;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  font-weight: 500;
+  font-style: normal;
+  font-size: 44px;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0.75px;
+}
+.uv-index .slide-data .uvbar {
+  position: absolute;
+  height: 270px;
+  width: 183px;
+  bottom: 32.7%;
+}
+.uv-index .slide-data .bar {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  background: linear-gradient(
+    to top,
+    #555968 27px,
+    #686a79 54px,
+    #898a99 81px,
+    #898a99 108px,
+    #876f50 135px,
+    #baa936 162px,
+    #e9d940 189px,
+    #dd901e 216px,
+    #d45d35 243px,
+    #c23b36 270px
+  );
+}
+.uv-index .slide-data .uvindex {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-size: 57px;
+  bottom: -3px;
+  transform: translate(0px, -25px);
+  font-weight: 500;
+  text-shadow: 3px 5px 4px #000;
+}
+.uv-index .slide-data .uvdesc {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 1px;
+  line-height: 70%;
+  letter-spacing: 0px;
+  text-shadow: 3px 5px 4px #000;
+}
+.uv-index .slide-data .label {
+  position: absolute;
+  white-space: pre;
+  width: 100%;
+  text-align: center;
+  transform: translate(5px, 284px);
+  font-size: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+  line-height: 48px;
+}
+.uv-index .slide-data .label.currently {
+  position: absolute;
+  white-space: pre;
+  width: 100%;
+  text-align: center;
+  transform: translate(7px, 292px);
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 2px 2px #000;
+  letter-spacing: 0px;
+  line-height: 48px;
+}
+.uv-index .slide-data .current.uvbar {
+  left: 18%;
+}
+.uv-index .slide-data .forecast-one.uvbar {
+  left: 36%;
+}
+.uv-index .slide-data .forecast-two.uvbar {
+  left: 53%;
+}
+.uv-index .slide-data .forecast-three.uvbar {
+  left: 68.5%;
+}
+/*SLIDES CSS ENDS HERE*/
+.icon {
+  background-size: 100% 100%;
+}
+#crawl {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+#crawl .alert {
+  z-index: 80;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+}
+#crawl .alert .alert-background {
+  z-index: 90;
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  background-size: 100% 100%;
+}
+#crawl .alert .alert-header {
+  z-index: 95;
+  position: absolute;
+  width: 1620px;
+  font-size: 39px;
+  top: 881px;
+  padding-left: 171px;
+  font-weight: 500;
+  transform: scaleY(.8);
+  letter-spacing: 0.75px;
+  text-shadow: 2px 2px #000;
+}
+#crawl .alert .alert-crawl {
+  z-index: 95;
+  position: absolute;
+  width: 1620px;
+  font-size: 50px;
+  top: 88%;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Berthold Akzidenz Grotesk BE Medium Condensed";
+}
+.ad {
+  background-color: #06152a;
+  height: 200px;
+  width: 65%;
+  position: absolute;
+  z-index: 10;
+  margin-top: 892px;
+  margin-left: 574px;
+}
+.ad .ad-crawl .crawltext {
+  font-family: "Akzidenz Grotesk Bold Cn";
+  font-size: 48px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+.js-marquee {
+  font-family: "Helvetica XL";
+  text-shadow: 2px 2px 0 #000;
+  font-size: 60px;
+  letter-spacing: 1px;
+  transform: translate(0px, -7px);
+}
+.mapboxgl-canvas {
+  width: 1620px !important;
+}
+.centerline {
+  z-index: 100000000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+img#centerlinepic {
+  width: 100%;
+}
