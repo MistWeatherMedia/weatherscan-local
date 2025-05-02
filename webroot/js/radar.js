@@ -1,11 +1,3 @@
-/*
- * This is kinda a beta version of the script,
- * go ahead and play around with it.
- * If I change anything to it by the time the XL
- * is released, I'll make sure to send it to you.
- * -Jenson
- */
-
 var locradar,
   regradar,
   satradar,
