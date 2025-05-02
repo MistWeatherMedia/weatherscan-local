@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Weatherscan Local</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <link rel="stylesheet" href="weatherscan.css" />
+    <script type="text/javascript" src="utilities/mapbox-gl.js"></script>
+    <link rel="stylesheet" href="utilities/mapbox-gl.css"/>
+    <script type="text/javascript" src="utilities/maplibre-gl.js"></script>
+    <link href="utilities/maplibre-gl.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <script type="text/javascript" src="utilities/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jplayer/jquery.jplayer.min.js"></script>
+    <script src="/js/date_fns.min.js"></script>
+    <script src="utilities/jquery.marquee.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/extras.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
+    <script type="text/javascript" src="js/settingspanel.js"></script>
+    <script type="text/javascript" src="js/radar.js"></script>
+    <script type="text/javascript" src="js/slides.js"></script>
+    <script type="text/javascript" src="js/crawl.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript" src="js/audio.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+
+    <div id="settingspanel">
+      <img id="setup-hint" src="images//setup//sethint.png"/>
+      <img id="setup-swoosh" src="images/setup/setup-swoosh.png"/>
+      <div id="setup-welcome" style="display: none">
+        <button class="proceed-button button" onclick="welcomefuncs('proceed')"></button>
+        <button class="skipall-button button" onclick="welcomefuncs('skipall')"></button>
+      </div>
+      <div id="setup-mainloc" style="display: none">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one" style="background-color: yellow;"></div><div class="indic two"></div><div class="indic three"></div><div class="indic four"></div><div class="indic five"></div></div>
+        <select name="mainloc-types" id="mainloc-dropdown" class="dropdown">
+          <option value="geocode">Geocode</option>
+          <option value="postalKey">ZIP Code</option>
+          <option value="iataCode">IATA Code</option>
+        </select>
+        <div class="location-warning" style="display: none">
+          Enter in a value for the location or click automatic.
+        </div>
+        <input type="text" id="mainloc-data" class="input" placeholder="Enter value here...">
+        <input type="text" id="mainloc-displayname" class="input" placeholder="Enter display name here...">
+        <button class="mainloc-next-button button" onclick="mainlocfuncs('manual')">Next</button>
+        <button class="mainloc-skip-button button" onclick="mainlocfuncs('skip')">Automatic</button>
+      </div>
+      <div id="setup-extraloc" style="display: none">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one"></div><div class="indic two" style="background-color: yellow;"></div><div class="indic three"></div><div class="indic four"></div><div class="indic five"></div></div>
+        <select name="extraloc-types" id="extraloc-dropdown" class="dropdown">
+          <option value="geocode">Geocode</option>
+          <option value="postalKey">ZIP Code</option>
+          <option value="iataCode">IATA Code</option>
+        </select>
+        <div class="location-warning" style="display: none">
+          Enter in a value for the location or click automatic.
+        </div>
+        <input type="text" id="extraloc-data" class="input" placeholder="Enter value here...">
+        <input type="text" id="extraloc-displayname" class="input" placeholder="Enter display name here...">
+        <button class="extraloc-next-button button" onclick="extralocfuncs('manual')">Next</button>
+        <button class="extraloc-skip-button button" onclick="extralocfuncs('skip')">Automatic</button>
+      </div>
+      <div id="setup-nearbylocs" style="display: none;">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one"></div><div class="indic two" style="background-color: yellow;"></div><div class="indic three"></div><div class="indic four"></div><div class="indic five"></div></div>
+        <div class="nearbylocs-page one">
+          <select name="mainloc-types" id="nearbylocs-dropdown-one" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-one" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-one" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 0)">Next</button>
+          <button class="nearbylocs-skip-button button" onclick="nearbylocsfuncs('skip')">Automatic</button>
+          <div class="pageindic">Page 1/8</div>
+        </div>
+        <div class="nearbylocs-page two" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-two" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-two" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-two" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 1)">Next</button>
+          <div class="pageindic">Page 2/8</div>
+        </div>
+        <div class="nearbylocs-page three" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-three" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-three" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-three" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 2)">Next</button>
+          <div class="pageindic">Page 3/8</div>
+        </div>
+        <div class="nearbylocs-page four" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-four" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-four" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-four" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 3)">Next</button>
+          <div class="pageindic">Page 4/8</div>
+        </div>
+        <div class="nearbylocs-page five" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-five" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-five" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-five" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 4)">Next</button>
+          <div class="pageindic">Page 5/8</div>
+        </div>
+        <div class="nearbylocs-page six" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-six" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-six" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-six" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 5)">Next</button>
+          <div class="pageindic">Page 6/8</div>
+        </div>
+        <div class="nearbylocs-page seven" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-seven" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-seven" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-seven" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 6)">Next</button>
+          <div class="pageindic">Page 7/8</div>
+        </div>
+        <div class="nearbylocs-page eight" style="display: none">
+          <select name="mainloc-types" id="nearbylocs-dropdown-eight" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="nearbylocs-data-eight" class="input" placeholder="Enter value here...">
+          <input type="text" id="nearbylocs-displayname-eight" class="input" placeholder="Enter display name here...">
+          <button class="nearbylocs-next-button button" onclick="nearbylocsfuncs('manual', 7)">Next</button>
+          <div class="pageindic">Page 8/8</div>
+        </div>
+      </div>
+      <div id="setup-airports" style="display: none;">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one"></div><div class="indic two"></div><div class="indic three" style="background-color: yellow;"></div><div class="indic four"></div><div class="indic five"></div></div>
+        <div class="airports-page one">
+          <input type="text" id="airports-data-one" class="input" placeholder="Enter IATA code here...">
+          <input type="text" id="airports-displayname-one" class="input" placeholder="Enter display name here...">
+          <button class="airports-next-button button" onclick="airportlocsfuncs('manual', 0)">Next</button>
+          <button class="airports-skip-button button" onclick="airportlocsfuncs('skip')">Automatic</button>
+          <div class="pageindic">Page 1/2</div>
+        </div>
+        <div class="airports-page two" style="display: none">
+          <input type="text" id="airports-data-two" class="input" placeholder="Enter IATA code here...">
+          <input type="text" id="airports-displayname-two" class="input" placeholder="Enter display name here...">
+          <button class="airports-next-button button" onclick="airportlocsfuncs('manual', 1)">Next</button>
+          <div class="pageindic">Page 2/2</div>
+        </div>
+      </div>
+      <div id="setup-courses" style="display: none;">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one"></div><div class="indic two"></div><div class="indic three"></div><div class="indic four" style="background-color: yellow;"></div><div class="indic five"></div></div>
+        <div class="courses-page one">
+          <select name="mainloc-types" id="courses-dropdown-one" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="courses-data-one" class="input" placeholder="Enter value code here...">
+          <input type="text" id="courses-displayname-one" class="input" placeholder="Enter display name here...">
+          <button class="courses-next-button button" onclick="courselocsfuncs('manual', 0)">Next</button>
+          <button class="courses-skip-button button" onclick="courselocsfuncs('skip')">Automatic</button>
+          <div class="pageindic">Page 1/3</div>
+        </div>
+        <div class="courses-page two" style="display: none">
+          <select name="mainloc-types" id="courses-dropdown-two" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="courses-data-two" class="input" placeholder="Enter value code here...">
+          <input type="text" id="courses-displayname-two" class="input" placeholder="Enter display name here...">
+          <button class="courses-next-button button" onclick="courselocsfuncs('manual', 1)">Next</button>
+          <div class="pageindic">Page 2/3</div>
+        </div>
+        <div class="courses-page three" style="display: none">
+          <select name="mainloc-types" id="courses-dropdown-three" class="dropdown">
+            <option value="geocode">Geocode</option>
+            <option value="postalKey">ZIP Code</option>
+            <option value="iataCode">IATA Code</option>
+          </select>
+          <div class="location-warning" style="display: none">
+            Enter in a value for the location or click automatic.
+          </div>
+          <input type="text" id="courses-data-three" class="input" placeholder="Enter value code here...">
+          <input type="text" id="courses-displayname-three" class="input" placeholder="Enter display name here...">
+          <button class="courses-next-button button" onclick="courselocsfuncs('manual', 2)">Next</button>
+          <div class="pageindic">Page 3/3</div>
+        </div>
+      </div>
+      <div id="setup-packages" style="display: none">
+        <div class="setup-list"></div>
+        <div class="list-indicators"><div class="indic one"></div><div class="indic two"></div><div class="indic three"></div><div class="indic four"></div><div class="indic five" style="background-color: yellow;"></div></div>
+        <select id="package-list-one" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <select id="package-list-two" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <select id="package-list-three" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <select id="package-list-four" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <select id="package-list-five" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <select id="package-list-six" class="dropdown" disabled="disabled"><option value="forecastPackage">Forecast</option><option value="extraLocalPackage">Extra City</option><option value="miniCorePackage">Mini Forecast</option><option value="spanishForecastPackage">Spanish</option><option value="golfPackage">Golf</option><option value="healthPackage">Health</option><option value="airportPackage">Airport</option></select>
+        <div class="package-warning" style="display: none">
+          Please check one or more boxes or click default for the default
+          package.
+        </div>
+        <input type="checkbox" id="package-check-one" value="set" class="checkmarkbox">
+        <input type="checkbox" id="package-check-two" value="on" class="checkmarkbox">
+        <input type="checkbox" id="package-check-three" value="on" class="checkmarkbox">
+        <input type="checkbox" id="package-check-four" value="on" class="checkmarkbox">
+        <input type="checkbox" id="package-check-five" value="on" class="checkmarkbox">
+        <input type="checkbox" id="package-check-six" value="on" class="checkmarkbox">
+        <button class="next-packages-button button" onclick="packagesfunc('next')">Next</button>
+        <button class="default-packages-button button" onclick="packagesfunc('default')">Default</button>
+      </div>
+      <div id="setup-thankyou" style="display: none">
+        <button class="start-button button" onclick="startButton()"></button>
+      </div>
+      <div id="setup-pause" style="display: none">
+        <button class="locations-pause button" onclick="$('#setup-mainloc').fadeIn(0), $('#setup-pause').fadeOut(0)"></button>
+        <button class="packages-pause button" onclick="$('#setup-packages').fadeIn(0), $('#setup-pause').fadeOut(0)"></button>
+        <button class="unpause button" onclick="unpauseButton()"></button>
+      </div>
+    </div>
+    <div id="startup" style="display: none">
+      <img id="startup-background" src="images/skeletons/startup.png"/>
+    </div>
+
+    <div id="main">
+      <div class="centerline">
+        <img id="centerlinepic" src="images/centerline.png" />
+      </div>
+
+      <div id="date-time">
+        <div id="time"></div>
+        <div id="date"></div>
+      </div>
+
+      <div id="crawl">
+        <div class="ad" style="display: none">
+          <div class="ad-crawl">
+            <div class="crawltext"></div>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="alert-background"></div>
+          <div class="alert-header"></div>
+          <div class="alert-crawl">
+            <div class="crawltext"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="slides">
+        <!--RADAR-->
+        <div class="radar-doppler" style="display: none">
+          <div class="tempunavailable" style="display: none"></div>
+          <img
+            class="radar-overlay"
+            src="images/skeletons/forecast/radar-doppler.png"
+          />
+          <div class="radar-container">
+            <div id="radar-basemap-container-doppler-cities">
+              <img id="radar-doppler-map-cities" src="images/maps/XLcities.png">
+            </div>
+            <div id="locradar"></div>
+            <div id="radar-basemap-container-doppler">
+              <!--Apparently the XL loads the city map 2 times, one fully opaque and one at 50% opacity? What?-->
+              <img id="radar-doppler-map-cities-1" src="images/maps/XLcities.png">
+              <img id="radar-doppler-map" src="images/maps/XLregional.png" />
+            </div>
+          </div>
+        </div>
+
+        <div class="regional-sat" style="display: none">
+          <div class="tempunavailable" style="display: none"></div>
+          <img
+            class="radar-overlay"
+            src="images/skeletons/forecast/regional-sat.png"
+          />
+          <div class="radar-container">
+            <div id="radar-basemap-container-sat-borders">
+              <img id="radar-sat-map-borders" src="images/maps/XLregionalborders.png">
+            </div>
+            <div id="satradar"></div>
+            <div id="radar-basemap-container-sat">
+              <img id="radar-sat-map" src="images/maps/XLregional.png" />
+            </div>
+            <!--<img id="regional-sat-map" src="images/northeast.png">-->
+          </div>
+        </div>
+
+        <div class="regional-radar" style="display: none">
+          <div class="tempunavailable" style="display: none"></div>
+
+          <img
+            class="radar-overlay"
+            src="images/skeletons/forecast/regional-radar.png"
+          />
+          <div class="radar-container">
+            <div id="radar-basemap-container-regional-borders">
+              <img id="radar-regional-map-borders" src="images/maps/XLregionalborders.png">
+            </div>
+            <div id="regradar"></div>
+            <div id="radar-basemap-container-regional">
+              <img id="radar-regional-map" src="images/maps/XLregional.png" />
+            </div>
+            <!--<img id="regional-radar-map" src="images/northeast.png">-->
+          </div>
+        </div>
+
+        <!--EXTRA-->
+        <div class="extra-current-conditions" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="humidity left-panel"></div>
+            <div class="pressure left-panel"></div>
+            <div class="wind left-panel"></div>
+            <div class="gusts left-panel"></div>
+            <div class="icon right-panel"></div>
+            <div class="condition right-panel"></div>
+            <div class="temperature right-panel"></div>
+          </div>
+        </div>
+
+        <div class="extra-daydesc-forecast one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="extra-daydesc-forecast two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="extra-daydesc-forecast three" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="extra-extended-forecast" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--FORECAST-->
+        <div class="bulletin-slide" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="NWS">From the National Weather Service</div>
+            <div class="alerts-container">
+              <div class="alerts"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="current-conditions" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="humidity left-panel"></div>
+            <div class="pressure left-panel"></div>
+            <div class="wind left-panel"></div>
+            <div class="gusts left-panel"></div>
+            <div class="icon right-panel"></div>
+            <div class="condition right-panel"></div>
+            <div class="temperature right-panel"></div>
+          </div>
+        </div>
+
+        <div class="extended-forecast" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="almanac-slide" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="dayname-today"></div>
+            <div class="dayname-tomorrow"></div>
+            <div class="sunrise-today"></div>
+            <div class="sunset-today"></div>
+            <div class="sunrise-tomorrow"></div>
+            <div class="sunset-tomorrow"></div>
+            <div class="phasecontainer one">
+              <div class="moonphase one"></div>
+              <div class="phasetext one"></div>
+              <div class="phasedate one"></div>
+            </div>
+            <div class="phasecontainer two">
+              <div class="moonphase two"></div>
+              <div class="phasetext two"></div>
+              <div class="phasedate two"></div>
+            </div>
+            <div class="phasecontainer three">
+              <div class="moonphase three"></div>
+              <div class="phasetext three"></div>
+              <div class="phasedate three"></div>
+            </div>
+            <div class="phasecontainer four">
+              <div class="moonphase four"></div>
+              <div class="phasetext four"></div>
+              <div class="phasedate four"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="daydesc-forecast one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="daydesc-forecast two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="daydesc-forecast three" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="daytitle"></div>
+            <div class="daydesc"></div>
+          </div>
+        </div>
+
+        <div class="nearby-cities one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="city one">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city two">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city three">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city four">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nearby-cities two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="city one">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city two">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city three">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city four">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--AIRPORT-->
+        <div class="airport-conditions one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="airportname"></div>
+            <div class="delay left-panel">No Report</div>
+            <div class="humidity left-panel"></div>
+            <div class="pressure left-panel"></div>
+            <div class="wind left-panel"></div>
+            <div class="gusts left-panel"></div>
+            <div class="icon right-panel"></div>
+            <div class="condition right-panel"></div>
+            <div class="temperature right-panel"></div>
+          </div>
+        </div>
+
+        <div class="airport-conditions two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="airportname"></div>
+            <div class="delay left-panel">No Report</div>
+            <div class="humidity left-panel"></div>
+            <div class="pressure left-panel"></div>
+            <div class="wind left-panel"></div>
+            <div class="gusts left-panel"></div>
+            <div class="icon right-panel"></div>
+            <div class="condition right-panel"></div>
+            <div class="temperature right-panel"></div>
+          </div>
+        </div>
+
+        <div class="national-airports one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="airport one">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport two">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport three">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport four">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="national-airports two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="airport one">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport two">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport three">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+            <div class="airport four">
+              <div class="airportname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="delay"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--SPANISH-->
+        <div class="spanish-current-conditions" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="humidity left-panel"></div>
+            <div class="pressure left-panel"></div>
+            <div class="wind left-panel"></div>
+            <div class="gusts left-panel"></div>
+            <div class="icon right-panel"></div>
+            <div class="condition right-panel"></div>
+            <div class="temperature right-panel"></div>
+          </div>
+        </div>
+
+        <div class="spanish-extended-forecast" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spanish-almanac-slide" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="dayname-today"></div>
+            <div class="dayname-tomorrow"></div>
+            <div class="sunrise-today"></div>
+            <div class="sunset-today"></div>
+            <div class="sunrise-tomorrow"></div>
+            <div class="sunset-tomorrow"></div>
+            <div class="phasecontainer one">
+              <div class="moonphase one"></div>
+              <div class="phasetext one"></div>
+              <div class="phasedate one"></div>
+            </div>
+            <div class="phasecontainer two">
+              <div class="moonphase two"></div>
+              <div class="phasetext two"></div>
+              <div class="phasedate two"></div>
+            </div>
+            <div class="phasecontainer three">
+              <div class="moonphase three"></div>
+              <div class="phasetext three"></div>
+              <div class="phasedate three"></div>
+            </div>
+            <div class="phasecontainer four">
+              <div class="moonphase four"></div>
+              <div class="phasetext four"></div>
+              <div class="phasedate four"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spanish-nearby-cities one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="city one">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city two">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city three">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city four">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spanish-nearby-cities two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="city one">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city two">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city three">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+            <div class="city four">
+              <div class="cityname"></div>
+              <div class="temperature"></div>
+              <div class="icon"></div>
+              <div class="wind"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--GOLF-->
+        <div class="course-forecast one" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-forecast two" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-forecast three" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data" style="display: block">
+            <div class="cityname"></div>
+            <div class="day one">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day two">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day three">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day four">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+            <div class="day five">
+              <div class="dayname"></div>
+              <div class="icon"></div>
+              <div class="condition"></div>
+              <div class="high"></div>
+              <div class="divider"></div>
+              <div class="low"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--HEALTH-->
+        <div class="health-tip" style="display: none;">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="healthtip"></div>
+          </div>
+        </div>
+
+        <div class="uv-index" style="display: none">
+          <div class="skeleton"></div>
+          <div class="slide-data">
+            <div class="cityname"></div>
+            <div class="current uvbar">
+              <div class="bar"></div>
+              <div class="uvindex"></div>
+              <div class="uvdesc"></div>
+              <div class="label currently"></div>
+            </div>
+            <div class="forecast-one uvbar">
+              <div class="bar"></div>
+              <div class="uvindex"></div>
+              <div class="uvdesc"></div>
+              <div class="label"></div>
+            </div>
+            <div class="forecast-two uvbar">
+              <div class="bar"></div>
+              <div class="uvindex"></div>
+              <div class="uvdesc"></div>
+              <div class="label"></div>
+            </div>
+            <div class="forecast-three uvbar">
+              <div class="bar"></div>
+              <div class="uvindex"></div>
+              <div class="uvdesc"></div>
+              <div class="label"></div>
+            </div>
+          </div>
+        </div>
+
+      <!--OTHERS-->
+      <div class="intro-slide" style="display: none">
+        <div class="skeleton"></div>
+        <div class="trademark"></div>
+      </div>
+
+      <div class="provider-slide" style="display: none">
+        <div class="skeleton"></div>
+        <div class="provider-text"></div>
+      </div>
+
+      <div class="upnext-slide" style="display: none">
+        <div class="skeleton"></div>
+        <div class="upnext-arrow"></div>
+        <div class="next"></div>
+      </div>
+    </div>
+
+    <div id="provider"><img src="images/tvproviders/mistdigitalcable.png" /></div>
+  </body>
+</html>
