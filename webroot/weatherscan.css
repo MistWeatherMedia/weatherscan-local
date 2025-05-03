@@ -149,6 +149,17 @@ select {
 }
 
 /*SETTINGS PANEL*/
+.location-warning {
+  position: absolute;
+  z-index: 50;
+  color: #ff4040;
+  background-color: #000000a0;
+  padding: 16px;
+  font-size: 24px;
+  top: 710px;
+  right: 80px;
+}
+
 .start-button {
   position: absolute;
   cursor: pointer;
