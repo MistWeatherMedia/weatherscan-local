@@ -1,8 +1,7 @@
 var settingsopen = true;
 var pause = false;
-// Fade out settings music functin.
 
-/*if (document.cookie) {
+if (document.cookie) {
   if (getCookie("mainCityAutoFind") == "true") {
     locationSettings.mainCity.autoFind = true;
   } else {
@@ -124,11 +123,11 @@ var pause = false;
     apperanceSettings.skipSettings = true;
   }
   console.log("Cookies loaded.");
-}*/
+}
 function startButton() {
   $("#setup-thankyou").fadeOut(0);
   $("#setup-welcome").fadeOut(0);
-  //document.cookie = "skipSetup=true";
+  document.cookie = "skipSetup=true";
   pause = true;
   locationJS();
   setTimeout(() => {
@@ -166,14 +165,14 @@ function unpauseButton() {
 }
 if (apperanceSettings.skipSettings == true) {
   settingsopen = false;
-  //if (getCookie("customPackage") == "false") {
-  slideSettings.order[0].slideLineup.push(forecastPackage);
-  slideSettings.order[0].slideLineup.push(extraLocalPackage);
-  slideSettings.order[0].slideLineup.push(spanishForecastPackage);
-  slideSettings.order[0].slideLineup.push(golfPackage);
-  slideSettings.order[0].slideLineup.push(healthPackage);
-  slideSettings.order[0].slideLineup.push(airportPackage);
-  //}
+  if (getCookie("customPackage") == "false") {
+    slideSettings.order[0].slideLineup.push(forecastPackage);
+    slideSettings.order[0].slideLineup.push(extraLocalPackage);
+    slideSettings.order[0].slideLineup.push(spanishForecastPackage);
+    slideSettings.order[0].slideLineup.push(golfPackage);
+    slideSettings.order[0].slideLineup.push(healthPackage);
+    slideSettings.order[0].slideLineup.push(airportPackage);
+  }
   setTimeout(() => {
     locationJS();
     setTimeout(() => {
@@ -232,13 +231,13 @@ function welcomefuncs(type) {
     $("#setup-mainloc").fadeIn(0);
   } else if (type == "skipall") {
     startButton();
-    //document.cookie = "skipSetup=true";
-    //document.cookie = "mainCityAutoFind=true";
-    //document.cookie = "extraCityAutoFind=true";
-    //document.cookie = "eightCitiesAutoFind=true";
-    //document.cookie = "airportAutoFind=true";
-    //document.cookie = "golfAutoFind=true";
-    //document.cookie = "customPackage=false";
+    document.cookie = "skipSetup=true";
+    document.cookie = "mainCityAutoFind=true";
+    document.cookie = "extraCityAutoFind=true";
+    document.cookie = "eightCitiesAutoFind=true";
+    document.cookie = "airportAutoFind=true";
+    document.cookie = "golfAutoFind=true";
+    document.cookie = "customPackage=false";
     locationSettings.mainCity.autoFind = true;
     locationSettings.eightCities.autoFind = true;
     locationSettings.airport.autoFind = true;
@@ -256,7 +255,7 @@ function mainlocfuncs(type) {
   if (type == "skip") {
     $("#setup-mainloc").fadeOut(0);
     locationSettings.mainCity.autoFind = true;
-    //document.cookie = "mainCityAutoFind=true";
+    document.cookie = "mainCityAutoFind=true";
     $("#setup-extraloc").fadeIn(0);
   } else if (type == "manual") {
     if (document.getElementById("mainloc-data").value == "") {
@@ -265,17 +264,17 @@ function mainlocfuncs(type) {
     }
     $("#setup-mainloc").fadeOut(0);
     locationSettings.mainCity.autoFind = false;
-    //document.cookie = "mainCityAutoFind=false";
+    document.cookie = "mainCityAutoFind=false";
     locationSettings.mainCity.displayname = document.getElementById(
       "mainloc-displayname"
     ).value;
-    //document.cookie = `mainCityDisplayName=${locationSettings.mainCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `mainCityDisplayName=${locationSettings.mainCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
     locationSettings.mainCity.type =
       document.getElementById("mainloc-dropdown").value;
-    //document.cookie = `mainCitySearchType=${locationSettings.mainCity.type}`;
+    document.cookie = `mainCitySearchType=${locationSettings.mainCity.type}`;
     locationSettings.mainCity.val =
       document.getElementById("mainloc-data").value;
-    //document.cookie = `mainCitySearchValue=${locationSettings.mainCity.val}`;
+    document.cookie = `mainCitySearchValue=${locationSettings.mainCity.val}`;
     $("#setup-extraloc").fadeIn(0);
   }
 }
@@ -283,7 +282,7 @@ function extralocfuncs(type) {
   if (type == "skip") {
     $("#setup-extraloc").fadeOut(0);
     locationSettings.extraCity.autoFind = true;
-    //document.cookie = "extraCityAutoFind=true";
+    document.cookie = "extraCityAutoFind=true";
     $("#setup-nearbylocs").fadeIn(0);
   } else if (type == "manual") {
     if (document.getElementById("extraloc-data").value == "") {
@@ -292,17 +291,17 @@ function extralocfuncs(type) {
     }
     $("#setup-extraloc").fadeOut(0);
     locationSettings.extraCity.autoFind = false;
-    //document.cookie = "extraCityAutoFind=false";
+    document.cookie = "extraCityAutoFind=false";
     locationSettings.extraCity.displayname = document.getElementById(
       "extraloc-displayname"
     ).value;
-    //document.cookie = `extraCityDisplayName=${locationSettings.extraCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `extraCityDisplayName=${locationSettings.extraCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
     locationSettings.extraCity.type =
       document.getElementById("extraloc-dropdown").value;
-    //document.cookie = `extraCitySearchType=${locationSettings.extraCity.type}`;
+    document.cookie = `extraCitySearchType=${locationSettings.extraCity.type}`;
     locationSettings.extraCity.val =
       document.getElementById("extraloc-data").value;
-    //document.cookie = `extraCitySearchValue=${locationSettings.extraCity.val}`;
+    document.cookie = `extraCitySearchValue=${locationSettings.extraCity.val}`;
     $("#setup-nearbylocs").fadeIn(0);
   }
 }
@@ -320,7 +319,7 @@ function nearbylocsfuncs(type, page) {
   if (type == "skip") {
     $("#setup-nearbylocs").fadeOut(0);
     locationSettings.eightCities.autoFind = true;
-    //document.cookie = "eightCitiesAutoFind=true";
+    document.cookie = "eightCitiesAutoFind=true";
     $("#setup-airports").fadeIn(0);
   } else if (type == "manual") {
     if (
@@ -339,18 +338,18 @@ function nearbylocsfuncs(type, page) {
       $("#setup-airports").fadeIn(0);
     }
     locationSettings.eightCities.autoFind = false;
-    //document.cookie = "eightCitiesAutoFind=false";
+    document.cookie = "eightCitiesAutoFind=false";
     locationSettings.eightCities.cities[page].displayname =
       document.getElementById("nearbylocs-displayname-" + pageinds[page]).value;
-    //document.cookie = `eightCitySlide${pageinds[page]}Name=${locationSettings.eightCities.cities[page].displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `eightCitySlide${pageinds[page]}Name=${locationSettings.eightCities.cities[page].displayname.replace(" ", "%20").replace(" ", "%20")}`;
     locationSettings.eightCities.cities[page].type = document.getElementById(
       "nearbylocs-dropdown-" + pageinds[page]
     ).value;
-    //document.cookie = `eightCitySlide${pageinds[page]}Type=${locationSettings.eightCities.cities[page].type}`;
+    document.cookie = `eightCitySlide${pageinds[page]}Type=${locationSettings.eightCities.cities[page].type}`;
     locationSettings.eightCities.cities[page].val = document.getElementById(
       "nearbylocs-data-" + pageinds[page]
     ).value;
-    //document.cookie = `eightCitySlide${pageinds[page]}Value=${locationSettings.eightCities.cities[page].val}`;
+    document.cookie = `eightCitySlide${pageinds[page]}Value=${locationSettings.eightCities.cities[page].val}`;
   }
 }
 
@@ -359,7 +358,7 @@ function airportlocsfuncs(type, page) {
   if (type == "skip") {
     $("#setup-airports").fadeOut(0);
     locationSettings.airport.autoFind = true;
-    //document.cookie = "airportAutoFind=true";
+    document.cookie = "airportAutoFind=true";
     $("#setup-courses").fadeIn(0);
   } else if (type == "manual") {
     if (
@@ -378,14 +377,14 @@ function airportlocsfuncs(type, page) {
       $("#setup-courses").fadeIn(0);
     }
     locationSettings.airport.autoFind = false;
-    //document.cookie = "airportAutoFind=false";
+    document.cookie = "airportAutoFind=false";
     locationSettings.airport.airports[page].displayname =
       document.getElementById("airports-displayname-" + pageinds[page]).value;
-    //document.cookie = `airportSlide${pageinds[page]}Name=${locationSettings.airport.airports[page].displayname.replace(" ", "%20").replace(" ", "%20").replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `airportSlide${pageinds[page]}Name=${locationSettings.airport.airports[page].displayname.replace(" ", "%20").replace(" ", "%20").replace(" ", "%20").replace(" ", "%20")}`;
     locationSettings.airport.airports[page].iataCode = document.getElementById(
       "airports-data-" + pageinds[page]
     ).value;
-    //document.cookie = `airportSlide${pageinds[page]}Code=${locationSettings.airport.airports[page].iataCode}`;
+    document.cookie = `airportSlide${pageinds[page]}Code=${locationSettings.airport.airports[page].iataCode}`;
   }
 }
 function courselocsfuncs(type, page) {
@@ -393,7 +392,7 @@ function courselocsfuncs(type, page) {
   if (type == "skip") {
     $("#setup-courses").fadeOut(0);
     locationSettings.golf.coursesautoFind = true;
-    //document.cookie = "golfAutoFind=true";
+    document.cookie = "golfAutoFind=true";
     if (pause == true) {
       $("#setup-pause").fadeIn(0);
     } else {
@@ -418,22 +417,22 @@ function courselocsfuncs(type, page) {
       }
     }
     locationSettings.golf.coursesautoFind = false;
-    //document.cookie = "golfAutoFind=false";
+    document.cookie = "golfAutoFind=false";
     locationSettings.golf.courses[page].displayname = document.getElementById(
       "courses-displayname-" + pageinds[page]
     ).value;
-    //document.cookie = `golfSlide${pageinds[page]}Name=${locationSettings.golf.courses[page].displayname}`;
+    document.cookie = `golfSlide${pageinds[page]}Name=${locationSettings.golf.courses[page].displayname}`;
     locationSettings.golf.courses[page].type = document.getElementById(
       "courses-dropdown-" + pageinds[page]
     ).value;
-    //document.cookie = `golfSlide${pageinds[page]}Type=${locationSettings.golf.courses[page].type}`;
+    document.cookie = `golfSlide${pageinds[page]}Type=${locationSettings.golf.courses[page].type}`;
     locationSettings.golf.courses[page].val = document.getElementById(
       "courses-data-" + pageinds[page]
     ).value;
-    //document.cookie = `golfSlide${pageinds[page]}Value=${locationSettings.golf.courses[page].val}`;
+    document.cookie = `golfSlide${pageinds[page]}Value=${locationSettings.golf.courses[page].val}`;
     if (locationSettings.golf.courses[0].val == "") {
       locationSettings.golf.coursesautoFind = true;
-      //document.cookie = "golfAutoFind=true";
+      document.cookie = "golfAutoFind=true";
       console.warn(
         "User did not implement a location value for the first golf course, so the sim will default to the automatic location"
       );
@@ -463,7 +462,7 @@ function packagesfunc(type) {
     slideSettings.order[0].slideLineup.push(golfPackage);
     slideSettings.order[0].slideLineup.push(healthPackage);
     slideSettings.order[0].slideLineup.push(airportPackage);
-    //document.cookie = "customPackage=false";
+    document.cookie = "customPackage=false";
     $("#setup-packages").fadeOut(0);
     if (pause == true) {
       $("#setup-pause").fadeIn(0);
@@ -476,7 +475,7 @@ function packagesfunc(type) {
       slideSettings.order[0].slideLineup.push(introPackage);
     }
     var packageCheck = false;
-    //document.cookie = "customPackage=true";
+    document.cookie = "customPackage=true";
     var packageCookieIndex = {
       0: "One",
       1: "Two",
@@ -491,10 +490,10 @@ function packagesfunc(type) {
         slideSettings.order[0].slideLineup.push(
           packbinds[document.getElementById("package-list-" + inds[i]).value]
         );
-        //document.cookie = `package${packageCookieIndex[i]}=${document.getElementById("package-list-" + inds[i]).value.toString()}`;
-      } // else {
-      //document.cookie = `package${packageCookieIndex[i]}=false`;
-      //}
+        document.cookie = `package${packageCookieIndex[i]}=${document.getElementById("package-list-" + inds[i]).value.toString()}`;
+      } else {
+        document.cookie = `package${packageCookieIndex[i]}=false`;
+      }
     }
     if (!packageCheck) {
       $(".package-warning").fadeIn(0);
