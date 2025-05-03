@@ -25,8 +25,7 @@
 
 @font-face {
   font-family: "Berthold Akzidenz Grotesk BE";
-  src: url("fonts/Berthold Akzidenz Grotesk BE Extended.otf")
-    format("opentype");
+  src: url("fonts/Berthold Akzidenz Grotesk BE Extended.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-stretch: expanded;
@@ -66,8 +65,7 @@
 }
 @font-face {
   font-family: "Berthold Akzidenz Grotesk BE";
-  src: url("fonts/Berthold Akzidenz Grotesk BE Regular.otf")
-    format("opentype");
+  src: url("fonts/Berthold Akzidenz Grotesk BE Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
@@ -130,6 +128,24 @@ button {
   font-weight: 700;
   padding: 1%;
   text-shadow: #000 3px 3px 3px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-family: "Berthold Akzidenz Grotesk BE", "Univers", Arial, Helvetica;
+}
+
+input {
+  font-family: "Berthold Akzidenz Grotesk BE", "Univers", Arial, Helvetica;
+  font-weight: 400;
+}
+
+input[type="text"] {
+  width: 440px;
+  font-size: 24px;
+}
+
+select {
+  font-family: "Berthold Akzidenz Grotesk BE", "Univers", Arial, Helvetica;
+  font-weight: 400;
 }
 
 /*SETTINGS PANEL*/
@@ -711,7 +727,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scaleX(calc(1620 / 540))
-     scaleY(calc(1080 / 360));
+    scaleY(calc(1080 / 360));
   overflow: hidden;
 }
 
@@ -723,7 +739,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scaleX(calc(1620 / 540))
-     scaleY(calc(1080 / 360));
+    scaleY(calc(1080 / 360));
   overflow: hidden;
 }
 
@@ -789,13 +805,13 @@ button {
   z-index: 2;
 }
 #radar-sat-map-borders {
- position: absolute;
- z-index: 5;
+  position: absolute;
+  z-index: 5;
 }
 #radar-regional-map-borders {
   position: absolute;
   z-index: 5;
- }
+}
 #radar-regional-map {
   position: absolute;
   z-index: 2;
@@ -2511,7 +2527,7 @@ button {
   top: 881px;
   padding-left: 171px;
   font-weight: 500;
-  transform: scaleY(.8);
+  transform: scaleY(0.8);
   letter-spacing: 0.75px;
   text-shadow: 2px 2px #000;
 }
