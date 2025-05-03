@@ -149,19 +149,27 @@ select {
 }
 
 /*SETTINGS PANEL*/
-.location-warning {
+.location-warning, .package-warning {
   position: absolute;
   z-index: 50;
   color: red;
   background-color: #000000a0;
   padding: 16px;
   font-size: 32px;
-  top: 810px;
+  bottom: 330px;
   right: 80px;
   text-align: right;
   text-shadow: 2px 2px #000;
 }
-
+.nearbylocs-page .location-warning, .airports-page .location-warning {
+  bottom: 270px;
+}
+.courses-page .location-warning {
+  bottom: 250px;
+}
+.package-warning {
+  bottom: 430px;
+}
 .start-button {
   position: absolute;
   cursor: pointer;
