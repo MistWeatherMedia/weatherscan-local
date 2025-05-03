@@ -189,12 +189,12 @@ var weatherData = {
 function grabData() {
   //console.log("grabbed data")
   function grabCurrentConditions() {
-    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&units=e&language=en-US&format=json&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&units=" + locationConfig.units +"&language=en-US&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       try {
         weatherData.currentConditions.cityname = locationConfig.mainCity.displayname
         weatherData.currentConditions.cond = data.wxPhraseLong
-        weatherData.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + " mph" : "None")
+        weatherData.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + ((locationConfig.units == "e") ? " mph" : "km/h") : "None")
         weatherData.currentConditions.humidity = data.relativeHumidity + "%"
         weatherData.currentConditions.icon = data.iconCode
         weatherData.currentConditions.pressure = data.pressureAltimeter.toFixed(2)
@@ -234,7 +234,7 @@ function grabData() {
     for (var li = 0; li < locationConfig.eightCities.citiesAmount; li++) {
       url += locationConfig.eightCities.cities[li].lat + "," + locationConfig.eightCities.cities[li].lon + ";"
     }
-    url += "&language=en-US&units=e&format=json&apiKey=" + api_key
+    url += "&language=en-US&units=" + locationConfig.units + "&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       data.forEach((ajaxedLoc, i) => {
         var nearbyCitiesObj = {noReport:false,cityname:"", temp:"", icon:"", wind:"", windspeed:""};
@@ -286,7 +286,7 @@ function grabData() {
   }
   grabNearbyConditions();
   function grabDayDesc() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var ii = 0
       try {
@@ -324,7 +324,7 @@ function grabData() {
   }
   grabDayDesc()
   function grabExtended() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var daysDivs = ['one', "two", "three", "four", "five"]
       try {
@@ -383,7 +383,7 @@ function grabData() {
   }
   grabExtended()
   function grabAlmanac() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var ii = 0
       if (data.daypart[0].daypartName[0] == null) {
@@ -583,7 +583,7 @@ function grabAirportData() {
     for (var li = 0; li < locationConfig.airport.airportsAmount; li++) {
       url += locationConfig.airport.airports[li].lat + "," + locationConfig.airport.airports[li].lon + ";"
     }
-    url += "&language=en-US&units=e&format=json&apiKey=" + api_key
+    url += "&language=en-US&units=" + locationConfig.units + "&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       data.forEach((ajaxedLoc, i) => {
         var airportsObj = {noReport:false,airportName:"",iataCode:"",temp:"",icon:"",condition:"",humidity:"",pressure:"",wind:"",gusts:"",windspeed:"",delay:""}
@@ -594,7 +594,7 @@ function grabAirportData() {
             airportsObj.iataCode = locationConfig.airport.airports[i].iataCode
             airportsObj.condition = ajaxedLoc["v3-wx-observations-current"].wxPhraseLong
             airportsObj.icon = ajaxedLoc["v3-wx-observations-current"].iconCode
-            airportsObj.gusts = ((ajaxedLoc["v3-wx-observations-current"].windGust != null || ajaxedLoc["v3-wx-observations-current"].windGust != undefined) ? ajaxedLoc["v3-wx-observations-current"].windGust + " mph" : "None")
+            airportsObj.gusts = ((ajaxedLoc["v3-wx-observations-current"].windGust != null || ajaxedLoc["v3-wx-observations-current"].windGust != undefined) ? ajaxedLoc["v3-wx-observations-current"].windGust + ((locationConfig.units == "e") ? " mph" : "km/h") : "None")
             airportsObj.humidity = ajaxedLoc["v3-wx-observations-current"].relativeHumidity + "%"
             airportsObj.pressure = ajaxedLoc["v3-wx-observations-current"].pressureAltimeter
             airportsObj.temp = ajaxedLoc["v3-wx-observations-current"].temperature
@@ -666,7 +666,7 @@ function grabAirportData() {
     for (var li = 0; li < weatherData.nationalAirports.airports.length; li++) {
       url += weatherData.nationalAirports.airports[li].lat + "," + weatherData.nationalAirports.airports[li].lon + ";"
     }
-    url += "&language=en-US&units=e&format=json&apiKey=" + api_key
+    url += "&language=en-US&units=" + locationConfig.units + "&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       data.forEach((ajaxedLoc, i) => {
         weatherData.nationalAirports.airports[i].delay = ""
@@ -716,12 +716,12 @@ function grabAirportData() {
 function grabSpanishData() {
   //console.log("grabbed data")
   function grabESCurrentConditions() {
-    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&units=e&language=es-US&format=json&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&units=" + locationConfig.units + "&language=es-US&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       try {
         weatherData.spanish.currentConditions.cityname = locationConfig.mainCity.displayname
         weatherData.spanish.currentConditions.cond = data.wxPhraseLong
-        weatherData.spanish.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + " mph" : "No")
+        weatherData.spanish.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + ((locationConfig.units == "e") ? " mph" : "km/h") : "No")
         weatherData.spanish.currentConditions.humidity = data.relativeHumidity + "%"
         weatherData.spanish.currentConditions.icon = data.iconCode
         weatherData.spanish.currentConditions.pressure = data.pressureAltimeter.toFixed(2)
@@ -767,7 +767,7 @@ function grabSpanishData() {
     for (var li = 0; li < locationConfig.eightCities.citiesAmount; li++) {
       url += locationConfig.eightCities.cities[li].lat + "," + locationConfig.eightCities.cities[li].lon + ";"
     }
-    url += "&language=es-US&units=e&format=json&apiKey=" + api_key
+    url += "&language=es-US&units=" + locationConfig.units + "&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       data.forEach((ajaxedLoc, i) => {
         var nearbyCitiesObj = {noReport:false,cityname:"", temp:"", icon:"", wind:"", windspeed:""};
@@ -819,7 +819,7 @@ function grabSpanishData() {
   }
   grabESNearbyConditions();
   function grabESExtended() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=e&language=es-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=" + locationConfig.units + "&language=es-US&apiKey=" + api_key
     //console.log(url)
     $.getJSON(url, function(data) {
       var daysDivs = ['one', "two", "three", "four", "five"]
@@ -879,7 +879,7 @@ function grabSpanishData() {
   }
   grabESExtended()
   function grabESAlmanac() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=e&language=es-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&format=json&units=" + locationConfig.units + "&language=es-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var ii = 0
       if (data.daypart[0].daypartName[0] == null) {
@@ -966,7 +966,7 @@ function grabSpanishData() {
 }
 function grabGolfData() {
   function grabCoursesData(ci) {
-      var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.golf.courses[ci].lat + "," + locationConfig.golf.courses[ci].lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+      var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.golf.courses[ci].lat + "," + locationConfig.golf.courses[ci].lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       try {
         weatherData.golf.courseForecast[ci].cityname = locationConfig.golf.courses[ci].displayname
@@ -1027,7 +1027,7 @@ function grabGolfData() {
     grabCoursesData(i)
   }
   function grabResortsData(ri) {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.golf.resorts[ri].lat + "," + locationConfig.golf.resorts[ri].lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.golf.resorts[ri].lat + "," + locationConfig.golf.resorts[ri].lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
   $.getJSON(url, function(data) {
     try {
       weatherData.golf.resortForecast[ri].cityname = locationConfig.golf.resorts[ri].displayname
@@ -1159,12 +1159,12 @@ function grabHealthData() {
 }
 function grabExtraData() {
   function grabEXCurrentConditions() {
-    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&units=e&language=en-US&format=json&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/observations/current?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&units=" + locationConfig.units + "&language=en-US&format=json&apiKey=" + api_key
     $.getJSON(url, function(data) {
       try {
         weatherData.extraLocal.currentConditions.cityname = locationConfig.extraCity.displayname
         weatherData.extraLocal.currentConditions.cond = data.wxPhraseLong
-        weatherData.extraLocal.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + " mph" : "None")
+        weatherData.extraLocal.currentConditions.gusts = ((data.windGust != null || data.windGust != undefined) ? data.windGust + ((locationConfig.units == "e") ? " mph" : "km/h") : "None")
         weatherData.extraLocal.currentConditions.humidity = data.relativeHumidity + "%"
         weatherData.extraLocal.currentConditions.icon = data.iconCode
         weatherData.extraLocal.currentConditions.pressure = data.pressureAltimeter.toFixed(2)
@@ -1199,7 +1199,7 @@ function grabExtraData() {
   }
   grabEXCurrentConditions();
   function grabEXDayDesc() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var ii = 0
       try {
@@ -1231,7 +1231,7 @@ function grabExtraData() {
   }
   grabEXDayDesc()
   function grabEXExtended() {
-    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&format=json&units=e&language=en-US&apiKey=" + api_key
+    var url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + locationConfig.extraCity.lat + "," + locationConfig.extraCity.lon + "&format=json&units=" + locationConfig.units + "&language=en-US&apiKey=" + api_key
     $.getJSON(url, function(data) {
       var daysDivs = ['one', "two", "three", "four", "five"]
       try {

@@ -1,5 +1,5 @@
-var api_key = "";
-var map_key = "";
+var api_key = "e1f10a1e78da46f5b10a1e78da96f525";
+var map_key = "pk.eyJ1Ijoid2VhdGhlciIsImEiOiJjaW4wbzllcjkwYWtrd2JsdWl3dG1hZjZ1In0.AdcjoWQiVfvjHfOB0nsyeQ";
 
 var apperanceSettings = {
   providerName: "Mist Digital Cable",

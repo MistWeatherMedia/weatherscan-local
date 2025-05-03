@@ -275,6 +275,7 @@ function mainlocfuncs(type) {
     //document.cookie = `mainCitySearchType=${locationSettings.mainCity.type}`;
     locationSettings.mainCity.val =
       document.getElementById("mainloc-data").value;
+    locationSettings.units = (document.getElementById("tempunit-dropdown").value == "Imperial") ? "e" : "m"
     //document.cookie = `mainCitySearchValue=${locationSettings.mainCity.val}`;
     $("#setup-extraloc").fadeIn(0);
   }
