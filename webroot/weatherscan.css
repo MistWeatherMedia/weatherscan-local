@@ -152,12 +152,14 @@ select {
 .location-warning {
   position: absolute;
   z-index: 50;
-  color: #ff4040;
+  color: red;
   background-color: #000000a0;
   padding: 16px;
-  font-size: 24px;
+  font-size: 32px;
   top: 810px;
   right: 80px;
+  text-align: right;
+  text-shadow: 2px 2px #000;
 }
 
 .start-button {
