@@ -7,7 +7,7 @@ var apperanceSettings = {
   startupTime: 5000, //How long you want to wait for everything to load
   //we recommend not setting startupTime to anything less than like 3000 (4 seconds) as it takes time to download info off the internet.
   enableCrawl: true, //set to fale if you don't want any ad crawl
-  adMessage: ["If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!", "Want to watch Weatherscan and more from around the US? Visit live.weatherscan.net and search through the guide today!", "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.", "Now Available! Get picture perfect weather with The Weather Channel HD.",],
+  adMessage: ["If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!", "Want to watch Weatherscan and more from around the globe? Visit live.mistweather.com and search through the guide today!", "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.", "Now Available! Get picture perfect weather with The Weather Channel HD.",],
   aspectRatio: 4/3, //3/2 or 4/3
   crawlInterval: 48000,
   version: "1.0",
