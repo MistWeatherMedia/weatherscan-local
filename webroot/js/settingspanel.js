@@ -557,7 +557,7 @@ $(document).ready(function () {
 
 document.addEventListener("DOMContentLoaded", () => {
   var mainlocDropdown = document.getElementById("mainloc-dropdown");
-  var extralocDropdown = document.getElementById("mainloc-dropdown");
+  var extralocDropdown = document.getElementById("extraloc-dropdown");
   var nearbylocsDropdownOne = document.getElementById(
     "nearbylocs-dropdown-one"
   );
@@ -582,6 +582,9 @@ document.addEventListener("DOMContentLoaded", () => {
   var nearbylocsDropdownEight = document.getElementById(
     "nearbylocs-dropdown-eight"
   );
+  var coursesDropdownOne = document.getElementById("courses-dropdown-one");
+  var coursesDropdownTwo = document.getElementById("courses-dropdown-two");
+  var coursesDropdownThree = document.getElementById("courses-dropdown-three");
 
   mainlocDropdown.addEventListener("change", () => {
     if (mainlocDropdown.value == "geocode") {
@@ -617,6 +620,96 @@ document.addEventListener("DOMContentLoaded", () => {
       $("#nearbylocs-data-two").attr("placeholder", "(EG: 30339:US)");
     } else if (nearbylocsDropdownTwo.value == "iataCode") {
       $("#nearbylocs-data-two").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownThree.addEventListener("change", () => {
+    if (nearbylocsDropdownThree.value == "geocode") {
+      $("#nearbylocs-data-three").attr(
+        "placeholder",
+        "(EG: 33.7682, -84.4111)"
+      );
+    } else if (nearbylocsDropdownThree.value == "postalKey") {
+      $("#nearbylocs-data-three").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownThree.value == "iataCode") {
+      $("#nearbylocs-data-three").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownFour.addEventListener("change", () => {
+    if (nearbylocsDropdownFour.value == "geocode") {
+      $("#nearbylocs-data-four").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (nearbylocsDropdownFour.value == "postalKey") {
+      $("#nearbylocs-data-four").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownFour.value == "iataCode") {
+      $("#nearbylocs-data-four").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownFive.addEventListener("change", () => {
+    if (nearbylocsDropdownFive.value == "geocode") {
+      $("#nearbylocs-data-five").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (nearbylocsDropdownFive.value == "postalKey") {
+      $("#nearbylocs-data-five").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownFive.value == "iataCode") {
+      $("#nearbylocs-data-five").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownSix.addEventListener("change", () => {
+    if (nearbylocsDropdownSix.value == "geocode") {
+      $("#nearbylocs-data-six").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (nearbylocsDropdownSix.value == "postalKey") {
+      $("#nearbylocs-data-six").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownSix.value == "iataCode") {
+      $("#nearbylocs-data-six").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownSeven.addEventListener("change", () => {
+    if (nearbylocsDropdownSeven.value == "geocode") {
+      $("#nearbylocs-data-seven").attr(
+        "placeholder",
+        "(EG: 33.7682, -84.4111)"
+      );
+    } else if (nearbylocsDropdownSeven.value == "postalKey") {
+      $("#nearbylocs-data-seven").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownSeven.value == "iataCode") {
+      $("#nearbylocs-data-seven").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  nearbylocsDropdownEight.addEventListener("change", () => {
+    if (nearbylocsDropdownEight.value == "geocode") {
+      $("#nearbylocs-data-eight").attr(
+        "placeholder",
+        "(EG: 33.7682, -84.4111)"
+      );
+    } else if (nearbylocsDropdownEight.value == "postalKey") {
+      $("#nearbylocs-data-eight").attr("placeholder", "(EG: 30339:US)");
+    } else if (nearbylocsDropdownEight.value == "iataCode") {
+      $("#nearbylocs-data-eight").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  coursesDropdownOne.addEventListener("change", () => {
+    if (coursesDropdownOne.value == "geocode") {
+      $("#courses-data-one").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (coursesDropdownOne.value == "postalKey") {
+      $("#courses-data-one").attr("placeholder", "(EG: 30339:US)");
+    } else if (coursesDropdownOne.value == "iataCode") {
+      $("#courses-data-one").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  coursesDropdownTwo.addEventListener("change", () => {
+    if (coursesDropdownTwo.value == "geocode") {
+      $("#courses-data-two").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (coursesDropdownTwo.value == "postalKey") {
+      $("#courses-data-two").attr("placeholder", "(EG: 30339:US)");
+    } else if (coursesDropdownTwo.value == "iataCode") {
+      $("#courses-data-two").attr("placeholder", "(EG: ATL)");
+    }
+  });
+  coursesDropdownThree.addEventListener("change", () => {
+    if (coursesDropdownThree.value == "geocode") {
+      $("#courses-data-three").attr("placeholder", "(EG: 33.7682, -84.4111)");
+    } else if (coursesDropdownThree.value == "postalKey") {
+      $("#courses-data-three").attr("placeholder", "(EG: 30339:US)");
+    } else if (coursesDropdownThree.value == "iataCode") {
+      $("#courses-data-three").attr("placeholder", "(EG: ATL)");
     }
   });
 });
