@@ -4,6 +4,10 @@
 
 **Weatherscan Local XL** is a simulated recreation of "Weatherscan Local" by The Weather Channel in HTML/CSS/JS, by ***mist weather media***
 
+For use with mainland United States locations only
+
+Best used with Google Chrome on Windows
+
 Online demo: [local.weatherscan.net](https://local.weatherscan.net)
 
 © Mist Weather Media 2025.
@@ -13,10 +17,10 @@ Online demo: [local.weatherscan.net](https://local.weatherscan.net)
 **Special thanks to these talented minds who made this project possible!**
 
 **Joe Molinelli (TheGoldDiamond9)** - Lead Developer  
-**COLSTER** - Lead Designer / Developer (CSS) 
+**COLSTER** - Lead Designer / Developer (CSS)  
 **PicelBoi** - Developer (Radar)  
-**JensonWx** - Developer (HTML) 
-**SSPWXR** - Developer (Express Conversion) 
+**JensonWx** - Developer (HTML)  
+**SSPWXR** - Developer (Express Conversion)  
 **zachNet** - Audio Engineer  
 
 and the rest of the Mist Creative Team for their support!
@@ -26,6 +30,10 @@ and the rest of the Mist Creative Team for their support!
 Need support beyond the scope of this README? Have any questions? Feel free to join our Discord for support!
 
 [***mist weather media*** on Discord](https://discord.gg/hV2w5sZQxz)
+
+------------
+
+Are you a developer? Pull requests are welcome! If you find a bug and fix it yourself, submit one with the fixed code and it may be merged into the main branch!
 
 # Initial Setup
 
