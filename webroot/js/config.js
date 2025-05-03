@@ -1,5 +1,5 @@
-var api_key = "";
-var map_key = "";
+var api_key = "YOUR_API_KEY";
+var map_key = "YOUR_API_KEY";
 
 var apperanceSettings = {
   providerName: "Mist Digital Cable",
