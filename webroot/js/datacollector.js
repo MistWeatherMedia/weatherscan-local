@@ -1045,7 +1045,7 @@ if (window.Worker) {
       "&format=json&units=" +
       units +
       "&language=es-US&apiKey=" +
-      api_key;
+      key;
     $.getJSON(url, function (data) {
       let ii = 0;
       if (data.daypart[0].daypartName[0] == null) {
@@ -1115,9 +1115,11 @@ if (window.Worker) {
       //console.log(spanish.almanac)
       //console.log("almanac grab fail")
     });
+    return almanac;
   }
 
   function grabESMoons() {
+    let almanac = {};
     let ii = 0;
     try {
       $.getJSON(
@@ -1131,17 +1133,17 @@ if (window.Worker) {
               continue;
             }
             if (data.phase[phase].isPhaseLimit != false) {
-              spanish.almanac.moonphases[ii].moon = {
+              almanac.moonphases[ii].moon = {
                 "Luna nueva": "Nueva",
                 "Cuarto creciente": "Creciente",
                 "Luna llena": "Llena",
                 "Cuarto menguante": "Menguante",
               }[data.phase[phase].phaseName];
-              spanish.almanac.moonphases[ii].date =
+              almanac.moonphases[ii].date =
                 String(data.monthName).slice(0, 3) + " " + phase;
-              spanish.almanac.moonphases[ii].date =
+              almanac.moonphases[ii].date =
                 phase.toString().length == 1
-                  ? spanish.almanac.moonphases[ii].date
+                  ? almanac.moonphases[ii].date
                       .replace(" 1", " 01")
                       .replace(" 2", " 02")
                       .replace(" 3", " 03")
@@ -1151,68 +1153,72 @@ if (window.Worker) {
                       .replace(" 7", " 07")
                       .replace(" 8", " 08")
                       .replace(" 9", " 09")
-                  : spanish.almanac.moonphases[ii].date;
+                  : almanac.moonphases[ii].date;
               ii += 1;
             }
           }
           //console.log("first moons grabbed")
         }
-      ).fail(function () {
-        for (let i = 0; i < 4; i++) {
-          spanish.almanac.moonphases[i].date = "";
-          spanish.almanac.moonphases[i].moon = "blank";
-        }
-        //console.log("first moon grab failed")
-      });
-      setTimeout(() => {
-        $.getJSON(
-          `https://www.icalendar37.net/lunar/api/?lang=es&month=${dateFns.format(
-            dateFns.addMonths(new Date(), 1),
-            "M"
-          )}&year=${dateFns.format(dateFns.addMonths(new Date(), 1), "YYYY")}`,
-          function (data) {
-            for (phase in data.phase) {
-              if (data.phase[phase].isPhaseLimit != false) {
-                spanish.almanac.moonphases[ii].moon = {
-                  "Luna nueva": "Nueva",
-                  "Cuarto creciente": "Creciente",
-                  "Luna llena": "Llena",
-                  "Cuarto menguante": "Menguante",
-                }[data.phase[phase].phaseName];
-                spanish.almanac.moonphases[ii].date =
-                  String(data.monthName).slice(0, 3) + " " + phase;
-                spanish.almanac.moonphases[ii].date =
-                  phase.toString().length == 1
-                    ? spanish.almanac.moonphases[ii].date
-                        .replace(" 1", " 01")
-                        .replace(" 2", " 02")
-                        .replace(" 3", " 03")
-                        .replace(" 4", " 04")
-                        .replace(" 5", " 05")
-                        .replace(" 6", " 06")
-                        .replace(" 7", " 07")
-                        .replace(" 8", " 08")
-                        .replace(" 9", " 09")
-                    : spanish.almanac.moonphases[ii].date;
-                ii += 1;
-              }
-            }
-            //console.log("second moons grabbed")
-          }
-        ).fail(function () {
+      )
+        .fail(function () {
           for (let i = 0; i < 4; i++) {
-            if (spanish.almanac.moonphases[i].date != "")
-              spanish.almanac.moonphases[i].date = "";
-            spanish.almanac.moonphases[i].moon = "blank";
+            almanac.moonphases[i].date = "";
+            almanac.moonphases[i].moon = "blank";
           }
-          //console.log("second moon grab failed")
+          //console.log("first moon grab failed")
+        })
+        .always(function () {
+          $.getJSON(
+            `https://www.icalendar37.net/lunar/api/?lang=es&month=${dateFns.format(
+              dateFns.addMonths(new Date(), 1),
+              "M"
+            )}&year=${dateFns.format(
+              dateFns.addMonths(new Date(), 1),
+              "YYYY"
+            )}`,
+            function (data) {
+              for (phase in data.phase) {
+                if (data.phase[phase].isPhaseLimit != false) {
+                  almanac.moonphases[ii].moon = {
+                    "Luna nueva": "Nueva",
+                    "Cuarto creciente": "Creciente",
+                    "Luna llena": "Llena",
+                    "Cuarto menguante": "Menguante",
+                  }[data.phase[phase].phaseName];
+                  almanac.moonphases[ii].date =
+                    String(data.monthName).slice(0, 3) + " " + phase;
+                  almanac.moonphases[ii].date =
+                    phase.toString().length == 1
+                      ? almanac.moonphases[ii].date
+                          .replace(" 1", " 01")
+                          .replace(" 2", " 02")
+                          .replace(" 3", " 03")
+                          .replace(" 4", " 04")
+                          .replace(" 5", " 05")
+                          .replace(" 6", " 06")
+                          .replace(" 7", " 07")
+                          .replace(" 8", " 08")
+                          .replace(" 9", " 09")
+                      : almanac.moonphases[ii].date;
+                  ii += 1;
+                }
+              }
+              //console.log("second moons grabbed")
+            }
+          ).fail(function () {
+            for (let i = 0; i < 4; i++) {
+              if (almanac.moonphases[i].date != "")
+                almanac.moonphases[i].date = "";
+              almanac.moonphases[i].moon = "blank";
+            }
+            //console.log("second moon grab failed")
+          });
+          //console.log(spanish.almanac.moonphases)
         });
-        //console.log(spanish.almanac.moonphases)
-      }, 500);
     } catch (error) {
       for (let i = 0; i < 8; i++) {
-        spanish.almanac.moonphases[i].date = "";
-        spanish.almanac.moonphases[i].moon = "blank";
+        almanac.moonphases[i].date = "";
+        almanac.moonphases[i].moon = "blank";
       }
       //console.log(spanish.almanac.moonphases)
       //console.log("all moon grabs failed")
