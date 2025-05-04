@@ -74,7 +74,7 @@ function createMaps() {
           minzoom: 0,
           maxzoom: 22,
           paint: {
-            "raster-opacity": 0,
+            "raster-opacity": 0.5,
           },
         },
       ],
@@ -109,7 +109,7 @@ function createMaps() {
           minzoom: 0,
           maxzoom: 22,
           paint: {
-            "raster-opacity": 0,
+            "raster-opacity": 0.5,
           },
         },
       ],
