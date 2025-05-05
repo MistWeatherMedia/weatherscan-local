@@ -1,0 +1,6 @@
+Make sure to report any bugs or issues in the Issues tab!
+= May 4, 2025 =
+ -  Fixed ZIP Code issues
+ -  Fixed radar stopping half way in the screen
+ -  Fixed some airport delay errors
+ -  More fixes
