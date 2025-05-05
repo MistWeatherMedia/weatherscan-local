@@ -3,4 +3,5 @@ Make sure to report any bugs or issues in the Issues tab!
  -  Fixed ZIP Code issues
  -  Fixed radar stopping half way in the screen
  -  Fixed some airport delay errors
+ -  Fixed city typo in California
  -  More fixes
