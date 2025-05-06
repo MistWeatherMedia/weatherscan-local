@@ -114,15 +114,16 @@ var slidePrograms = {
           $(".regional-sat").fadeIn(0);
         startRadar(satradar);
         if (apperanceSettings.aspectRatio == 3/2) {
-          $("#satradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
+          $(".satradar-cont").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
         } else {
-          $("#satradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
+          $(".satradar-cont").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
         }
         $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
         setTimeout(function () {
           slideCallBack();
           $(".regional-sat").fadeOut(0);
+          $(".satradar-cont").attr("style","");
         }, slideLength * 2);
         }
       } catch (error) {
@@ -159,13 +160,14 @@ var slidePrograms = {
         $("#provider").css("margin-top", "5px")
         startRadar(regradar);
         if (apperanceSettings.aspectRatio == 3/2) {
-          $("#regradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
+          $(".regradar-cont").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
         } else {
-          $("#regradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
+          $(".regradar-cont").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
         }
         setTimeout(function () {
           slideCallBack();
           $(".regional-radar").fadeOut(0);
+          $(".regradar-cont").attr("style","");
         }, slideLength * 2);
         }
       } catch (error) {
