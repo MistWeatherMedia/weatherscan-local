@@ -681,14 +681,24 @@ button {
   z-index: 4 !important;
   filter: drop-shadow(2px 2px 0 #000);
 }
-
+.satradar-cont {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
 #satradar {
   position: absolute;
   width: 1620px;
   height: 1080px;
   z-index: 4 !important;
 }
-
+.regradar-cont {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
 #regradar {
   position: absolute;
   width: 1620px;
