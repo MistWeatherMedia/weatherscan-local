@@ -1,13 +1,13 @@
-var api_key = "e1f10a1e78da46f5b10a1e78da96f525";
-var map_key = "pk.eyJ1Ijoid2VhdGhlciIsImEiOiJjaW4wbzllcjkwYWtrd2JsdWl3dG1hZjZ1In0.AdcjoWQiVfvjHfOB0nsyeQ";
+var api_key = "YOUR_API_KEY";
+var map_key = "YOUR_API_KEY";
 
 var apperanceSettings = {
   providerName: "Mist Digital Cable",
   skipSettings: false, //set to true for no settings panel on startup
   startupTime: 5000, //How long you want to wait for everything to load
   //we recommend not setting startupTime to anything less than like 3000 (4 seconds) as it takes time to download info off the internet.
-  enableCrawl: true, //set to fale if you don't want any ad crawl
-  adMessage: ["If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!", "Want to watch Weatherscan and more from around the US? Visit live.weatherscan.net and search through the guide today!", "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.", "Now Available! Get picture perfect weather with The Weather Channel HD.",],
+  enableCrawl: true, //set to false if you don't want any ad crawl
+  adMessage: ["If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!", "Want to watch Weatherscan and more from around the globe? Visit live.mistweather.com and search through the guide today!", "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.", "Now Available! Get picture perfect weather with The Weather Channel HD.",],
   aspectRatio: 4/3, //3/2 or 4/3
   crawlInterval: 48000,
   version: "1.11",

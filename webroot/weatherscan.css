@@ -319,6 +319,11 @@ button {
   top: 41%;
   right: 34%;
 }
+#tempunit-dropdown {
+  width: 210px;
+  top: 48%;
+  right: 34%;
+}
 #mainloc-data {
   top: 41%;
   left: 68%;

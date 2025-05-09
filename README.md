@@ -4,7 +4,7 @@
 
 **Weatherscan Local XL** is a simulated recreation of "Weatherscan Local" by The Weather Channel in HTML/CSS/JS, by ***mist weather media***
 
-Best used with mainland United States locations
+Note: Best used with mainland United States locations
 
 Best used with Google Chrome on Windows
 

@@ -106,7 +106,8 @@ var locationSettings = {
         val:"",
       },
     ],
-  }
+  },
+  units: ""
 }
 var locationConfig = {
   radar: {
@@ -142,7 +143,8 @@ var locationConfig = {
   golf: {
     courses:[],
     resorts:[],
-  }
+  },
+  units: "e"
 }
 var extraCityList = {}
 var surrCityList = {}
@@ -165,6 +167,7 @@ function locationJS() {
   locationConfig.airport.airports = []
   locationConfig.golf.courses = []
   locationConfig.golf.resorts = []
+  locationConfig.units = "e"
 if (window.location.search) {
   queryname = window.location.search.split("?")[1]
 }
@@ -181,6 +184,7 @@ function locationGrab() {
       locationConfig.mainCity.lon = data.location.longitude
       locationConfig.mainCity.state = data.location.adminDistrictCode
       locationConfig.mainCity.stateFull = data.location.adminDistrict
+      locationConfig.units = locationSettings.units
       /*$.getJSON("https://pro.ip-api.com/json/?key=AmUN9xAaQALVYu6&exposeDate=false", function(ipdata){
         console.log(ipdata.timezone)
         timezone = ipdata.timezone;
@@ -224,6 +228,7 @@ function locationGrab() {
         locationConfig.mainCity.lon = data.location.longitude[0]
         locationConfig.mainCity.state = data.location.adminDistrictCode[0]
         locationConfig.mainCity.stateFull = data.location.adminDistrict[0]
+        locationConfig.units = (["US", "MM", "LR"].includes(data.location.countryCode[0])) ? "e" : "m"
         /*$.getJSON("https://pro.ip-api.com/json/?key=AmUN9xAaQALVYu6&exposeDate=false", function(ipdata){
           console.log(ipdata.timezone)
           timezone = ipdata.timezone;
