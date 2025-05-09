@@ -18,7 +18,6 @@ mapboxgl.accessToken = map_key;
 function createMaps() {
   locradar = new mapboxgl.Map({
     container: "locradar",
-    projection: "mercator",
     style: {
       version: 8,
       sources: {
@@ -291,7 +290,7 @@ async function startRadar(map) {
       : map === regradar
       ? regtimestamps
       : sattimestamps;
-  // cleanupOldRadarLayers(map, timestamps)
+  cleanupOldRadarLayers(map, timestamps)
   clearInterval(radarAnimation);
   // timestamps = await fetchRadarTimestamps(map)
   // await addRadarLayers(map, timestamps)

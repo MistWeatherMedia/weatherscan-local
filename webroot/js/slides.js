@@ -41,6 +41,12 @@ var satround = 0;
 var idx = 0;
 var gidx = 0;
 var htipidx = 0;
+function slideCallBack(){
+  $("#provider").css("margin-left", "0px");
+    $("#provider").css("margin-top", "0px");
+    idx++;
+    showSlides();
+};
 var slidePrograms = {
     /*RADAR*/
     dopplerRadar() {
@@ -49,50 +55,44 @@ var slidePrograms = {
           //console.error(error);
         $(".radar-doppler").fadeIn(0);
         $(".radar-doppler .tempunavailable").fadeIn(0);
-        if (apperanceSettings.aspectRatio == 3/2) {
-          $("#locradar").attr("style","transform: scale(1.27, 1.35) translate3d(0,0,0);");
-        } else {
-          $("#locradar").attr("style","transform: scale(1.13, 1.335) translate3d(0,0,0);");
-        }
+        $(".locradar-cont").fadeOut(0);
         $("#provider").css("margin-left", "15px");
         $("#provider").css("margin-top", "5px");
         setTimeout(function () {
           slideCallBack();
           $(".radar-doppler").fadeOut(0);
           $(".radar-doppler .tempunavailable").fadeOut(0);
+          $(".locradar-cont").fadeIn(0);
         }, slideLength * 2);
         } else {
           $(".radar-doppler").fadeIn(0);
         startRadar(locradar);
         $("#provider").css("margin-left", "15px");
         $("#provider").css("margin-top", "5px");
+        
         if (apperanceSettings.aspectRatio == 3/2) {
-          $("#locradar").attr("style","transform: scale(1.27, 1.35) translate3d(0,0,0);");
+          $(".locradar-cont").attr("style","transform: scale(1.27, 1.35) translate3d(0,0,0);");
         } else {
-          $("#locradar").attr("style","transform: scale(1.13, 1.335) translate3d(0,0,0);");
+          $(".locradar-cont").attr("style","transform: scale(1.13, 1.335) translate3d(0,0,0);");
         }
         setTimeout(function () {
           slideCallBack();
           $(".radar-doppler").fadeOut(0);
-          //$("#locradar").attr("style", "");
-          //}, 500);
+          $(".locradar-cont").attr("style","");
         }, slideLength * 2);
         }
       } catch (error) {
         //console.error(error);
         $(".radar-doppler").fadeIn(0);
         $(".radar-doppler .tempunavailable").fadeIn(0);
-        if (apperanceSettings.aspectRatio == 3/2) {
-          $("#locradar").attr("style","transform: scale(1.27, 1.35) translate3d(0,0,0);");
-        } else {
-          $("#locradar").attr("style","transform: scale(1.13, 1.335) translate3d(0,0,0);");
-        }
+        $(".locradar-cont").fadeOut(0)
         $("#provider").css("margin-left", "15px");
         $("#provider").css("margin-top", "5px");
         setTimeout(function () {
           slideCallBack();
           $(".radar-doppler").fadeOut(0);
           $(".radar-doppler .tempunavailable").fadeOut(0);
+          $(".locradar-cont").fadeIn(0);
         }, slideLength * 2);
       }
     },
@@ -101,47 +101,42 @@ var slidePrograms = {
         if (weatherData.radarUnavailable == true) {
           $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
-        if (apperanceSettings.aspectRatio == 3/2) {
-          $("#satradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
-        } else {
-          $("#satradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
-        }
+        $("#satradar").fadeOut(0)
         $(".regional-sat").fadeIn(0);
         $(".regional-sat .tempunavailable").fadeIn(0);
         setTimeout(function () {
           slideCallBack();
           $(".regional-sat").fadeOut(0);
           $(".regional-sat .tempunavailable").fadeOut(0);
+          $("#satradar").fadeIn(0)
         }, slideLength * 2);
         } else {
           $(".regional-sat").fadeIn(0);
         startRadar(satradar);
         if (apperanceSettings.aspectRatio == 3/2) {
-          $("#satradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
+          $(".satradar-cont").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
         } else {
-          $("#satradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
+          $(".satradar-cont").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
         }
         $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
         setTimeout(function () {
           slideCallBack();
           $(".regional-sat").fadeOut(0);
+          $(".satradar-cont").attr("style","");
         }, slideLength * 2);
         }
       } catch (error) {
         $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
-        if (apperanceSettings.aspectRatio == 3/2) {
-          $("#satradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
-        } else {
-          $("#satradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
-        }
+        $("#satradar").fadeOut(0)
         $(".regional-sat").fadeIn(0);
         $(".regional-sat .tempunavailable").fadeIn(0);
         setTimeout(function () {
           slideCallBack();
           $(".regional-sat").fadeOut(0);
           $(".regional-sat .tempunavailable").fadeOut(0);
+          $("#satradar").fadeIn(0)
         }, slideLength * 2);
       }
     },
@@ -150,19 +145,14 @@ var slidePrograms = {
         if (weatherData.radarUnavailable == true) {
           $(".regional-radar").fadeIn(0);
           $(".regional-radar .tempunavailable").fadeIn(0);
-          if (apperanceSettings.aspectRatio == 3/2) {
-            $("#regradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
-          } else {
-            $("#regradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
-          }
+          $("#regradar").fadeOut(0)
           $("#provider").css("margin-left", "15px")
           $("#provider").css("margin-top", "5px")
           setTimeout(function () {
             slideCallBack();
             $(".regional-radar").fadeOut(0);
             $(".regional-radar .tempunavailable").fadeOut(0);
-            //$("#provider").css("margin-left", "0px")
-            //$("#provider").css("margin-top", "0px")
+            $("#regradar").fadeIn(0)
           }, slideLength * 2);
         } else {
         $(".regional-radar").fadeIn(0);
@@ -170,31 +160,27 @@ var slidePrograms = {
         $("#provider").css("margin-top", "5px")
         startRadar(regradar);
         if (apperanceSettings.aspectRatio == 3/2) {
-          $("#regradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
+          $(".regradar-cont").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
         } else {
-          $("#regradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
+          $(".regradar-cont").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
         }
         setTimeout(function () {
           slideCallBack();
           $(".regional-radar").fadeOut(0);
+          $(".regradar-cont").attr("style","");
         }, slideLength * 2);
         }
       } catch (error) {
         $(".regional-radar").fadeIn(0);
         $(".regional-radar .tempunavailable").fadeIn(0);
-        if (apperanceSettings.aspectRatio == 3/2) {
-          $("#regradar").attr("style","transform: scale(1.28, 1.35) translate3d(0,0,0);");
-        } else {
-          $("#regradar").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
-        }
+        $("#regradar").fadeOut(0)
         $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
         setTimeout(function () {
           slideCallBack();
           $(".regional-radar").fadeOut(0);
           $(".regional-radar .tempunavailable").fadeOut(0);
-          //$("#provider").css("margin-left", "0px")
-          //$("#provider").css("margin-top", "0px")
+          $("#regradar").fadeIn(0)
         }, slideLength * 2);
       }
     },
@@ -618,9 +604,6 @@ var slidePrograms = {
     introSlide() {
       centerBaseMap(locationConfig.radar.localCoords.lat, locationConfig.radar.localCoords.lon);
       centerBaseMapRegional(locationConfig.radar.regionalCoords.lat, locationConfig.radar.regionalCoords.lon);
-      setTimeout(() => {
-        crawlCheck();
-      }, 1000);
       $("#date-time").fadeOut(0);
       fadeSlideIn(".intro-slide");
       setTimeout(function () {
@@ -1263,6 +1246,9 @@ function showSlides() {
     if (gidx >= slideSettings.order[0].slideLineup.length) {
       gidx = 0;
       allData();
+      setTimeout(() => {
+        crawlCheck();
+      }, 1000);
     }
     if (slideSettings.order[0].slideLineup[gidx].group != "intro") {
       $(".upnext-slide .skeleton").css({"background": `transparent url(images/skeletons/upnext-slide-skeleton-` + slideSettings.order[0].slideLineup[gidx].group + `.png) no-repeat`, "background-size": "100% 100%"});
@@ -1271,9 +1257,4 @@ function showSlides() {
   currentProgram = slidePrograms[slideSettings.order[0].slideLineup[gidx].slides[idx].function];
   currentDiv = slideDivs[slideSettings.order[0].slideLineup[gidx].slides[idx].function];
   currentProgram();
-
-  /*function slideCallBack(){
-    idx++;
-    showSlides();
-  };*/
 } //END OF showSlides() FUNCTION

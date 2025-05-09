@@ -133,6 +133,26 @@ button {
 }
 
 /*SETTINGS PANEL*/
+.location-warning {
+  position: absolute;
+  z-index: 50;
+  color: #ff4040;
+  background-color: #000000a0;
+  padding: 16px;
+  font-size: 24px;
+  top: 710px;
+  right: 80px;
+}
+.package-warning {
+  position: absolute;
+  z-index: 50;
+  color: #ff4040;
+  background-color: #000000a0;
+  padding: 16px;
+  font-size: 24px;
+  top: 370px;
+  right: 80px
+}
 .start-button {
   position: absolute;
   cursor: pointer;
@@ -149,6 +169,18 @@ button {
   z-index: 10000;
   background-image: url(images/setup/setup-background.png);
   background-size: 100% 100%;
+}
+#version-number {
+  position: absolute;
+  font-family: "Berthold Akzidenz Grotesk BE";
+  color: #e8e8e8;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: expanded;
+  font-size: 40px;
+  z-index: 50000;
+  bottom: 100px;
+  left: 50px;
 }
 #settingspanel .checkmarkbox {
   position: absolute;
@@ -540,35 +572,6 @@ button {
   left: 41.1%;
   opacity: 0;
 }
-#setup-pause {
-  position: absolute;
-  width: 1620px;
-  height: 1080px;
-  z-index: 10005;
-  background-image: url(images/setup/pause-setup.png);
-  background-size: 100% 100%;
-}
-#setup-pause .locations-pause {
-  top: 38.5%;
-  left: 25%;
-  width: 800px;
-  height: 90px;
-  opacity: 0;
-}
-#setup-pause .packages-pause {
-  top: 48.5%;
-  left: 25%;
-  width: 800px;
-  height: 90px;
-  opacity: 0;
-}
-#setup-pause .unpause {
-  top: 66%;
-  left: 46%;
-  width: 130px;
-  height: 60px;
-  opacity: 0;
-}
 /*END OF SETTINGS PANEL*/
 #startup {
   position: absolute;
@@ -670,6 +673,12 @@ button {
   width: 1620px;
   height: 1080px;
 }
+.locradar-cont {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
 #locradar {
   position: absolute;
   width: 1620px;
@@ -677,14 +686,24 @@ button {
   z-index: 4 !important;
   filter: drop-shadow(2px 2px 0 #000);
 }
-
+.satradar-cont {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
 #satradar {
   position: absolute;
   width: 1620px;
   height: 1080px;
   z-index: 4 !important;
 }
-
+.regradar-cont {
+  position: absolute;
+  width: 1620px;
+  height: 1080px;
+  z-index: 4 !important;
+}
 #regradar {
   position: absolute;
   width: 1620px;
@@ -1131,6 +1150,7 @@ button {
   font-size: 62px;
   width: 80%;
   line-height: 86px;
+  white-space: pre-wrap;
 }
 .current-conditions {
   position: absolute;

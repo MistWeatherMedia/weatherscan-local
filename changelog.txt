@@ -1,0 +1,10 @@
+Make sure to report any bugs or issues in the Issues tab!
+= May 5, 2025 | VERSION 1.11 =
+ -  Fixed the rest of the radar cutting off half of the screen
+= May 4, 2025 | VERSION 1.1 =
+ -  Fixed ZIP Code issues
+ -  Fixed radar stopping half way in the screen
+ -  Fixed some airport delay errors
+ -  Fixed city typo in California
+ -  Added a variety of TV provider logos
+ -  More fixes

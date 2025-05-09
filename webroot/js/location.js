@@ -173,6 +173,11 @@ if (window.location.search) {
 }
 function locationGrab() {
   if (locationSettings.mainCity.autoFind == false) {
+    if (locationSettings.mainCity.type == "postalKey") {
+      if (!locationSettings.mainCity.val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+        locationSettings.mainCity.val = locationSettings.mainCity.val + ":US"
+      }
+    }
     $.getJSON("https://api.weather.com/v3/location/point?" + locationSettings.mainCity.type + "=" + locationSettings.mainCity.val + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
       locationConfig.mainCity.displayname = ((locationSettings.mainCity.displayname != "") ? locationSettings.mainCity.displayname : data.location.displayName)
       locationConfig.mainCity.lat = data.location.latitude
@@ -403,6 +408,11 @@ function locationGrab() {
   }
 }
 function manualExtraLoc() {
+  if (locationSettings.extraCity.type == "postalKey") {
+    if (!locationSettings.extraCity.val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+      locationSettings.extraCity.val = locationSettings.extraCity.val + ":US"
+    }
+  }
   $.getJSON("https://api.weather.com/v3/location/point?" + locationSettings.extraCity.type + "=" + locationSettings.extraCity.val + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
     locationConfig.extraCity.displayname = ((locationSettings.extraCity.displayname != "") ? locationSettings.extraCity.displayname : data.location.displayName)
     locationConfig.extraCity.lat = data.location.latitude
@@ -535,6 +545,11 @@ function manualSurroundingLocs() {
 
 function manualIndivCities(i) {
   var cityData = {displayname:"",lat:"",lon:"",state:"",stateFull:""}
+  if (locationSettings.eightCities.cities[i].type == "postalKey") {
+    if (!locationSettings.eightCities.cities[i].val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+      locationSettings.eightCities.cities[i].val = locationSettings.eightCities.cities[i].val + ":US"
+    }
+  }
     $.getJSON("https://api.weather.com/v3/location/point?" + locationSettings.eightCities.cities[i].type + "=" + locationSettings.eightCities.cities[i].val + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
       cityData.displayname = ((locationSettings.eightCities.cities[i].displayname != "") ? locationSettings.eightCities.cities[i].displayname : data.location.displayName)
       cityData.lat = data.location.latitude
@@ -567,6 +582,11 @@ function manualAirports() {
 
 function manualIndivAirports(i) {
   var airportData = {displayname:"",lat:"",lon:"",iataCode:""}
+  if (locationSettings.airport.airports[i].type == "postalKey") {
+    if (!locationSettings.airport.airports[i].val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+      locationSettings.airport.airports[i].val = locationSettings.airport.airports[i].val + ":US"
+    }
+  }
   $.getJSON("https://api.weather.com/v3/location/point?iataCode=" + locationSettings.airport.airports[i].iataCode + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
     airportData.displayname = ((locationSettings.airport.airports[i].displayname != "") ? locationSettings.airport.airports[i].displayname : data.location.airportName)
     airportData.lat = data.location.latitude
@@ -640,6 +660,11 @@ function manualGolfCourses() {
 
 function manualIndivCourses(i) {
   var courseData = {displayname:"",lat:"",lon:"",state:"",stateFull:""}
+  if (locationSettings.golf.courses[i].type == "postalKey") {
+    if (!locationSettings.golf.courses[i].val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+      locationSettings.golf.courses[i].val = locationSettings.golf.courses[i].val + ":US"
+    }
+  }
   $.getJSON("https://api.weather.com/v3/location/point?" + locationSettings.golf.courses[i].type + "=" + locationSettings.golf.courses[i].val + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
     courseData.displayname = ((locationSettings.golf.courses[i].displayname != "") ? locationSettings.golf.courses[i].displayname : data.location.displayName + " Golf Courses")
     courseData.lat = data.location.latitude
@@ -715,6 +740,11 @@ function manualGolfResorts() {
 
 function manualIndivResorts(i) {
   var resortData = {displayname:"",lat:"",lon:"",state:"",stateFull:""}
+  if (locationSettings.golf.courses[i].type == "postalKey") {
+    if (!locationSettings.golf.courses[i].val.includes(":US") && locationSettings.mainCity.val.toString().length >= 5) {
+      locationSettings.golf.courses[i].val = locationSettings.golf.courses[i].val + ":US"
+    }
+  }
   $.getJSON("https://api.weather.com/v3/location/point?" + locationSettings.golf.resorts[i].type + "=" + locationSettings.golf.resorts[i].val + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
     resortData.displayname = ((locationSettings.golf.resorts[i].displayname != "") ? locationSettings.golf.resorts[i].displayname + " Golf Resorts" : data.location.displayName)
     resortData.lat = data.location.latitude

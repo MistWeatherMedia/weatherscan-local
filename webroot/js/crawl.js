@@ -1,6 +1,7 @@
 var alertCrawlActive = false
 var adCrawlActive = false
 function crawlCheck() {
+    console.log("CRAWLCHECK")
     if (alertCrawlActive == false) {
         if (weatherData.alerts.alertsAmount > 0) {
             for (var ii = 0; ii < weatherData.alerts.alertsAmount; ii++) {
@@ -98,11 +99,14 @@ function adCrawl(idx) {
         }
     }
 }
-if (apperanceSettings.enableCrawl) {
-    setInterval(() => {
-        if (adCrawlActive) { crawlIndex = (crawlIndex + 1) % apperanceSettings.adMessage.length; }
-        adCrawl(crawlIndex)
-    }, apperanceSettings.crawlInterval)
-} //letting ads run for 100 seconds then disabling them for 100 seconds
+function crawlKickOff() {
+    if (apperanceSettings.enableCrawl) {
+        setInterval(() => {
+            if (adCrawlActive) { crawlIndex = (crawlIndex + 1) % apperanceSettings.adMessage.length; }
+            adCrawl(crawlIndex)
+        }, apperanceSettings.crawlInterval)
+    } //letting ads run for 100 seconds then disabling them for 100 seconds
+}
+
 //this could be a setting to add to appearance settings
 //like say someone wants to let the ad run for 5 minutes
