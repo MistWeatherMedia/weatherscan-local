@@ -337,7 +337,7 @@ function grabData() {
           dpi = 2
         }
         for (var i = 0; i < weatherData.extendedForecast.days.length; i++, ii++, dpi = dpi + 2) {
-          weatherData.extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd")
+          weatherData.extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd").replaceAll("Thundershowers","T'showers")
           weatherData.extendedForecast.days[i].dayname = data.dayOfWeek[ii].substring(0,3).toUpperCase()
           weatherData.extendedForecast.days[i].high = data.temperatureMax[ii]
           weatherData.extendedForecast.days[i].icon = data.daypart[0].iconCode[dpi]
@@ -487,15 +487,10 @@ function grabData() {
               warnings[i].severity = sevalertNum(data.alertDetail.eventDescription)
               warnings[i].significance = data.alertDetail.significance
               warnings[i].alertType = data.alertDetail.messageType.replace("Cancel","Cancellation").replace("New","")
-              warnings[i].headline = data.alertDetail.headlineText + "\n"
+              warnings[i].headline = data.alertDetail.headlineText
             })
             weatherData.alerts.warnings.push(warnings[i])
             //use this to test the sort
-            // var warning1 = {alertNum: 2, key: data.alerts[0].detailKey, warningtitle:"Tornado Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Tornado Warning"), alertType:"", significance:"W", headline:"FUCKED"}
-            // var warning2 = {alertNum: 2, key: data.alerts[0].detailKey, warningtitle:"Severe Thunderstorm Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Severe Thunderstorm Warning"), alertType:"", significance:"W", headline:"FUCKED"}
-            // weatherData.alerts.warnings.push(warning1);
-            // weatherData.alerts.warnings.push(warning2);
-            weatherData.alerts.warnings.sort((a,b) => b.severity-a.severity)
             for (ii = 0; ii < data.alerts.length-1; ii++) {
               if (warnings[i].warningtitle == weatherData.alerts.warnings[ii]) {
                 weatherData.alerts.warnings.pop()
@@ -504,6 +499,16 @@ function grabData() {
             }
             weatherData.alerts.alertsAmount = weatherData.alerts.warnings.length
           }
+          setTimeout(() => {
+            if (weatherData.alerts.warnings.length > 1) {
+              weatherData.alerts.warnings.sort((a,b) => b.severity-a.severity)
+            }
+            //var warning1 = {alertNum: 2, key: data.alerts[0].detailKey, warningtitle:"Tornado Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Tornado Warning"), alertType:"", significance:"W", headline:"FUCKED"}
+            //var warning2 = {alertNum: 1, key: data.alerts[0].detailKey, warningtitle:"Severe Thunderstorm Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Severe Thunderstorm Warning"), alertType:"", significance:"W", headline:"FUCKED"}
+            //qeatherData.alerts.warnings.push(warning1);
+            //weatherData.alerts.warnings.push(warning2);
+            
+          }, 500);
           //console.log(weatherData.alerts)
           //console.log("weather alerts found")
           //weatherData.alerts.warnings.sort(function(a, b){return a.severity - b.severity});
@@ -534,28 +539,32 @@ function grabAirportData() {
     $.getJSON("/airports", function(eventdata) {
       for (const airportevent of eventdata) {
         var delay = {delayTime:"", iataCode:""}
-        if (airportevent.airportClosure) {
+        if (airportevent.airportClosure != null) {
           delay.delayTime = differenceUTC(airportevent.airportClosure.endTime)
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
-        } else if (airportevent.arrivalDelay) {
+        } else if (airportevent.arrivalDelay != null) {
           delay.delayTime = formatMinutes(airportevent.arrivalDelay.averageDelay)
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
-        } else if (airportevent.departureDelay) {
+        } else if (airportevent.departureDelay != null) {
           delay.delayTime = formatMinutes(airportevent.departureDelay.averageDelay)
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
-        } else if (airportevent.groundDelay) {
+        } else if (airportevent.groundDelay != null) {
           delay.delayTime = formatMinutes(airportevent.groundDelay.avgDelay)
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
-        } else if (airportevent.groundStop) {
-          delay.delayTime = differenceUTC(airportevent.groundStop.expTime)//NOT DEFINITIVE
+        } else if (airportevent.groundStop != null) {
+          delay.delayTime = differenceUTC(airportevent.groundStop.endTime)//NOT DEFINITIVE
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
-        } else if (airportevent.deicing) {
-          delay.delayTime = differenceUTC(airportevent.deicing.expTime)
+        } else if (airportevent.deicing != null) {
+          delay.delayTime = differenceUTC(airportevent.deicing.endTime)
+          delay.iataCode = airportevent.airportId
+          weatherData.airportDelayList.push(delay)
+        } else if (airportevent.freeform != null) {
+          delay.delayTime = differenceUTC(airportevent.freeform.endTime)
           delay.iataCode = airportevent.airportId
           weatherData.airportDelayList.push(delay)
         } else {
@@ -978,7 +987,7 @@ function grabGolfData() {
           dpi = 2
         }
         for (var i = 0; i < weatherData.golf.courseForecast[ci].days.length; i++, ii++, dpi = dpi + 2) {
-          weatherData.golf.courseForecast[ci].days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd")
+          weatherData.golf.courseForecast[ci].days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd").replaceAll("Thundershowers","T'showers")
           weatherData.golf.courseForecast[ci].days[i].dayname = data.dayOfWeek[ii].substring(0,3).toUpperCase()
           weatherData.golf.courseForecast[ci].days[i].high = data.temperatureMax[ii]
           weatherData.golf.courseForecast[ci].days[i].icon = data.daypart[0].iconCode[dpi]
@@ -1039,7 +1048,7 @@ function grabGolfData() {
         dpi = 2
       }
       for (var i = 0; i < weatherData.golf.resortForecast[ci].days.length; i++, ii++, dpi = dpi + 2) {
-        weatherData.golf.resortForecast[ri].days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd")
+        weatherData.golf.resortForecast[ri].days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd").replaceAll("Thundershowers","T'showers")
         weatherData.golf.resortForecast[ri].days[i].dayname = data.dayOfWeek[ii].substring(0,3).toUpperCase()
         weatherData.golf.resortForecast[ri].days[i].high = data.temperatureMax[ii]
         weatherData.golf.resortForecast[ri].days[i].icon = data.daypart[0].iconCode[dpi]
@@ -1244,7 +1253,7 @@ function grabExtraData() {
           dpi = 2
         }
         for (var i = 0; i < weatherData.extraLocal.extendedForecast.days.length; i++, ii++, dpi = dpi + 2) {
-          weatherData.extraLocal.extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd")
+          weatherData.extraLocal.extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi].replaceAll("/", "/ ").replaceAll("Thunderstorms", "T'storms").replaceAll("Scattered", "Sct'd").replaceAll("Thundershowers","T'showers")
           weatherData.extraLocal.extendedForecast.days[i].dayname = data.dayOfWeek[ii].substring(0,3).toUpperCase()
           weatherData.extraLocal.extendedForecast.days[i].high = data.temperatureMax[ii]
           weatherData.extraLocal.extendedForecast.days[i].icon = data.daypart[0].iconCode[dpi]
@@ -1292,19 +1301,21 @@ function allData() {
   grabHealthData()
   grabExtraData()
   setTimeout(() => {
-    initializeRadar(locradar)
-    initializeRadar(satradar)
-    initializeRadar(regradar)
+    //initializeRadar(locradar)
+    //initializeRadar(satradar)
+    //initializeRadar(regradar)
+    console.log(weatherData)
   }, 5000);
 }
 function startPrograms() {
   slideKickOff();
   setTimeout(() => {
     crawlCheck()
-  }, 500);/*
-  initializeRadar(locradar)
-  initializeRadar(satradar)
-  initializeRadar(regradar)*/
+    crawlKickOff()
+    initializeRadar(locradar)
+    initializeRadar(satradar)
+    initializeRadar(regradar)
+  }, 1000);
   $('#main').fadeIn(0);
   setTimeout(() => {
     $('#startup').fadeOut(0);
@@ -1328,11 +1339,11 @@ setInterval(
 setTimeout(function() {
   startPrograms()
   createMaps()
- setTimeout(() => {
-  locradar.setCenter([locationConfig.radar.localCoords.lon, locationConfig.radar.localCoords.lat]);
-  regradar.setCenter([locationConfig.radar.regionalCoords.lon, locationConfig.radar.regionalCoords.lat]);
-  satradar.setCenter([locationConfig.radar.regionalCoords.lon, locationConfig.radar.regionalCoords.lat]);
- }, 500);
+  setTimeout(() => {
+    locradar.setCenter([locationConfig.radar.localCoords.lon, locationConfig.radar.localCoords.lat]);
+    regradar.setCenter([locationConfig.radar.regionalCoords.lon, locationConfig.radar.regionalCoords.lat]);
+    satradar.setCenter([locationConfig.radar.regionalCoords.lon, locationConfig.radar.regionalCoords.lat]);
+  }, 500);
   audioPlayer.startPlaying(audioPlayer.playlist, true);
 }, apperanceSettings.startupTime)
 }

@@ -1,5 +1,5 @@
-var api_key = "";
-var map_key = "";
+var api_key = "e1f10a1e78da46f5b10a1e78da96f525";
+var map_key = "pk.eyJ1Ijoid2VhdGhlciIsImEiOiJjaW4wbzllcjkwYWtrd2JsdWl3dG1hZjZ1In0.AdcjoWQiVfvjHfOB0nsyeQ";
 
 var apperanceSettings = {
   providerName: "Mist Digital Cable",
@@ -10,9 +10,8 @@ var apperanceSettings = {
   adMessage: ["If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!", "Want to watch Weatherscan and more from around the US? Visit live.weatherscan.net and search through the guide today!", "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.", "Now Available! Get picture perfect weather with The Weather Channel HD.",],
   aspectRatio: 4/3, //3/2 or 4/3
   crawlInterval: 48000,
-  version: "1.0",
+  version: "1.11",
 };
-
 var slideSettings = {//Don't change this
   order: [
     {slideLineup: [
