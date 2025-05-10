@@ -77,6 +77,18 @@
       <div id="setup-welcome" style="display: none">
         <button class="proceed-button button" onclick="welcomefuncs('proceed')"></button>
         <button class="skipall-button button" onclick="welcomefuncs('skipall')"></button>
+        <button class="uploadjson-button button" onclick="welcomefuncs('json')">JSON</button>
+      </div>
+      <div id="setup-jsonconfig" style="display: none;">
+        <div class="jsontexts">Don't have a valid JSON configuration file? Download a template here and edit the contents!</div>
+        <button type="button" id="templateDownload" class="button" onclick="downloadTempJson()">Download Template</button>
+        <div class="upload-container">
+          <input type="file" id="fileInput" name="file">
+          <button type="button" id="uploadButton" onclick="jsonFuncs()">Upload JSON file</button>
+        </div>
+        <div class="json-warning" style="display: none">
+          ERROR: Please insert a valid JSON file.
+        </div>
       </div>
       <div id="setup-mainloc" style="display: none">
         <div class="setup-list"></div>
@@ -328,6 +340,7 @@
       </div>
       <div id="setup-thankyou" style="display: none">
         <button class="start-button button" onclick="startButton()"></button>
+        <button class="jsonsave-button button" onclick="jsonsaveButton()">Save Config</button>
       </div>
     </div>
     <div id="startup" style="display: none">
