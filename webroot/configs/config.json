@@ -16,42 +16,42 @@
             "autofind":false,
             "cities":[
                 {
-                    "displanyame":"Allentown",
+                    "displayname":"Allentown",
                     "type":"geocode",
                     "val":"40.6023,-75.4714"
                 },
                 {
-                    "displanyame":"Atlantic City",
+                    "displayname":"Atlantic City",
                     "type":"geocode",
                     "val":"39.3637,-74.4291"
                 },
                 {
-                    "displanyame":"Middletown",
+                    "displayname":"Middletown",
                     "type":"geocode",
                     "val":"40.3937,-74.1023"
                 },
                 {
-                    "displanyame":"N. Phila. Arpt.",
+                    "displayname":"N. Phila. Arpt.",
                     "type":"geocode",
                     "val":"40.0781,-75.0098"
                 },
                 {
-                    "displanyame":"Philadelphia",
+                    "displayname":"Philadelphia",
                     "type":"geocode",
                     "val":"39.9526,-75.1652"
                 },
                 {
-                    "displanyame":"Trenton",
+                    "displayname":"Trenton",
                     "type":"geocode",
                     "val":"40.2202,-74.7642"
                 },
                 {
-                    "displanyame":"Willow Grove",
+                    "displayname":"Willow Grove",
                     "type":"geocode",
                     "val":"40.1440,-75.1157"
                 },
                 {
-                    "displanyame":"Wilmington",
+                    "displayname":"Wilmington",
                     "type":"geocode",
                     "val":"39.7447,-75.5484"
                 }
