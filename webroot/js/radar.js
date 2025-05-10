@@ -308,7 +308,13 @@ async function startRadar(map) {
 
 //maybe use this later?
 function stopRadar() {
-  //var timestamps = map === locradar ? loctimestamps : map === regradar ? regtimestamps : sattimestamps; //map is not defined, very smart move there jenson
-  timestamps = [];
-  clearInterval(radarAnimation);
+  for(var i = 0; i < loctimestamps.length; i++){
+    locradar.removeLayer("radarlayer_" + loctimestamps[i]);
+  }  
+  for(var j = 0; j < regtimestamps.length; j++){
+    regradar.removeLayer("radarlayer_" + regtimestamps[j]);
+  }  
+  for(var k = 0; k < sattimestamps.length; k++){
+    satradar.removeLayer("radarlayer_" + sattimestamps[k]);
+  }
 }
