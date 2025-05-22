@@ -265,7 +265,7 @@ button {
   width: 510px;
   top: 54%;
   left: 11%;
-  opacity: 0;
+  transition: background-color 0.2s ease-in-out;
 }
 #setup-welcome .skipall-button {
   position: absolute;
@@ -273,7 +273,7 @@ button {
   width: 670px;
   top: 64%;
   left: 11%;
-  opacity: 0;
+  transition: background-color 0.2s ease-in-out;
 }
 #setup-welcome .uploadjson-button {
   position: absolute;
@@ -281,7 +281,19 @@ button {
   width: 670px;
   top: 74%;
   left: 11%;
+  transition: background-color 0.2s ease-in-out;
 }
+/* Setup menu button hover effects */
+#setup-welcome .proceed-button:hover {
+  background-color: #ddc879;
+}
+#setup-welcome .skipall-button:hover {
+  background-color: #ddc879;
+}
+#setup-welcome .uploadjson-button:hover {
+  background-color: #ddc879;
+}
+
 .setup-list {
   position: absolute;
   width: 1620px;
