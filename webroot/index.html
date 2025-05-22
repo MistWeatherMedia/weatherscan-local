@@ -303,43 +303,43 @@
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Berthold Akzidenz Grotesk BE Bold.otf"
+      href="realfonts/Berthold Akzidenz Grotesk BE Bold.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Berthold Akzidenz Grotesk BE Extended.otf"
+      href="realfonts/Berthold Akzidenz Grotesk BE Extended.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Berthold Akzidenz Grotesk BE Medium Condensed.otf"
+      href="realfonts/Berthold Akzidenz Grotesk BE Medium Condensed.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Berthold Akzidenz Grotesk BE Medium Extended.otf"
+      href="realfonts/Berthold Akzidenz Grotesk BE Medium Extended.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Berthold Akzidenz Grotesk BE Regular.otf"
+      href="realfonts/Berthold Akzidenz Grotesk BE Regular.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/HelveticaNeueLT-BoldCond.otf"
+      href="realfonts/HelveticaNeueLT-BoldCond.otf"
     />
     <link
       rel="preload"
       as="font"
       crossorigin="anonymous"
-      href="fonts/Univers Ultra Condensed.otf"
+      href="realfonts/Univers Ultra Condensed.otf"
     />
 
     <meta charset="utf-8" />
@@ -404,8 +404,10 @@
         </div>
         <select name="mainloc-types" id="mainloc-dropdown" class="dropdown">
           <option value="geocode">Lat,Lon</option>
+          <option value="geocode">Lat,Lon</option>
           <option value="postalKey">ZIP Code</option>
           <option value="iataCode">IATA Code</option>
+          <option value="icaoCode">ICAO Code</option>
           <option value="icaoCode">ICAO Code</option>
         </select>
         <div class="location-warning" style="display: none">
@@ -447,18 +449,21 @@
         </div>
         <select name="extraloc-types" id="extraloc-dropdown" class="dropdown">
           <option value="geocode">Lat,Lon</option>
+          <option value="geocode">Lat,Lon</option>
           <option value="postalKey">ZIP Code</option>
           <option value="iataCode">IATA Code</option>
           <option value="icaoCode">ICAO Code</option>
+          <option value="icaoCode">ICAO Code</option>
         </select>
         <div class="location-warning" style="display: none">
-          ERROR: Enter in a value for the location or click automatic.
+          ERROR: Enter in a value for the location or click automatic. ERROR:
+          Enter in a value for the location or click automatic.
         </div>
         <input
           type="text"
           id="extraloc-data"
           class="input"
-          placeholder="Enter value here..."
+          placeholder="(Ex: 33.7682, -84.4111)"
         />
         <input
           type="text"
@@ -498,15 +503,17 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            ERROR: Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic. ERROR:
+            Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-one"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -538,15 +545,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-two"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -572,15 +580,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-three"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -606,15 +615,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-four"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -640,15 +650,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-five"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -674,15 +685,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-six"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -708,15 +720,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-seven"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -742,15 +755,16 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="nearbylocs-data-eight"
             class="input"
-            placeholder="Enter value here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -844,15 +858,17 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            ERROR: Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic. ERROR:
+            Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="courses-data-one"
             class="input"
-            placeholder="Enter value code here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -884,15 +900,17 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            ERROR: Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic. ERROR:
+            Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="courses-data-two"
             class="input"
-            placeholder="Enter value code here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"
@@ -918,15 +936,17 @@
             <option value="postalKey">ZIP Code</option>
             <option value="iataCode">IATA Code</option>
             <option value="icaoCode">ICAO Code</option>
+            <option value="icaoCode">ICAO Code</option>
           </select>
           <div class="location-warning" style="display: none">
-            ERROR: Enter in a value for the location or click automatic.
+            ERROR: Enter in a value for the location or click automatic. ERROR:
+            Enter in a value for the location or click automatic.
           </div>
           <input
             type="text"
             id="courses-data-three"
             class="input"
-            placeholder="Enter value code here..."
+            placeholder="(Ex: 33.7682, -84.4111)"
           />
           <input
             type="text"

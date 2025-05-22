@@ -131,8 +131,10 @@ function startButton() {
   pause = true;
   locationJS();
   setTimeout(() => {
-    console.log(locationSettings)
-    console.log(locationConfig)
+    console.log(locationSettings);
+    console.log(locationConfig);
+    console.log(locationSettings);
+    console.log(locationConfig);
     dataJS();
     //createMaps();
   }, 1000);
@@ -154,19 +156,12 @@ function unpauseButton() {
     dataJS();
     createMaps();
   }, 1000);
-  setTimeout(() =>{
+  setTimeout(() => {
     audioPlayer.resumePlaying();
   }, apperanceSettings.startupTime);
   $("#startup").fadeIn(0);
   //reset pages
   $("#settingspanel").fadeOut(0);
-  settingsopen = false;
-  slideCallBack = function () {
-    $("#provider").css("margin-left", "0px");
-    $("#provider").css("margin-top", "0px");
-    idx++;
-    showSlides();
-  };
 }
 if (apperanceSettings.skipSettings == true) {
   settingsopen = false;
@@ -188,7 +183,7 @@ if (apperanceSettings.skipSettings == true) {
   }, 1000);
 } else {
   setTimeout(() => {
-    $("#version-number").text("Version " + apperanceSettings.version)
+    $("#version-number").text("Version " + apperanceSettings.version);
     $("#setup-welcome").fadeIn(0);
   }, 1000);
 }
@@ -268,7 +263,9 @@ function mainlocfuncs(type) {
     locationSettings.mainCity.displayname = document.getElementById(
       "mainloc-displayname"
     ).value;
-    document.cookie = `mainCityDisplayName=${locationSettings.mainCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `mainCityDisplayName=${locationSettings.mainCity.displayname
+      .replace(" ", "%20")
+      .replace(" ", "%20")}`;
     locationSettings.mainCity.type =
       document.getElementById("mainloc-dropdown").value;
     document.cookie = `mainCitySearchType=${locationSettings.mainCity.type}`;
@@ -295,7 +292,9 @@ function extralocfuncs(type) {
     locationSettings.extraCity.displayname = document.getElementById(
       "extraloc-displayname"
     ).value;
-    document.cookie = `extraCityDisplayName=${locationSettings.extraCity.displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `extraCityDisplayName=${locationSettings.extraCity.displayname
+      .replace(" ", "%20")
+      .replace(" ", "%20")}`;
     locationSettings.extraCity.type =
       document.getElementById("extraloc-dropdown").value;
     document.cookie = `extraCitySearchType=${locationSettings.extraCity.type}`;
@@ -341,7 +340,11 @@ function nearbylocsfuncs(type, page) {
     document.cookie = "eightCitiesAutoFind=false";
     locationSettings.eightCities.cities[page].displayname =
       document.getElementById("nearbylocs-displayname-" + pageinds[page]).value;
-    document.cookie = `eightCitySlide${pageinds[page]}Name=${locationSettings.eightCities.cities[page].displayname.replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `eightCitySlide${
+      pageinds[page]
+    }Name=${locationSettings.eightCities.cities[page].displayname
+      .replace(" ", "%20")
+      .replace(" ", "%20")}`;
     locationSettings.eightCities.cities[page].type = document.getElementById(
       "nearbylocs-dropdown-" + pageinds[page]
     ).value;
@@ -380,7 +383,13 @@ function airportlocsfuncs(type, page) {
     document.cookie = "airportAutoFind=false";
     locationSettings.airport.airports[page].displayname =
       document.getElementById("airports-displayname-" + pageinds[page]).value;
-    document.cookie = `airportSlide${pageinds[page]}Name=${locationSettings.airport.airports[page].displayname.replace(" ", "%20").replace(" ", "%20").replace(" ", "%20").replace(" ", "%20")}`;
+    document.cookie = `airportSlide${
+      pageinds[page]
+    }Name=${locationSettings.airport.airports[page].displayname
+      .replace(" ", "%20")
+      .replace(" ", "%20")
+      .replace(" ", "%20")
+      .replace(" ", "%20")}`;
     locationSettings.airport.airports[page].iataCode = document.getElementById(
       "airports-data-" + pageinds[page]
     ).value;
@@ -474,7 +483,9 @@ function packagesfunc(type) {
         slideSettings.order[0].slideLineup.push(
           packbinds[document.getElementById("package-list-" + inds[i]).value]
         );
-        document.cookie = `package${packageCookieIndex[i]}=${document.getElementById("package-list-" + inds[i]).value.toString()}`;
+        document.cookie = `package${packageCookieIndex[i]}=${document
+          .getElementById("package-list-" + inds[i])
+          .value.toString()}`;
       } else {
         document.cookie = `package${packageCookieIndex[i]}=false`;
       }
@@ -484,6 +495,7 @@ function packagesfunc(type) {
       return;
     }
     $("#setup-packages").fadeOut(0);
+    $("#setup-thankyou").fadeIn(0);
     $("#setup-thankyou").fadeIn(0);
   }
 }

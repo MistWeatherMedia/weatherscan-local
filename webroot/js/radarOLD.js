@@ -16,111 +16,6 @@ var locradar,
 mapboxgl.accessToken = map_key;
 
 function createMaps() {
-  locradar = new mapboxgl.Map({
-    container: "locradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
-    zoom: 7,
-    center: [0,0],
-  });
-
-  locradar.on("style.load", () => {
-    locradar.setFog({});
-  });
-
-  regradar = new mapboxgl.Map({
-    container: "regradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
-    zoom: 5.4,
-    center: [0,0],
-  });
-
-  regradar.on("style.load", () => {
-    regradar.setFog({});
-  });
-
-  satradar = new mapboxgl.Map({
-    container: "satradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
-    zoom: 5.4,
-    center: [0,0],
-  });
-
-  satradar.on("style.load", () => {
-    satradar.setFog({});
-  });
 }
 
 async function fetchRadarTimestamps(map, frameCount) {
@@ -308,13 +203,7 @@ async function startRadar(map) {
 
 //maybe use this later?
 function stopRadar() {
-  for(var i = 0; i < loctimestamps.length; i++){
-    locradar.removeLayer("radarlayer_" + loctimestamps[i]);
-  }  
-  for(var j = 0; j < regtimestamps.length; j++){
-    regradar.removeLayer("radarlayer_" + regtimestamps[j]);
-  }  
-  for(var k = 0; k < sattimestamps.length; k++){
-    satradar.removeLayer("radarlayer_" + sattimestamps[k]);
-  }
+  //var timestamps = map === locradar ? loctimestamps : map === regradar ? regtimestamps : sattimestamps; //map is not defined, very smart move there jenson
+  timestamps = [];
+  clearInterval(radarAnimation);
 }
