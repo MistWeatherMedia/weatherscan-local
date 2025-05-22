@@ -18,7 +18,7 @@ mapboxgl.accessToken = map_key;
 function createMaps() {
   locradar = new mapboxgl.Map({
     container: "locradar",
-    style: "https://tiles.openfreemap.org/styles/liberty",
+    style: "utilities/nomap.json",
     zoom: 7,
     center: [0, 0],
   });
@@ -29,7 +29,7 @@ function createMaps() {
 
   regradar = new mapboxgl.Map({
     container: "regradar",
-    style: "https://tiles.openfreemap.org/styles/liberty",
+    style: "utilities/nomap.json",
     zoom: 5.4,
     center: [0, 0],
   });
@@ -40,7 +40,7 @@ function createMaps() {
 
   satradar = new mapboxgl.Map({
     container: "satradar",
-    style: "https://tiles.openfreemap.org/styles/liberty",
+    style: "utilities/nomap.json",
     zoom: 5.4,
     center: [0, 0],
   });
