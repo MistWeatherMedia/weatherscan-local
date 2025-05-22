@@ -18,34 +18,9 @@ mapboxgl.accessToken = map_key;
 function createMaps() {
   locradar = new mapboxgl.Map({
     container: "locradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
+    style: "https://tiles.openfreemap.org/styles/liberty",
     zoom: 7,
-    center: [0,0],
+    center: [0, 0],
   });
 
   locradar.on("style.load", () => {
@@ -54,33 +29,9 @@ function createMaps() {
 
   regradar = new mapboxgl.Map({
     container: "regradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
+    style: "https://tiles.openfreemap.org/styles/liberty",
     zoom: 5.4,
-    center: [0,0],
+    center: [0, 0],
   });
 
   regradar.on("style.load", () => {
@@ -89,33 +40,9 @@ function createMaps() {
 
   satradar = new mapboxgl.Map({
     container: "satradar",
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
+    style: "https://tiles.openfreemap.org/styles/liberty",
     zoom: 5.4,
-    center: [0,0],
+    center: [0, 0],
   });
 
   satradar.on("style.load", () => {
@@ -210,10 +137,10 @@ function animateRadar(map, timestamps) {
 
   if (validLayers.length === 0) {
     console.error("No radar layers available for animation.");
-    weatherData.radarUnavailable = true
+    weatherData.radarUnavailable = true;
     return;
   } else {
-    weatherData.radarUnavailable = false
+    weatherData.radarUnavailable = false;
   }
 
   const setLayerVisibility = (layerId, visibility) => {
@@ -290,7 +217,7 @@ async function startRadar(map) {
       : map === regradar
       ? regtimestamps
       : sattimestamps;
-  cleanupOldRadarLayers(map, timestamps)
+  cleanupOldRadarLayers(map, timestamps);
   clearInterval(radarAnimation);
   // timestamps = await fetchRadarTimestamps(map)
   // await addRadarLayers(map, timestamps)
@@ -308,13 +235,13 @@ async function startRadar(map) {
 
 //maybe use this later?
 function stopRadar() {
-  for(var i = 0; i < loctimestamps.length; i++){
+  for (var i = 0; i < loctimestamps.length; i++) {
     locradar.removeLayer("radarlayer_" + loctimestamps[i]);
-  }  
-  for(var j = 0; j < regtimestamps.length; j++){
+  }
+  for (var j = 0; j < regtimestamps.length; j++) {
     regradar.removeLayer("radarlayer_" + regtimestamps[j]);
-  }  
-  for(var k = 0; k < sattimestamps.length; k++){
+  }
+  for (var k = 0; k < sattimestamps.length; k++) {
     satradar.removeLayer("radarlayer_" + sattimestamps[k]);
   }
 }
