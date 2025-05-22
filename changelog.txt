@@ -1,4 +1,11 @@
 Make sure to report any bugs or issues in the Issues tab!
+<<<<<<< HEAD
+=======
+= May 22, 2025 | VERSION 1.21 =
+ -  Foxed a missing image
+= May 21, 2025 | VERSION 1.2 =
+ -  Added a new settings feature where you can use JSON files to set up locations
+>>>>>>> 13f6e70 (Update changelog.txt)
 = May 5, 2025 | VERSION 1.11 =
  -  Fixed the rest of the radar cutting off half of the screen
 = May 4, 2025 | VERSION 1.1 =

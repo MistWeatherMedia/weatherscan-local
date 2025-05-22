@@ -1,5 +1,5 @@
 if (window.Worker) {
-  function grabCurrentConditions() {
+  function grabCurrentConditions(lat, lon, unit, name) {
     let currentConditions = {};
     let url =
       "https://api.weather.com/v3/wx/observations/current?geocode=" +
@@ -30,7 +30,7 @@ if (window.Worker) {
         currentConditions.windspeed = data.windSpeed;
         currentConditions.noReport = false;
       } catch (error) {
-        currentConditions.cityname = locationConfig.mainCity.displayname;
+        currentConditions.cityname = name;
         currentConditions.cond = "";
         currentConditions.gusts = "";
         currentConditions.humidity = "";
@@ -42,7 +42,7 @@ if (window.Worker) {
         currentConditions.noReport = true;
       }
     }).fail(function () {
-      currentConditions.cityname = locationConfig.mainCity.displayname;
+      currentConditions.cityname = name;
       currentConditions.cond = "";
       currentConditions.gusts = "";
       currentConditions.humidity = "";
@@ -58,16 +58,16 @@ if (window.Worker) {
   }
 
   function grabNearbyConditions(cities, unit, key) {
-    nearbyCities = [];
-    var url =
+    let nearbyCities = [];
+    let url =
       "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
-    for (var li = 0; li < cities.citiesAmount; li++) {
+    for (let li = 0; li < cities.citiesAmount; li++) {
       url += cities.cities[li].lat + "," + cities.cities[li].lon + ";";
     }
     url += "&language=en-US&units=" + unit + "&format=json&apiKey=" + key;
     $.getJSON(url, function (data) {
       data.forEach((ajaxedLoc, i) => {
-        var nearbyCitiesObj = {
+        let nearbyCitiesObj = {
           noReport: false,
           cityname: "",
           temp: "",
@@ -83,8 +83,7 @@ if (window.Worker) {
             ajaxedLoc != " "
           ) {
             nearbyCitiesObj.noReport = false;
-            nearbyCitiesObj.cityname =
-              locationConfig.eightCities.cities[i].displayname;
+            nearbyCitiesObj.cityname = cities.cities[i].displayname;
             nearbyCitiesObj.icon =
               ajaxedLoc["v3-wx-observations-current"].iconCode;
             nearbyCitiesObj.temp =
@@ -102,8 +101,7 @@ if (window.Worker) {
             nearbyCities.cities.push(nearbyCitiesObj);
           } else {
             nearbyCitiesObj.noReport = true;
-            nearbyCitiesObj.cityname =
-              locationConfig.eightCities.cities[i].displayname;
+            nearbyCitiesObj.cityname = cities.cities[i].displayname;
             nearbyCitiesObj.icon = 44;
             nearbyCitiesObj.temp = "";
             nearbyCitiesObj.wind = "";
@@ -112,8 +110,7 @@ if (window.Worker) {
           }
         } catch (error) {
           nearbyCitiesObj.noReport = true;
-          nearbyCitiesObj.cityname =
-            locationConfig.eightCities.cities[i].displayname;
+          nearbyCitiesObj.cityname = cities.cities[i].displayname;
           nearbyCitiesObj.icon = 44;
           nearbyCitiesObj.temp = "";
           nearbyCitiesObj.wind = "";
@@ -121,11 +118,11 @@ if (window.Worker) {
           nearbyCities.cities.push(nearbyCitiesObj);
         }
       });
-      //console.log(weatherData.nearbyCities.cities)
+      //console.log(nearbyCities.cities)
       // console.log("nearby conditions grabbed")
     }).fail(function (error) {
-      for (var i; i < locationConfig.eightCities.citiesAmount; i++) {
-        var nearbyCitiesObj = {
+      for (let i; i < cities.citiesAmount; i++) {
+        let nearbyCitiesObj = {
           noReport: false,
           cityname: "",
           temp: "",
@@ -134,166 +131,170 @@ if (window.Worker) {
           windspeed: "",
         };
         nearbyCitiesObj.noReport = true;
-        nearbyCitiesObj.cityname =
-          locationConfig.eightCities.cities[i].displayname;
+        nearbyCitiesObj.cityname = cities.cities[i].displayname;
         nearbyCitiesObj.icon = 44;
         nearbyCitiesObj.temp = "";
         nearbyCitiesObj.wind = "";
         nearbyCitiesObj.windspeed = "";
         nearbyCities.cities.push(nearbyCitiesObj);
       }
-      //console.log(weatherData.nearbyCities.cities)
+      //console.log(nearbyCities.cities)
       //console.log("nearby conditions grab failed")
       //console.log(error)
     });
+    return nearbyCities;
   }
 
-  function grabDayDesc() {
-    var url =
+  function grabDayDesc(lat, lon, unit, key, name) {
+    let dayDesc = {};
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&format=json&units=e&language=en-US&apiKey=" +
-      api_key;
+      lon +
+      "&format=json&units=" +
+      unit +
+      "&language=en-US&apiKey=" +
+      key;
     $.getJSON(url, function (data) {
-      var ii = 0;
+      let ii = 0;
       try {
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
         }
-        weatherData.dayDesc.cityname = locationConfig.mainCity.displayname;
-        weatherData.dayDesc.noReport = false;
-        for (var i = 0; i < weatherData.dayDesc.times.length; i++, ii++) {
-          weatherData.dayDesc.times[i].timetitle =
-            data.daypart[0].daypartName[ii];
-          weatherData.dayDesc.times[i].forecast = data.daypart[0].narrative[ii];
+        dayDesc.cityname = name;
+        dayDesc.noReport = false;
+        for (let i = 0; i < dayDesc.times.length; i++, ii++) {
+          dayDesc.times[i].timetitle = data.daypart[0].daypartName[ii];
+          dayDesc.times[i].forecast = data.daypart[0].narrative[ii];
         }
-        //console.log(weatherData.dayDesc)
+        //console.log(dayDesc)
         //console.log("day descriptions grabbed")
       } catch (error) {
-        weatherData.dayDesc.cityname = locationConfig.mainCity.displayname;
-        weatherData.dayDesc.noReport = true;
-        for (var i = 0; i < weatherData.dayDesc.times.length; i++, ii++) {
-          weatherData.dayDesc.times[i].timetitle = "";
-          weatherData.dayDesc.times[i].forecast = "";
+        dayDesc.cityname = name;
+        dayDesc.noReport = true;
+        for (let i = 0; i < dayDesc.times.length; i++, ii++) {
+          dayDesc.times[i].timetitle = "";
+          dayDesc.times[i].forecast = "";
         }
-        //console.log(weatherData.dayDesc)
+        //console.log(dayDesc)
         //console.log("day descriptions grabs failed")
       }
     }).fail(function () {
-      weatherData.dayDesc.cityname = locationConfig.mainCity.displayname;
-      weatherData.dayDesc.noReport = true;
-      for (var i = 0; i < weatherData.dayDesc.times.length; i++) {
-        weatherData.dayDesc.times[i].timetitle = "";
-        weatherData.dayDesc.times[i].forecast = "";
+      dayDesc.cityname = name;
+      dayDesc.noReport = true;
+      for (let i = 0; i < dayDesc.times.length; i++) {
+        dayDesc.times[i].timetitle = "";
+        dayDesc.times[i].forecast = "";
       }
-      //console.log(weatherData.dayDesc)
+      //console.log(dayDesc)
       //console.log("day description grabs failed")
     });
+    return dayDesc;
   }
 
-  function grabExtended() {
-    var url =
+  function grabExtended(lat, lon, units, key, name) {
+    let extendedForecast = {};
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&format=json&units=e&language=en-US&apiKey=" +
-      api_key;
+      lon +
+      "&format=json&units=" +
+      units +
+      "&language=en-US&apiKey=" +
+      key;
     $.getJSON(url, function (data) {
-      var daysDivs = ["one", "two", "three", "four", "five"];
+      let daysDivs = ["one", "two", "three", "four", "five"];
       try {
-        weatherData.extendedForecast.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.extendedForecast.noReport = false;
-        var ii = 0;
-        var dpi = 0;
+        extendedForecast.cityname = name;
+        extendedForecast.noReport = false;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.extendedForecast.days.length;
+          let i = 0;
+          i < extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.extendedForecast.days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll("/", "/ ")
-              .replaceAll("Thunderstorms", "T'storms")
-              .replaceAll("Scattered", "Sct'd")
-              .replaceAll("Thundershowers", "T'showers");
-          weatherData.extendedForecast.days[i].dayname = data.dayOfWeek[ii]
+          extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi]
+            .replaceAll("/", "/ ")
+            .replaceAll("Thunderstorms", "T'storms")
+            .replaceAll("Scattered", "Sct'd")
+            .replaceAll("Thundershowers", "T'showers");
+          extendedForecast.days[i].dayname = data.dayOfWeek[ii]
             .substring(0, 3)
             .toUpperCase();
-          weatherData.extendedForecast.days[i].high = data.temperatureMax[ii];
-          weatherData.extendedForecast.days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          weatherData.extendedForecast.days[i].low = data.temperatureMin[ii];
-          weatherData.extendedForecast.days[i].windspeed =
-            data.daypart[0].windSpeed[dpi];
+          extendedForecast.days[i].high = data.temperatureMax[ii];
+          extendedForecast.days[i].icon = data.daypart[0].iconCode[dpi];
+          extendedForecast.days[i].low = data.temperatureMin[ii];
+          extendedForecast.days[i].windspeed = data.daypart[0].windSpeed[dpi];
         }
-        //console.log(weatherData.extendedForecast)
+        //console.log(extendedForecast)
         //console.log("extended forecast grabbed")
       } catch (error) {
-        weatherData.extendedForecast.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.extendedForecast.noReport = true;
-        var ii = 0;
-        var dpi = 0;
+        extendedForecast.cityname = name;
+        extendedForecast.noReport = true;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.extendedForecast.days.length;
+          let i = 0;
+          i < extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.extendedForecast.days[i].cond = "";
-          weatherData.extendedForecast.days[i].dayname = "";
-          weatherData.extendedForecast.days[i].high = "";
-          weatherData.extendedForecast.days[i].icon = 44;
-          weatherData.extendedForecast.days[i].low = "";
-          weatherData.extendedForecast.days[i].windspeed = "";
+          extendedForecast.days[i].cond = "";
+          extendedForecast.days[i].dayname = "";
+          extendedForecast.days[i].high = "";
+          extendedForecast.days[i].icon = 44;
+          extendedForecast.days[i].low = "";
+          extendedForecast.days[i].windspeed = "";
         }
-        //console.log(weatherData.extendedForecast)
+        //console.log(extendedForecast)
         //console.log("extended forecast grab failed")
       }
     }).fail(function () {
-      weatherData.extendedForecast.cityname =
-        locationConfig.mainCity.displayname;
-      weatherData.extendedForecast.noReport = true;
-      for (var i = 0; i < weatherData.extendedForecast.days.length; i++) {
-        weatherData.extendedForecast.days[i].cond = "";
-        weatherData.extendedForecast.days[i].dayname = "";
-        weatherData.extendedForecast.days[i].high = "";
-        weatherData.extendedForecast.days[i].icon = "";
-        weatherData.extendedForecast.days[i].low = "";
-        weatherData.extendedForecast.days[i].windspeed = "";
+      extendedForecast.cityname = name;
+      extendedForecast.noReport = true;
+      for (let i = 0; i < extendedForecast.days.length; i++) {
+        extendedForecast.days[i].cond = "";
+        extendedForecast.days[i].dayname = "";
+        extendedForecast.days[i].high = "";
+        extendedForecast.days[i].icon = "";
+        extendedForecast.days[i].low = "";
+        extendedForecast.days[i].windspeed = "";
       }
-      //console.log(weatherData.extendedForecast)
+      //console.log(extendedForecast)
       //console.log("extended forecast grab failed")
     });
+    return extendedForecast;
   }
 
-  function grabAlmanac() {
-    var url =
+  function grabAlmanac(lat, lon, units, key) {
+    let almanac = {};
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&format=json&units=e&language=en-US&apiKey=" +
-      api_key;
+      lon +
+      "&format=json&units=" +
+      units +
+      "&language=en-US&apiKey=" +
+      key;
     $.getJSON(url, function (data) {
-      var ii = 0;
+      let ii = 0;
       if (data.daypart[0].daypartName[0] == null) {
         ii = 1;
       }
-      weatherData.almanac.noReport = false;
-      weatherData.almanac.sunrisetoday = new Date(data.sunriseTimeLocal[ii]);
-      weatherData.almanac.sunrisetoday = weatherData.almanac.sunrisetoday
+      almanac.noReport = false;
+      almanac.sunrisetoday = new Date(data.sunriseTimeLocal[ii]);
+      almanac.sunrisetoday = almanac.sunrisetoday
         .toLocaleTimeString("en-US", {
           hour: "numeric",
           hour12: true,
@@ -302,10 +303,8 @@ if (window.Worker) {
         .replace(/ /g, " ")
         .toLowerCase()
         .replaceAll(".", "");
-      weatherData.almanac.sunrisetomorow = new Date(
-        data.sunriseTimeLocal[ii + 1]
-      );
-      weatherData.almanac.sunrisetomorow = weatherData.almanac.sunrisetomorow
+      almanac.sunrisetomorow = new Date(data.sunriseTimeLocal[ii + 1]);
+      almanac.sunrisetomorow = almanac.sunrisetomorow
         .toLocaleTimeString("en-US", {
           hour: "numeric",
           hour12: true,
@@ -314,8 +313,8 @@ if (window.Worker) {
         .replace(/ /g, " ")
         .toLowerCase()
         .replaceAll(".", "");
-      weatherData.almanac.sunsettoday = new Date(data.sunsetTimeLocal[ii]);
-      weatherData.almanac.sunsettoday = weatherData.almanac.sunsettoday
+      almanac.sunsettoday = new Date(data.sunsetTimeLocal[ii]);
+      almanac.sunsettoday = almanac.sunsettoday
         .toLocaleTimeString("en-US", {
           hour: "numeric",
           hour12: true,
@@ -324,10 +323,8 @@ if (window.Worker) {
         .replace(/ /g, " ")
         .toLowerCase()
         .replaceAll(".", "");
-      weatherData.almanac.sunsettomorrow = new Date(
-        data.sunsetTimeLocal[ii + 1]
-      );
-      weatherData.almanac.sunsettomorrow = weatherData.almanac.sunsettomorrow
+      almanac.sunsettomorrow = new Date(data.sunsetTimeLocal[ii + 1]);
+      almanac.sunsettomorrow = almanac.sunsettomorrow
         .toLocaleTimeString("en-US", {
           hour: "numeric",
           hour12: true,
@@ -336,29 +333,27 @@ if (window.Worker) {
         .replace(/ /g, " ")
         .toLowerCase()
         .replaceAll(".", "");
-      weatherData.almanac.today = data.dayOfWeek[ii]
-        .substring(0, 3)
-        .toUpperCase();
-      weatherData.almanac.tomorrow = data.dayOfWeek[ii + 1]
-        .substring(0, 3)
-        .toUpperCase();
-      //console.log(weatherData.almanac)
+      almanac.today = data.dayOfWeek[ii].substring(0, 3).toUpperCase();
+      almanac.tomorrow = data.dayOfWeek[ii + 1].substring(0, 3).toUpperCase();
+      //console.log(almanac)
       //console.log("almanac grabbed")
     }).fail(function () {
-      weatherData.almanac.noReport = true;
-      weatherData.almanac.sunrisetoday = "";
-      weatherData.almanac.sunrisetomorow = "";
-      weatherData.almanac.sunsettoday = "";
-      weatherData.almanac.sunsettomorrow = "";
-      weatherData.almanac.today = "";
-      weatherData.almanac.tomorrow = "";
-      //console.log(weatherData.almanac)
+      almanac.noReport = true;
+      almanac.sunrisetoday = "";
+      almanac.sunrisetomorow = "";
+      almanac.sunsettoday = "";
+      almanac.sunsettomorrow = "";
+      almanac.today = "";
+      almanac.tomorrow = "";
+      //console.log(almanac)
       //console.log("almanac grab fail")
     });
+    return almanac;
   }
 
   function grabMoons() {
-    var ii = 0;
+    let alamanac = {};
+    let ii = 0;
     try {
       $.getJSON(
         `https://www.icalendar37.net/lunar/api/?lang=en&month=${dateFns.format(
@@ -371,17 +366,17 @@ if (window.Worker) {
               if (phase < new Date().getDate()) {
                 continue;
               }
-              weatherData.almanac.moonphases[ii].moon = {
+              almanac.moonphases[ii].moon = {
                 "New Moon": "New",
                 "First quarter": "First",
                 "Full moon": "Full",
                 "Last quarter": "Last",
               }[data.phase[phase].phaseName];
-              weatherData.almanac.moonphases[ii].date =
+              almanac.moonphases[ii].date =
                 String(data.monthName).slice(0, 3) + " " + phase;
-              weatherData.almanac.moonphases[ii].date =
+              almanac.moonphases[ii].date =
                 phase.toString().length == 1
-                  ? weatherData.almanac.moonphases[ii].date
+                  ? almanac.moonphases[ii].date
                       .replace(" 1", " 01")
                       .replace(" 2", " 02")
                       .replace(" 3", " 03")
@@ -391,16 +386,16 @@ if (window.Worker) {
                       .replace(" 7", " 07")
                       .replace(" 8", " 08")
                       .replace(" 9", " 09")
-                  : weatherData.almanac.moonphases[ii].date;
+                  : almanac.moonphases[ii].date;
               ii += 1;
             }
           }
           //console.log("first moons grabbed")
         }
       ).fail(function () {
-        for (var i = 0; i < 4; i++) {
-          weatherData.almanac.moonphases[i].date = "";
-          weatherData.almanac.moonphases[i].moon = "blank";
+        for (let i = 0; i < 4; i++) {
+          almanac.moonphases[i].date = "";
+          almanac.moonphases[i].moon = "blank";
         }
         //console.log("first moon grab failed")
       });
@@ -413,17 +408,17 @@ if (window.Worker) {
           function (data) {
             for (phase in data.phase) {
               if (data.phase[phase].isPhaseLimit != false) {
-                weatherData.almanac.moonphases[ii].moon = {
+                almanac.moonphases[ii].moon = {
                   "New Moon": "New",
                   "First quarter": "First",
                   "Full moon": "Full",
                   "Last quarter": "Last",
                 }[data.phase[phase].phaseName];
-                weatherData.almanac.moonphases[ii].date =
+                almanac.moonphases[ii].date =
                   String(data.monthName).slice(0, 3) + " " + phase;
-                weatherData.almanac.moonphases[ii].date =
+                almanac.moonphases[ii].date =
                   phase.toString().length == 1
-                    ? weatherData.almanac.moonphases[ii].date
+                    ? almanac.moonphases[ii].date
                         .replace(" 1", " 01")
                         .replace(" 2", " 02")
                         .replace(" 3", " 03")
@@ -433,47 +428,48 @@ if (window.Worker) {
                         .replace(" 7", " 07")
                         .replace(" 8", " 08")
                         .replace(" 9", " 09")
-                    : weatherData.almanac.moonphases[ii].date;
+                    : almanac.moonphases[ii].date;
                 ii += 1;
               }
             }
             //console.log("second moons grabbed")
           }
         ).fail(function () {
-          for (var i = 0; i < 4; i++) {
-            if (weatherData.almanac.moonphases[i].date != "")
-              weatherData.almanac.moonphases[i].date = "";
-            weatherData.almanac.moonphases[i].moon = "blank";
+          for (let i = 0; i < 4; i++) {
+            if (almanac.moonphases[i].date != "")
+              almanac.moonphases[i].date = "";
+            almanac.moonphases[i].moon = "blank";
           }
           //console.log("second moon grab failed")
         });
-        //console.log(weatherData.almanac.moonphases)
+        //console.log(almanac.moonphases)
       }, 500);
     } catch (error) {
-      for (var i = 0; i < 8; i++) {
-        weatherData.almanac.moonphases[i].date = "";
-        weatherData.almanac.moonphases[i].moon = "blank";
+      for (let i = 0; i < 8; i++) {
+        almanac.moonphases[i].date = "";
+        almanac.moonphases[i].moon = "blank";
       }
-      //console.log(weatherData.almanac.moonphases)
+      //console.log(almanac.moonphases)
       //console.log("all moon grabs failed")
     }
+    return alamanac;
   }
 
-  function getWarnings() {
-    var url =
+  function getWarnings(lat, lon, key) {
+    let url =
       "https://api.weather.com/v3/alerts/headlines?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
+      lon +
       "&format=json&language=en-US&apiKey=" +
-      api_key;
+      key;
     $.getJSON(url, function (data) {
-      weatherData.alerts = { warnings: [] };
+      alerts = { warnings: [] };
       try {
         if (data != undefined) {
-          var warnings = [];
-          //weatherData.alerts.alertsAmount = data.alerts.length
-          for (var i = 0; i < data.alerts.length; i++) {
+          let warnings = [];
+          //alerts.alertsAmount = data.alerts.length
+          for (let i = 0; i < data.alerts.length; i++) {
             warnings.push({
               alertNum: i + 1,
               key: data.alerts[i].detailKey,
@@ -492,7 +488,7 @@ if (window.Worker) {
               "https://api.weather.com/v3/alerts/detail?alertId=" +
                 warnings[i].key +
                 "&format=json&language=en-US&apiKey=" +
-                api_key,
+                key,
               function (data) {
                 warnings[i].warningtitle = data.alertDetail.eventDescription;
                 warnings[i].warningdesc = data.alertDetail.texts[0].description;
@@ -506,122 +502,117 @@ if (window.Worker) {
                 warnings[i].headline = data.alertDetail.headlineText;
               }
             );
-            weatherData.alerts.warnings.push(warnings[i]);
+            alerts.warnings.push(warnings[i]);
             //use this to test the sort
             for (ii = 0; ii < data.alerts.length - 1; ii++) {
-              if (warnings[i].warningtitle == weatherData.alerts.warnings[ii]) {
-                weatherData.alerts.warnings.pop();
+              if (warnings[i].warningtitle == alerts.warnings[ii]) {
+                alerts.warnings.pop();
                 continue;
               }
             }
-            weatherData.alerts.alertsAmount =
-              weatherData.alerts.warnings.length;
+            alerts.alertsAmount = alerts.warnings.length;
           }
           setTimeout(() => {
-            if (weatherData.alerts.warnings.length > 1) {
-              weatherData.alerts.warnings.sort(
-                (a, b) => b.severity - a.severity
-              );
+            if (alerts.warnings.length > 1) {
+              alerts.warnings.sort((a, b) => b.severity - a.severity);
             }
-            //var warning1 = {alertNum: 2, key: data.alerts[0].detailKey, warningtitle:"Tornado Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Tornado Warning"), alertType:"", significance:"W", headline:"FUCKED"}
-            //var warning2 = {alertNum: 1, key: data.alerts[0].detailKey, warningtitle:"Severe Thunderstorm Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Severe Thunderstorm Warning"), alertType:"", significance:"W", headline:"FUCKED"}
+            //let warning1 = {alertNum: 2, key: data.alerts[0].detailKey, warningtitle:"Tornado Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Tornado Warning"), alertType:"", significance:"W", headline:"FUCKED"}
+            //let warning2 = {alertNum: 1, key: data.alerts[0].detailKey, warningtitle:"Severe Thunderstorm Warning", warningdesc:"FAKE - wee woo wee woo", severity:sevalertNum("Severe Thunderstorm Warning"), alertType:"", significance:"W", headline:"FUCKED"}
             //qeatherData.alerts.warnings.push(warning1);
-            //weatherData.alerts.warnings.push(warning2);
+            //alerts.warnings.push(warning2);
           }, 500);
-          //console.log(weatherData.alerts)
+          //console.log(alerts)
           //console.log("weather alerts found")
-          //weatherData.alerts.warnings.sort(function(a, b){return a.severity - b.severity});
+          //alerts.warnings.sort(function(a, b){return a.severity - b.severity});
         } else {
-          weatherData.alerts = { warnings: [] };
-          weatherData.alerts.alertsAmount = 0;
-          //console.log(weatherData.alerts)
+          alerts = { warnings: [] };
+          alerts.alertsAmount = 0;
+          //console.log(alerts)
           //console.log("weather alerts grab failed or no alerts detected")
         }
       } catch (error) {
-        weatherData.alerts = { warnings: [] };
-        weatherData.alerts.alertsAmount = 0;
-        //console.log(weatherData.alerts)
+        alerts = { warnings: [] };
+        alerts.alertsAmount = 0;
+        //console.log(alerts)
         //console.log("weather alerts grab failed or no alerts detected")
       }
     }).fail(function () {
-      weatherData.alerts = { warnings: [] };
-      weatherData.alerts.alertsAmount = 0;
-      //console.log(weatherData.alerts)
+      alerts = { warnings: [] };
+      alerts.alertsAmount = 0;
+      //console.log(alerts)
       //console.log("weather alerts grab failed or no alerts detected")
     });
+    return alerts;
   }
 
-  function grabAirportDelays() {
-    weatherData.airportDelayList = [];
+  function grabAirportDelays(airports) {
+    let airportDelayList = [];
     $.getJSON("/airports", function (eventdata) {
       for (const airportevent of eventdata) {
-        var delay = { delayTime: "", iataCode: "" };
+        let delay = { delayTime: "", iataCode: "" };
         if (airportevent.airportClosure != null) {
           delay.delayTime = differenceUTC(airportevent.airportClosure.endTime);
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.arrivalDelay != null) {
           delay.delayTime = formatMinutes(
             airportevent.arrivalDelay.averageDelay
           );
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.departureDelay != null) {
           delay.delayTime = formatMinutes(
             airportevent.departureDelay.averageDelay
           );
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.groundDelay != null) {
           delay.delayTime = formatMinutes(airportevent.groundDelay.avgDelay);
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.groundStop != null) {
           delay.delayTime = differenceUTC(airportevent.groundStop.endTime); //NOT DEFINITIVE
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.deicing != null) {
           delay.delayTime = differenceUTC(airportevent.deicing.endTime);
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else if (airportevent.freeform != null) {
           delay.delayTime = differenceUTC(airportevent.freeform.endTime);
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         } else {
           delay.delayTime = "No Delay";
           delay.iataCode = airportevent.airportId;
-          weatherData.airportDelayList.push(delay);
+          airportDelayList.push(delay);
         }
       }
       //console.log("airport delays grabbed")
     }).fail(function () {
-      for (var i = 0; i < locationConfig.airport.airports.airportsAmount; i++) {
-        var delay = { delayTime: "", iataCode: "" };
+      for (let i = 0; i < airports.airportsAmount; i++) {
+        let delay = { delayTime: "", iataCode: "" };
         delay.delayTime = "No Report";
-        delay.iataCode = locationConfig.airport.airports[i].iataCode;
-        weatherData.airportDelayList.push(delay);
+        delay.iataCode = airports[i].iataCode;
+        airportDelayList.push(delay);
       }
       //console.log("airport delays grab failed")
     });
-    //console.log(weatherData.airportDelayList)
+    //console.log(airportDelayList)
+    return airportDelayList;
   }
 
-  function grabAPConditions() {
-    weatherData.airportConditions.airports = [];
-    var url =
+  function grabAPConditions(lat, lon, units, data, airport) {
+    let airportConditions = [];
+    let url =
       "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
-    for (var li = 0; li < locationConfig.airport.airportsAmount; li++) {
-      url +=
-        locationConfig.airport.airports[li].lat +
-        "," +
-        locationConfig.airport.airports[li].lon +
-        ";";
+    for (let li = 0; li < airport.airportsAmount; li++) {
+      url += airport.airports[li].lat + "," + airport.airports[li].lon + ";";
     }
     url += "&language=en-US&units=e&format=json&apiKey=" + api_key;
     $.getJSON(url, function (data) {
       data.forEach((ajaxedLoc, i) => {
-        var airportsObj = {
+        let airportsObj = {
           noReport: false,
           airportName: "",
           iataCode: "",
@@ -643,9 +634,8 @@ if (window.Worker) {
             ajaxedLoc != " "
           ) {
             airportsObj.noReport = false;
-            airportsObj.airportName =
-              locationConfig.airport.airports[i].displayname;
-            airportsObj.iataCode = locationConfig.airport.airports[i].iataCode;
+            airportsObj.airportName = airport.airports[i].displayname;
+            airportsObj.iataCode = airport.airports[i].iataCode;
             airportsObj.condition =
               ajaxedLoc["v3-wx-observations-current"].wxPhraseLong;
             airportsObj.icon = ajaxedLoc["v3-wx-observations-current"].iconCode;
@@ -670,7 +660,7 @@ if (window.Worker) {
                   ajaxedLoc["v3-wx-observations-current"].windSpeed;
             airportsObj.windspeed =
               ajaxedLoc["v3-wx-observations-current"].windSpeed;
-            for (const delay of weatherData.airportDelayList) {
+            for (const delay of airportDelayList) {
               if (delay.iataCode == airportsObj.iataCode) {
                 airportsObj.delay = delay.delayTime;
               }
@@ -679,11 +669,10 @@ if (window.Worker) {
               airportsObj.delay = "No Delay";
             }
             //console.log("airport conditions grabbed")
-            weatherData.airportConditions.airports.push(airportsObj);
+            airportConditions.airports.push(airportsObj);
           } else {
             airportsObj.noReport = true;
-            airportsObj.airportName =
-              locationConfig.airport.airports[i].displayname;
+            airportsObj.airportName = airport.airports[i].displayname;
             airportsObj.condition = "";
             airportsObj.icon = 44;
             airportsObj.gusts = "";
@@ -694,12 +683,11 @@ if (window.Worker) {
             airportsObj.windspeed = "";
             airportsObj.delay = "No Report";
             //console.log("airport conditions grab failed")
-            weatherData.airportConditions.airports.push(airportsObj);
+            airportConditions.airports.push(airportsObj);
           }
         } catch (error) {
           airportsObj.noReport = true;
-          airportsObj.airportName =
-            locationConfig.airport.airports[i].displayname;
+          airportsObj.airportName = airport.airports[i].displayname;
           airportsObj.condition = "";
           airportsObj.icon = 44;
           airportsObj.gusts = "";
@@ -710,12 +698,12 @@ if (window.Worker) {
           airportsObj.windspeed = "";
           airportsObj.delay = "No Report";
           //console.log("airport conditions grab failed")
-          weatherData.airportConditions.airports.push(airportsObj);
+          airportConditions.airports.push(airportsObj);
         }
       });
     }).fail(function () {
-      for (var i = 0; i < locationConfig.airport.airportsAmount; i++) {
-        var airportsObj = {
+      for (let i = 0; i < airport.airportsAmount; i++) {
+        let airportsObj = {
           noReport: false,
           airportName: "",
           temp: "",
@@ -728,8 +716,7 @@ if (window.Worker) {
           windspeed: "",
         };
         airportsObj.noReport = true;
-        airportsObj.airportName =
-          locationConfig.airport.airports[i].displayname;
+        airportsObj.airportName = airport.airports[i].displayname;
         airportsObj.condition = "";
         airportsObj.icon = 44;
         airportsObj.gusts = "";
@@ -740,164 +727,151 @@ if (window.Worker) {
         airportsObj.windspeed = "";
         airportsObj.delay = "No Report";
         //console.log("airport conditions grab failed")
-        weatherData.airportConditions.airports.push(airportsObj);
+        airportConditions.airports.push(airportsObj);
       }
     });
-    //console.log(weatherData.airportConditions)
+    return airportConditions;
+  }
+  //console.log(airportConditions)
 
-    function grabNationalAP() {
-      var url =
-        "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
-      for (
-        var li = 0;
-        li < weatherData.nationalAirports.airports.length;
-        li++
-      ) {
-        url +=
-          weatherData.nationalAirports.airports[li].lat +
-          "," +
-          weatherData.nationalAirports.airports[li].lon +
-          ";";
-      }
-      url += "&language=en-US&units=e&format=json&apiKey=" + api_key;
-      $.getJSON(url, function (data) {
-        data.forEach((ajaxedLoc, i) => {
-          weatherData.nationalAirports.airports[i].delay = "";
-          try {
-            if (
-              ajaxedLoc != undefined ||
-              ajaxedLoc != null ||
-              ajaxedLoc != "" ||
-              ajaxedLoc != " "
-            ) {
-              weatherData.nationalAirports.airports[i].icon =
-                ajaxedLoc["v3-wx-observations-current"].iconCode;
-              weatherData.nationalAirports.airports[i].temp =
-                ajaxedLoc["v3-wx-observations-current"].temperature;
-              weatherData.nationalAirports.airports[i].windspeed =
-                ajaxedLoc["v3-wx-observations-current"].windSpeed;
-              for (const delay of weatherData.airportDelayList) {
-                if (
-                  delay.iataCode ==
-                  weatherData.nationalAirports.airports[i].iataCode
-                ) {
-                  weatherData.nationalAirports.airports[i].delay =
-                    delay.delayTime;
-                }
+  function grabNationalAP(nationalAirports) {
+    let url =
+      "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
+    for (let li = 0; li < nationalAirports.airports.length; li++) {
+      url +=
+        nationalAirports.airports[li].lat +
+        "," +
+        nationalAirports.airports[li].lon +
+        ";";
+    }
+    url += "&language=en-US&units=e&format=json&apiKey=" + api_key;
+    $.getJSON(url, function (data) {
+      data.forEach((ajaxedLoc, i) => {
+        nationalAirports.airports[i].delay = "";
+        try {
+          if (
+            ajaxedLoc != undefined ||
+            ajaxedLoc != null ||
+            ajaxedLoc != "" ||
+            ajaxedLoc != " "
+          ) {
+            nationalAirports.airports[i].icon =
+              ajaxedLoc["v3-wx-observations-current"].iconCode;
+            nationalAirports.airports[i].temp =
+              ajaxedLoc["v3-wx-observations-current"].temperature;
+            nationalAirports.airports[i].windspeed =
+              ajaxedLoc["v3-wx-observations-current"].windSpeed;
+            for (const delay of airportDelayList) {
+              if (delay.iataCode == nationalAirports.airports[i].iataCode) {
+                nationalAirports.airports[i].delay = delay.delayTime;
               }
-              if (weatherData.nationalAirports.airports[i].delay == "") {
-                weatherData.nationalAirports.airports[i].delay = "No Delay";
-              }
-              //console.log("national airports grabbed")
-            } else {
-              weatherData.nationalAirports.airports[i].icon = 44;
-              weatherData.nationalAirports.airports[i].temp = "";
-              weatherData.nationalAirports.airports[i].windspeed = "";
-              weatherData.nationalAirports.airports[i].delay = "No Report";
-              //console.log("national airports grab failed")
             }
-          } catch (error) {
-            weatherData.nationalAirports.airports[i].icon = 44;
-            weatherData.nationalAirports.airports[i].temp = "";
-            weatherData.nationalAirports.airports[i].windspeed = "";
-            weatherData.nationalAirports.airports[i].delay = "No Report";
+            if (nationalAirports.airports[i].delay == "") {
+              nationalAirports.airports[i].delay = "No Delay";
+            }
+            //console.log("national airports grabbed")
+          } else {
+            nationalAirports.airports[i].icon = 44;
+            nationalAirports.airports[i].temp = "";
+            nationalAirports.airports[i].windspeed = "";
+            nationalAirports.airports[i].delay = "No Report";
             //console.log("national airports grab failed")
           }
-        });
-      }).fail(function () {
-        weatherData.nationalAirports.airports[i].icon = 44;
-        weatherData.nationalAirports.airports[i].temp = "";
-        weatherData.nationalAirports.airports[i].windspeed = "";
-        weatherData.nationalAirports.airports[i].delay = "No Report";
-        //console.log("national airports grab failed")
+        } catch (error) {
+          nationalAirports.airports[i].icon = 44;
+          nationalAirports.airports[i].temp = "";
+          nationalAirports.airports[i].windspeed = "";
+          nationalAirports.airports[i].delay = "No Report";
+          //console.log("national airports grab failed")
+        }
       });
-      //console.log(weatherData.nationalAirports)
-    }
-    setTimeout(() => {
-      grabAPConditions();
-      grabNationalAP();
-    }, 1000);
+    }).fail(function () {
+      nationalAirports.airports[i].icon = 44;
+      nationalAirports.airports[i].temp = "";
+      nationalAirports.airports[i].windspeed = "";
+      nationalAirports.airports[i].delay = "No Report";
+      //console.log("national airports grab failed")
+    });
+    //console.log(nationalAirports)
+    return nationalAirports;
   }
 
   //console.log("grabbed data")
-  function grabESCurrentConditions() {
-    var url =
+  function grabESCurrentConditions(lat, lon, units, key, name) {
+    let currentConditions = {};
+    let url =
       "https://api.weather.com/v3/wx/observations/current?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&units=e&language=es-US&format=json&apiKey=" +
-      api_key;
+      lon +
+      "&units=" +
+      units +
+      "&language=es-US&format=json&apiKey=" +
+      key;
     $.getJSON(url, function (data) {
       try {
-        weatherData.spanish.currentConditions.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.spanish.currentConditions.cond = data.wxPhraseLong;
-        weatherData.spanish.currentConditions.gusts =
+        currentConditions.cityname = name;
+        currentConditions.cond = data.wxPhraseLong;
+        currentConditions.gusts =
           data.windGust != null || data.windGust != undefined
-            ? data.windGust + " mph"
+            ? data.windGust +
+              (units == "m" ? " km/h" : units == "s" ? " m/s" : " mph")
             : "No";
-        weatherData.spanish.currentConditions.humidity =
-          data.relativeHumidity + "%";
-        weatherData.spanish.currentConditions.icon = data.iconCode;
-        weatherData.spanish.currentConditions.pressure =
-          data.pressureAltimeter.toFixed(2);
-        weatherData.spanish.currentConditions.temp = data.temperature;
-        weatherData.spanish.currentConditions.wind =
+        currentConditions.humidity = data.relativeHumidity + "%";
+        currentConditions.icon = data.iconCode;
+        currentConditions.pressure = data.pressureAltimeter.toFixed(2);
+        currentConditions.temp = data.temperature;
+        currentConditions.wind =
           data.windDirectionCardinal == "CALMA" || data.windSpeed == 0
             ? "Calma"
             : data.windDirectionCardinal + " " + data.windSpeed;
-        weatherData.spanish.currentConditions.windspeed = data.windSpeed;
-        weatherData.spanish.currentConditions.noReport = false;
-        //console.log(weatherData.spanish.currentConditions)
+        currentConditions.windspeed = data.windSpeed;
+        currentConditions.noReport = false;
+        //console.log(spanish.currentConditions)
         //console.log("current conditions grabbed")
       } catch (error) {
-        weatherData.spanish.currentConditions.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.spanish.currentConditions.cond = "";
-        weatherData.spanish.currentConditions.gusts = "";
-        weatherData.spanish.currentConditions.humidity = "";
-        weatherData.spanish.currentConditions.icon = 44;
-        weatherData.spanish.currentConditions.pressure = "";
-        weatherData.spanish.currentConditions.temp = "";
-        weatherData.spanish.currentConditions.wind = "";
-        weatherData.spanish.currentConditions.windspeed = "";
-        weatherData.spanish.currentConditions.noReport = true;
-        //console.log(weatherData.spanish.currentConditions)
+        currentConditions.cityname = name;
+        currentConditions.cond = "";
+        currentConditions.gusts = "";
+        currentConditions.humidity = "";
+        currentConditions.icon = 44;
+        currentConditions.pressure = "";
+        currentConditions.temp = "";
+        currentConditions.wind = "";
+        currentConditions.windspeed = "";
+        currentConditions.noReport = true;
+        //console.log(spanish.currentConditions)
         //console.log("current conditions grab failed")
       }
     }).fail(function () {
-      weatherData.spanish.currentConditions.cityname =
-        locationConfig.mainCity.displayname;
-      weatherData.spanish.currentConditions.cond = "";
-      weatherData.spanish.currentConditions.gusts = "";
-      weatherData.spanish.currentConditions.humidity = "";
-      weatherData.spanish.currentConditions.icon = 44;
-      weatherData.spanish.currentConditions.pressure = "";
-      weatherData.spanish.currentConditions.temp = "";
-      weatherData.spanish.currentConditions.wind = "";
-      weatherData.spanish.currentConditions.windspeed = "";
-      weatherData.spanish.currentConditions.noReport = true;
-      //console.log(weatherData.spanish.currentConditions)
+      currentConditions.cityname = name;
+      currentConditions.cond = "";
+      currentConditions.gusts = "";
+      currentConditions.humidity = "";
+      currentConditions.icon = 44;
+      currentConditions.pressure = "";
+      currentConditions.temp = "";
+      currentConditions.wind = "";
+      currentConditions.windspeed = "";
+      currentConditions.noReport = true;
+      //console.log(spanish.currentConditions)
       //console.log("current conditions grab failed")
     });
+    return currentConditions;
   }
 
-  function grabESNearbyConditions() {
-    weatherData.spanish.nearbyCities.cities = [];
-    var url =
+  function grabESNearbyConditions(eightCities, units, key) {
+    let cities = [];
+    let url =
       "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
-    for (var li = 0; li < locationConfig.eightCities.citiesAmount; li++) {
+    for (let li = 0; li < eightCities.citiesAmount; li++) {
       url +=
-        locationConfig.eightCities.cities[li].lat +
-        "," +
-        locationConfig.eightCities.cities[li].lon +
-        ";";
+        eightCities.cities[li].lat + "," + eightCities.cities[li].lon + ";";
     }
-    url += "&language=es-US&units=e&format=json&apiKey=" + api_key;
+    url += "&language=es-US&units=" + units + "&format=json&apiKey=" + key;
     $.getJSON(url, function (data) {
       data.forEach((ajaxedLoc, i) => {
-        var nearbyCitiesObj = {
+        let nearbyCitiesObj = {
           noReport: false,
           cityname: "",
           temp: "",
@@ -913,8 +887,7 @@ if (window.Worker) {
             ajaxedLoc != " "
           ) {
             nearbyCitiesObj.noReport = false;
-            nearbyCitiesObj.cityname =
-              locationConfig.eightCities.cities[i].displayname;
+            nearbyCitiesObj.cityname = eightCities.cities[i].displayname;
             nearbyCitiesObj.icon =
               ajaxedLoc["v3-wx-observations-current"].iconCode;
             nearbyCitiesObj.temp =
@@ -930,33 +903,31 @@ if (window.Worker) {
                   ajaxedLoc["v3-wx-observations-current"].windSpeed;
             nearbyCitiesObj.windspeed =
               ajaxedLoc["v3-wx-observations-current"].windSpeed;
-            weatherData.spanish.nearbyCities.cities.push(nearbyCitiesObj);
+            cities.push(nearbyCitiesObj);
           } else {
             nearbyCitiesObj.noReport = true;
-            nearbyCitiesObj.cityname =
-              locationConfig.eightCities.cities[i].displayname;
+            nearbyCitiesObj.cityname = eightCities.cities[i].displayname;
             nearbyCitiesObj.icon = 44;
             nearbyCitiesObj.temp = "";
             nearbyCitiesObj.wind = "";
             nearbyCitiesObj.windspeed = "";
-            weatherData.spanish.nearbyCities.cities.push(nearbyCitiesObj);
+            cities.push(nearbyCitiesObj);
           }
         } catch (error) {
           nearbyCitiesObj.noReport = true;
-          nearbyCitiesObj.cityname =
-            locationConfig.eightCities.cities[i].displayname;
+          nearbyCitiesObj.cityname = eightCities.cities[i].displayname;
           nearbyCitiesObj.icon = 44;
           nearbyCitiesObj.temp = "";
           nearbyCitiesObj.wind = "";
           nearbyCitiesObj.windspeed = "";
-          weatherData.spanish.nearbyCities.cities.push(nearbyCitiesObj);
+          cities.push(nearbyCitiesObj);
         }
       });
-      //console.log(weatherData.spanish.nearbyCities.cities)
+      //console.log(spanish.nearbyCities.cities)
       // console.log("nearby conditions grabbed")
     }).fail(function (error) {
-      for (var i; i < locationConfig.eightCities.citiesAmount; i++) {
-        var nearbyCitiesObj = {
+      for (let i; i < eightCities.citiesAmount; i++) {
+        let nearbyCitiesObj = {
           noReport: false,
           cityname: "",
           temp: "",
@@ -971,201 +942,183 @@ if (window.Worker) {
         nearbyCitiesObj.temp = "";
         nearbyCitiesObj.wind = "";
         nearbyCitiesObj.windspeed = "";
-        weatherData.spanish.nearbyCities.cities.push(nearbyCitiesObj);
+        cities.push(nearbyCitiesObj);
       }
-      //console.log(weatherData.spanish.nearbyCities.cities)
+      //console.log(spanish.nearbyCities.cities)
       //console.log("nearby conditions grab failed")
       //console.log(error)
     });
+    return cities;
   }
 
-  function grabESExtended() {
-    var url =
+  function grabESExtended(lat, lon, units, key, name) {
+    let extendedForecast = {};
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&format=json&units=e&language=es-US&apiKey=" +
-      api_key;
+      lon +
+      "&format=json&units=" +
+      units +
+      "&language=es-US&apiKey=" +
+      key;
     //console.log(url)
     $.getJSON(url, function (data) {
-      var daysDivs = ["one", "two", "three", "four", "five"];
+      let daysDivs = ["one", "two", "three", "four", "five"];
       try {
-        weatherData.spanish.extendedForecast.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.spanish.extendedForecast.noReport = false;
-        var ii = 0;
-        var dpi = 0;
+        extendedForecast.cityname = name;
+        extendedForecast.noReport = false;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.spanish.extendedForecast.days.length;
+          let i = 0;
+          i < extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.spanish.extendedForecast.days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll(" / ", "/")
-              .replaceAll("/Viento", ""); //.replaceAll("por la mañana", "AM").replaceAll("por la tarde", "PM")
-          weatherData.spanish.extendedForecast.days[i].dayname = data.dayOfWeek[
-            ii
-          ]
+          extendedForecast.days[i].cond = data.daypart[0].wxPhraseLong[dpi]
+            .replaceAll(" / ", "/")
+            .replaceAll("/Viento", ""); //.replaceAll("por la mañana", "AM").replaceAll("por la tarde", "PM")
+          extendedForecast.days[i].dayname = data.dayOfWeek[ii]
             .substring(0, 3)
             .toUpperCase()
             .replace("MIÉ", "MIERC")
             .replace("SÁB", "SAB");
-          weatherData.spanish.extendedForecast.days[i].high =
-            data.temperatureMax[ii];
-          weatherData.spanish.extendedForecast.days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          weatherData.spanish.extendedForecast.days[i].low =
-            data.temperatureMin[ii];
-          weatherData.spanish.extendedForecast.days[i].windspeed =
-            data.daypart[0].windSpeed[dpi];
+          extendedForecast.days[i].high = data.temperatureMax[ii];
+          extendedForecast.days[i].icon = data.daypart[0].iconCode[dpi];
+          extendedForecast.days[i].low = data.temperatureMin[ii];
+          extendedForecast.days[i].windspeed = data.daypart[0].windSpeed[dpi];
         }
-        //console.log(weatherData.spanish.extendedForecast)
+        //console.log(spanish.extendedForecast)
         //console.log("extended forecast grabbed")
       } catch (error) {
-        weatherData.spanish.extendedForecast.cityname =
-          locationConfig.mainCity.displayname;
-        weatherData.spanish.extendedForecast.noReport = true;
-        var ii = 0;
-        var dpi = 0;
+        extendedForecast.cityname = name;
+        extendedForecast.noReport = true;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.spanish.extendedForecast.days.length;
+          let i = 0;
+          i < extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.spanish.extendedForecast.days[i].cond = "";
-          weatherData.spanish.extendedForecast.days[i].dayname = "";
-          weatherData.spanish.extendedForecast.days[i].high = "";
-          weatherData.spanish.extendedForecast.days[i].icon = 44;
-          weatherData.spanish.extendedForecast.days[i].low = "";
-          weatherData.spanish.extendedForecast.days[i].windspeed = "";
+          extendedForecast.days[i].cond = "";
+          extendedForecast.days[i].dayname = "";
+          extendedForecast.days[i].high = "";
+          extendedForecast.days[i].icon = 44;
+          extendedForecast.days[i].low = "";
+          extendedForecast.days[i].windspeed = "";
         }
-        //console.log(weatherData.spanish.extendedForecast)
+        //console.log(spanish.extendedForecast)
         //console.log("extended forecast grab failed")
       }
     }).fail(function () {
-      weatherData.spanish.extendedForecast.cityname =
-        locationConfig.mainCity.displayname;
-      weatherData.spanish.extendedForecast.noReport = true;
-      for (
-        var i = 0;
-        i < weatherData.spanish.extendedForecast.days.length;
-        i++
-      ) {
-        weatherData.spanish.extendedForecast.days[i].cond = "";
-        weatherData.spanish.extendedForecast.days[i].dayname = "";
-        weatherData.spanish.extendedForecast.days[i].high = "";
-        weatherData.spanish.extendedForecast.days[i].icon = "";
-        weatherData.spanish.extendedForecast.days[i].low = "";
-        weatherData.spanish.extendedForecast.days[i].windspeed = "";
+      extendedForecast.cityname = locationConfig.mainCity.displayname;
+      extendedForecast.noReport = true;
+      for (let i = 0; i < spanish.extendedForecast.days.length; i++) {
+        extendedForecast.days[i].cond = "";
+        extendedForecast.days[i].dayname = "";
+        extendedForecast.days[i].high = "";
+        extendedForecast.days[i].icon = "";
+        extendedForecast.days[i].low = "";
+        extendedForecast.days[i].windspeed = "";
       }
-      //console.log(weatherData.spanish.extendedForecast)
+      //console.log(spanish.extendedForecast)
       //console.log("extended forecast grab failed")
     });
+    return extendedForecast;
   }
 
-  function grabESAlmanac() {
-    var url =
+  function grabESAlmanac(lat, lon, key, units) {
+    let almanac = {};
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      locationConfig.mainCity.lat +
+      lat +
       "," +
-      locationConfig.mainCity.lon +
-      "&format=json&units=e&language=es-US&apiKey=" +
+      lon +
+      "&format=json&units=" +
+      units +
+      "&language=es-US&apiKey=" +
       api_key;
     $.getJSON(url, function (data) {
-      var ii = 0;
+      let ii = 0;
       if (data.daypart[0].daypartName[0] == null) {
         ii = 1;
       }
-      weatherData.spanish.almanac.noReport = false;
-      weatherData.spanish.almanac.sunrisetoday = new Date(
-        data.sunriseTimeLocal[ii]
-      );
-      weatherData.spanish.almanac.sunrisetoday =
-        weatherData.spanish.almanac.sunrisetoday
-          .toLocaleTimeString("es-US", {
-            hour: "numeric",
-            hour12: true,
-            minute: "numeric",
-          })
-          .replace(/ /g, " ")
-          .toLowerCase()
-          .replaceAll(".", "");
-      weatherData.spanish.almanac.sunrisetomorow = new Date(
-        data.sunriseTimeLocal[ii + 1]
-      );
-      weatherData.spanish.almanac.sunrisetomorow =
-        weatherData.spanish.almanac.sunrisetomorow
-          .toLocaleTimeString("es-US", {
-            hour: "numeric",
-            hour12: true,
-            minute: "numeric",
-          })
-          .replace(/ /g, " ")
-          .toLowerCase()
-          .replaceAll(".", "");
-      weatherData.spanish.almanac.sunsettoday = new Date(
-        data.sunsetTimeLocal[ii]
-      );
-      weatherData.spanish.almanac.sunsettoday =
-        weatherData.spanish.almanac.sunsettoday
-          .toLocaleTimeString("es-US", {
-            hour: "numeric",
-            hour12: true,
-            minute: "numeric",
-          })
-          .replace(/ /g, " ")
-          .toLowerCase()
-          .replaceAll(".", "");
-      weatherData.spanish.almanac.sunsettomorrow = new Date(
-        data.sunsetTimeLocal[ii + 1]
-      );
-      weatherData.spanish.almanac.sunsettomorrow =
-        weatherData.spanish.almanac.sunsettomorrow
-          .toLocaleTimeString("es-US", {
-            hour: "numeric",
-            hour12: true,
-            minute: "numeric",
-          })
-          .replace(/ /g, " ")
-          .toLowerCase()
-          .replaceAll(".", "");
-      weatherData.spanish.almanac.today = data.dayOfWeek[ii]
+      almanac.noReport = false;
+      almanac.sunrisetoday = new Date(data.sunriseTimeLocal[ii]);
+      almanac.sunrisetoday = spanish.almanac.sunrisetoday
+        .toLocaleTimeString("es-US", {
+          hour: "numeric",
+          hour12: true,
+          minute: "numeric",
+        })
+        .replace(/ /g, " ")
+        .toLowerCase()
+        .replaceAll(".", "");
+      almanac.sunrisetomorow = new Date(data.sunriseTimeLocal[ii + 1]);
+      almanac.sunrisetomorow = spanish.almanac.sunrisetomorow
+        .toLocaleTimeString("es-US", {
+          hour: "numeric",
+          hour12: true,
+          minute: "numeric",
+        })
+        .replace(/ /g, " ")
+        .toLowerCase()
+        .replaceAll(".", "");
+      almanac.sunsettoday = new Date(data.sunsetTimeLocal[ii]);
+      almanac.sunsettoday = spanish.almanac.sunsettoday
+        .toLocaleTimeString("es-US", {
+          hour: "numeric",
+          hour12: true,
+          minute: "numeric",
+        })
+        .replace(/ /g, " ")
+        .toLowerCase()
+        .replaceAll(".", "");
+      almanac.sunsettomorrow = new Date(data.sunsetTimeLocal[ii + 1]);
+      almanac.sunsettomorrow = spanish.almanac.sunsettomorrow
+        .toLocaleTimeString("es-US", {
+          hour: "numeric",
+          hour12: true,
+          minute: "numeric",
+        })
+        .replace(/ /g, " ")
+        .toLowerCase()
+        .replaceAll(".", "");
+      almanac.today = data.dayOfWeek[ii]
         .substring(0, 3)
         .toUpperCase()
         .replace("MIÉ", "MIERC")
         .replace("SÁB", "SAB");
-      weatherData.spanish.almanac.tomorrow = data.dayOfWeek[ii + 1]
+      almanac.tomorrow = data.dayOfWeek[ii + 1]
         .substring(0, 3)
         .toUpperCase()
         .replace("MIÉ", "MIERC")
         .replace("SÁB", "SAB");
-      //console.log(weatherData.spanish.almanac)
+      //console.log(spanish.almanac)
       //console.log("almanac grabbed")
     }).fail(function () {
-      weatherData.spanish.almanac.noReport = true;
-      weatherData.spanish.almanac.sunrisetoday = "";
-      weatherData.spanish.almanac.sunrisetomorow = "";
-      weatherData.spanish.almanac.sunsettoday = "";
-      weatherData.spanish.almanac.sunsettomorrow = "";
-      weatherData.spanish.almanac.today = "";
-      weatherData.spanish.almanac.tomorrow = "";
-      //console.log(weatherData.spanish.almanac)
+      almanac.noReport = true;
+      almanac.sunrisetoday = "";
+      almanac.sunrisetomorow = "";
+      almanac.sunsettoday = "";
+      almanac.sunsettomorrow = "";
+      almanac.today = "";
+      almanac.tomorrow = "";
+      //console.log(spanish.almanac)
       //console.log("almanac grab fail")
     });
   }
 
   function grabESMoons() {
-    var ii = 0;
+    let ii = 0;
     try {
       $.getJSON(
         `https://www.icalendar37.net/lunar/api/?lang=es&month=${dateFns.format(
@@ -1178,17 +1131,17 @@ if (window.Worker) {
               continue;
             }
             if (data.phase[phase].isPhaseLimit != false) {
-              weatherData.spanish.almanac.moonphases[ii].moon = {
+              spanish.almanac.moonphases[ii].moon = {
                 "Luna nueva": "Nueva",
                 "Cuarto creciente": "Creciente",
                 "Luna llena": "Llena",
                 "Cuarto menguante": "Menguante",
               }[data.phase[phase].phaseName];
-              weatherData.spanish.almanac.moonphases[ii].date =
+              spanish.almanac.moonphases[ii].date =
                 String(data.monthName).slice(0, 3) + " " + phase;
-              weatherData.spanish.almanac.moonphases[ii].date =
+              spanish.almanac.moonphases[ii].date =
                 phase.toString().length == 1
-                  ? weatherData.spanish.almanac.moonphases[ii].date
+                  ? spanish.almanac.moonphases[ii].date
                       .replace(" 1", " 01")
                       .replace(" 2", " 02")
                       .replace(" 3", " 03")
@@ -1198,16 +1151,16 @@ if (window.Worker) {
                       .replace(" 7", " 07")
                       .replace(" 8", " 08")
                       .replace(" 9", " 09")
-                  : weatherData.spanish.almanac.moonphases[ii].date;
+                  : spanish.almanac.moonphases[ii].date;
               ii += 1;
             }
           }
           //console.log("first moons grabbed")
         }
       ).fail(function () {
-        for (var i = 0; i < 4; i++) {
-          weatherData.spanish.almanac.moonphases[i].date = "";
-          weatherData.spanish.almanac.moonphases[i].moon = "blank";
+        for (let i = 0; i < 4; i++) {
+          spanish.almanac.moonphases[i].date = "";
+          spanish.almanac.moonphases[i].moon = "blank";
         }
         //console.log("first moon grab failed")
       });
@@ -1220,17 +1173,17 @@ if (window.Worker) {
           function (data) {
             for (phase in data.phase) {
               if (data.phase[phase].isPhaseLimit != false) {
-                weatherData.spanish.almanac.moonphases[ii].moon = {
+                spanish.almanac.moonphases[ii].moon = {
                   "Luna nueva": "Nueva",
                   "Cuarto creciente": "Creciente",
                   "Luna llena": "Llena",
                   "Cuarto menguante": "Menguante",
                 }[data.phase[phase].phaseName];
-                weatherData.spanish.almanac.moonphases[ii].date =
+                spanish.almanac.moonphases[ii].date =
                   String(data.monthName).slice(0, 3) + " " + phase;
-                weatherData.spanish.almanac.moonphases[ii].date =
+                spanish.almanac.moonphases[ii].date =
                   phase.toString().length == 1
-                    ? weatherData.spanish.almanac.moonphases[ii].date
+                    ? spanish.almanac.moonphases[ii].date
                         .replace(" 1", " 01")
                         .replace(" 2", " 02")
                         .replace(" 3", " 03")
@@ -1240,34 +1193,34 @@ if (window.Worker) {
                         .replace(" 7", " 07")
                         .replace(" 8", " 08")
                         .replace(" 9", " 09")
-                    : weatherData.spanish.almanac.moonphases[ii].date;
+                    : spanish.almanac.moonphases[ii].date;
                 ii += 1;
               }
             }
             //console.log("second moons grabbed")
           }
         ).fail(function () {
-          for (var i = 0; i < 4; i++) {
-            if (weatherData.spanish.almanac.moonphases[i].date != "")
-              weatherData.spanish.almanac.moonphases[i].date = "";
-            weatherData.spanish.almanac.moonphases[i].moon = "blank";
+          for (let i = 0; i < 4; i++) {
+            if (spanish.almanac.moonphases[i].date != "")
+              spanish.almanac.moonphases[i].date = "";
+            spanish.almanac.moonphases[i].moon = "blank";
           }
           //console.log("second moon grab failed")
         });
-        //console.log(weatherData.spanish.almanac.moonphases)
+        //console.log(spanish.almanac.moonphases)
       }, 500);
     } catch (error) {
-      for (var i = 0; i < 8; i++) {
-        weatherData.spanish.almanac.moonphases[i].date = "";
-        weatherData.spanish.almanac.moonphases[i].moon = "blank";
+      for (let i = 0; i < 8; i++) {
+        spanish.almanac.moonphases[i].date = "";
+        spanish.almanac.moonphases[i].moon = "blank";
       }
-      //console.log(weatherData.spanish.almanac.moonphases)
+      //console.log(spanish.almanac.moonphases)
       //console.log("all moon grabs failed")
     }
   }
 
   function grabCoursesData(ci) {
-    var url =
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
       locationConfig.golf.courses[ci].lat +
       "," +
@@ -1276,91 +1229,83 @@ if (window.Worker) {
       api_key;
     $.getJSON(url, function (data) {
       try {
-        weatherData.golf.courseForecast[ci].cityname =
+        golf.courseForecast[ci].cityname =
           locationConfig.golf.courses[ci].displayname;
-        weatherData.golf.courseForecast[ci].noReport = false;
-        var ii = 0;
-        var dpi = 0;
+        golf.courseForecast[ci].noReport = false;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.golf.courseForecast[ci].days.length;
+          let i = 0;
+          i < golf.courseForecast[ci].days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.golf.courseForecast[ci].days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll("/", "/ ")
-              .replaceAll("Thunderstorms", "T'storms")
-              .replaceAll("Scattered", "Sct'd")
-              .replaceAll("Thundershowers", "T'showers");
-          weatherData.golf.courseForecast[ci].days[i].dayname = data.dayOfWeek[
-            ii
+          golf.courseForecast[ci].days[i].cond = data.daypart[0].wxPhraseLong[
+            dpi
           ]
+            .replaceAll("/", "/ ")
+            .replaceAll("Thunderstorms", "T'storms")
+            .replaceAll("Scattered", "Sct'd")
+            .replaceAll("Thundershowers", "T'showers");
+          golf.courseForecast[ci].days[i].dayname = data.dayOfWeek[ii]
             .substring(0, 3)
             .toUpperCase();
-          weatherData.golf.courseForecast[ci].days[i].high =
-            data.temperatureMax[ii];
-          weatherData.golf.courseForecast[ci].days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          weatherData.golf.courseForecast[ci].days[i].low =
-            data.temperatureMin[ii];
-          weatherData.golf.courseForecast[ci].days[i].windspeed =
+          golf.courseForecast[ci].days[i].high = data.temperatureMax[ii];
+          golf.courseForecast[ci].days[i].icon = data.daypart[0].iconCode[dpi];
+          golf.courseForecast[ci].days[i].low = data.temperatureMin[ii];
+          golf.courseForecast[ci].days[i].windspeed =
             data.daypart[0].windSpeed[dpi];
         }
-        //console.log(weatherData.golf.courseForecast[ci])
+        //console.log(golf.courseForecast[ci])
         //console.log("golf courses forecast " + ci + " grabbed")
       } catch (error) {
-        weatherData.golf.courseForecast[ci].cityname =
+        golf.courseForecast[ci].cityname =
           locationConfig.golf.courses[ci].displayname;
-        weatherData.golf.courseForecast[ci].noReport = true;
-        var ii = 0;
-        var dpi = 0;
+        golf.courseForecast[ci].noReport = true;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.golf.courseForecast[ci].days.length;
+          let i = 0;
+          i < golf.courseForecast[ci].days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.golf.courseForecast[ci].days[i].cond = "";
-          weatherData.golf.courseForecast[ci].days[i].dayname = "";
-          weatherData.golf.courseForecast[ci].days[i].high = "";
-          weatherData.golf.courseForecast[ci].days[i].icon = 44;
-          weatherData.golf.courseForecast[ci].days[i].low = "";
-          weatherData.golf.courseForecast[ci].days[i].windspeed = "";
+          golf.courseForecast[ci].days[i].cond = "";
+          golf.courseForecast[ci].days[i].dayname = "";
+          golf.courseForecast[ci].days[i].high = "";
+          golf.courseForecast[ci].days[i].icon = 44;
+          golf.courseForecast[ci].days[i].low = "";
+          golf.courseForecast[ci].days[i].windspeed = "";
         }
-        //console.log(weatherData.golf.courseForecast[ci])
+        //console.log(golf.courseForecast[ci])
         //console.log("golf courses forecast " + ci + " grab failed")
       }
     }).fail(function () {
-      weatherData.golf.courseForecast[ci].cityname =
+      golf.courseForecast[ci].cityname =
         locationConfig.golf.courses[ci].displayname;
-      weatherData.golf.courseForecast[ci].noReport = true;
-      for (
-        var i = 0;
-        i < weatherData.golf.courseForecast[ci].days.length;
-        i++
-      ) {
-        weatherData.golf.courseForecast[ci].days[i].cond = "";
-        weatherData.golf.courseForecast[ci].days[i].dayname = "";
-        weatherData.golf.courseForecast[ci].days[i].high = "";
-        weatherData.golf.courseForecast[ci].days[i].icon = "";
-        weatherData.golf.courseForecast[ci].days[i].low = "";
-        weatherData.golf.courseForecast[ci].days[i].windspeed = "";
+      golf.courseForecast[ci].noReport = true;
+      for (let i = 0; i < golf.courseForecast[ci].days.length; i++) {
+        golf.courseForecast[ci].days[i].cond = "";
+        golf.courseForecast[ci].days[i].dayname = "";
+        golf.courseForecast[ci].days[i].high = "";
+        golf.courseForecast[ci].days[i].icon = "";
+        golf.courseForecast[ci].days[i].low = "";
+        golf.courseForecast[ci].days[i].windspeed = "";
       }
-      //console.log(weatherData.golf.courseForecast[ci])
+      //console.log(golf.courseForecast[ci])
       //console.log("golf courses forecast " + ci + " grab failed")
     });
     //}
   }
 
   function grabResortsData(ri) {
-    var url =
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
       locationConfig.golf.resorts[ri].lat +
       "," +
@@ -1369,91 +1314,83 @@ if (window.Worker) {
       api_key;
     $.getJSON(url, function (data) {
       try {
-        weatherData.golf.resortForecast[ri].cityname =
+        golf.resortForecast[ri].cityname =
           locationConfig.golf.resorts[ri].displayname;
-        weatherData.golf.resortForecast[ri].noReport = false;
-        var ii = 0;
-        var dpi = 0;
+        golf.resortForecast[ri].noReport = false;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.golf.resortForecast[ci].days.length;
+          let i = 0;
+          i < golf.resortForecast[ci].days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.golf.resortForecast[ri].days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll("/", "/ ")
-              .replaceAll("Thunderstorms", "T'storms")
-              .replaceAll("Scattered", "Sct'd")
-              .replaceAll("Thundershowers", "T'showers");
-          weatherData.golf.resortForecast[ri].days[i].dayname = data.dayOfWeek[
-            ii
+          golf.resortForecast[ri].days[i].cond = data.daypart[0].wxPhraseLong[
+            dpi
           ]
+            .replaceAll("/", "/ ")
+            .replaceAll("Thunderstorms", "T'storms")
+            .replaceAll("Scattered", "Sct'd")
+            .replaceAll("Thundershowers", "T'showers");
+          golf.resortForecast[ri].days[i].dayname = data.dayOfWeek[ii]
             .substring(0, 3)
             .toUpperCase();
-          weatherData.golf.resortForecast[ri].days[i].high =
-            data.temperatureMax[ii];
-          weatherData.golf.resortForecast[ri].days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          weatherData.golf.resortForecast[ri].days[i].low =
-            data.temperatureMin[ii];
-          weatherData.golf.resortForecast[ri].days[i].windspeed =
+          golf.resortForecast[ri].days[i].high = data.temperatureMax[ii];
+          golf.resortForecast[ri].days[i].icon = data.daypart[0].iconCode[dpi];
+          golf.resortForecast[ri].days[i].low = data.temperatureMin[ii];
+          golf.resortForecast[ri].days[i].windspeed =
             data.daypart[0].windSpeed[dpi];
         }
-        //console.log(weatherData.golf.resortForecast[ri])
+        //console.log(golf.resortForecast[ri])
         //console.log("golf resorts forecast " + ri + " grabbed")
       } catch (error) {
-        weatherData.golf.resortForecast[ri].cityname =
+        golf.resortForecast[ri].cityname =
           locationConfig.golf.resorts[ri].displayname;
-        weatherData.golf.resortForecast[ri].noReport = true;
-        var ii = 0;
-        var dpi = 0;
+        golf.resortForecast[ri].noReport = true;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.golf.resortForecast[ri].days.length;
+          let i = 0;
+          i < golf.resortForecast[ri].days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.golf.resortForecast[ri].days[i].cond = "";
-          weatherData.golf.resortForecast[ri].days[i].dayname = "";
-          weatherData.golf.resortForecast[ri].days[i].high = "";
-          weatherData.golf.resortForecast[ri].days[i].icon = 44;
-          weatherData.golf.resortForecast[ri].days[i].low = "";
-          weatherData.golf.resortForecast[ri].days[i].windspeed = "";
+          golf.resortForecast[ri].days[i].cond = "";
+          golf.resortForecast[ri].days[i].dayname = "";
+          golf.resortForecast[ri].days[i].high = "";
+          golf.resortForecast[ri].days[i].icon = 44;
+          golf.resortForecast[ri].days[i].low = "";
+          golf.resortForecast[ri].days[i].windspeed = "";
         }
-        //console.log(weatherData.golf.resortForecast[ri])
+        //console.log(golf.resortForecast[ri])
         //console.log("golf resorts forecast " + ri + " grab failed")
       }
     }).fail(function () {
-      weatherData.golf.resortForecast[ri].cityname =
+      golf.resortForecast[ri].cityname =
         locationConfig.golf.resorts[ri].displayname;
-      weatherData.golf.resortForecast[ri].noReport = true;
-      for (
-        var i = 0;
-        i < weatherData.golf.resortForecast[ri].days.length;
-        i++
-      ) {
-        weatherData.golf.resortForecast[ri].days[i].cond = "";
-        weatherData.golf.resortForecast[ri].days[i].dayname = "";
-        weatherData.golf.resortForecast[ri].days[i].high = "";
-        weatherData.golf.coursresortForecasteForecast[ri].days[i].icon = "";
-        weatherData.golf.resortForecast[ri].days[i].low = "";
-        weatherData.golf.resortForecast[ri].days[i].windspeed = "";
+      golf.resortForecast[ri].noReport = true;
+      for (let i = 0; i < golf.resortForecast[ri].days.length; i++) {
+        golf.resortForecast[ri].days[i].cond = "";
+        golf.resortForecast[ri].days[i].dayname = "";
+        golf.resortForecast[ri].days[i].high = "";
+        golf.coursresortForecasteForecast[ri].days[i].icon = "";
+        golf.resortForecast[ri].days[i].low = "";
+        golf.resortForecast[ri].days[i].windspeed = "";
       }
-      //console.log(weatherData.golf.resortForecast[ri])
+      //console.log(golf.resortForecast[ri])
       //console.log("golf resorts forecast " + ri + " grab failed")
     });
     //}
   }
 
   function grabHealthCurrentData() {
-    weatherData.uvIndex.cityname = locationConfig.mainCity.displayname;
+    uvIndex.cityname = locationConfig.mainCity.displayname;
     $.getJSON(
       "https://api.weather.com/v2/indices/uv/current?geocode=" +
         locationConfig.mainCity.lat +
@@ -1463,27 +1400,27 @@ if (window.Worker) {
         api_key,
       function (data) {
         try {
-          weatherData.uvIndex.current.uv = data.uvIndexCurrent.uvIndex;
-          weatherData.uvIndex.current.word = data.uvIndexCurrent.uvDesc;
+          uvIndex.current.uv = data.uvIndexCurrent.uvIndex;
+          uvIndex.current.word = data.uvIndexCurrent.uvDesc;
         } catch (error) {
-          weatherData.uvIndex.current.uv = "noreport";
-          weatherData.uvIndex.current.word = "";
+          uvIndex.current.uv = "noreport";
+          uvIndex.current.word = "";
         }
       }
     ).fail(function () {
-      weatherData.uvIndex.current.uv = "noreport";
-      weatherData.uvIndex.current.word = "";
+      uvIndex.current.uv = "noreport";
+      uvIndex.current.word = "";
     });
   }
 
   function getUvTimes(uvdata) {
-    var timestamps = [9, 12, 15, 18],
+    let timestamps = [9, 12, 15, 18],
       currentstamp = dateFns.getHours(new Date()),
       now = new Date(),
       startstamp,
       hour,
       i = 0;
-    var timearray = [];
+    let timearray = [];
     switch (true) {
       case currentstamp < 9:
         startstamp = 9;
@@ -1527,16 +1464,14 @@ if (window.Worker) {
         api_key,
       function (data) {
         try {
-          var indexes = getUvTimes(data.uvIndex1hour);
-          for (var i = 0; i < 3; i++) {
-            weatherData.uvIndex.forecast[i].uv =
-              data.uvIndex1hour.uvIndex[indexes[i]];
-            weatherData.uvIndex.forecast[i].word =
-              data.uvIndex1hour.uvDesc[indexes[i]];
-            weatherData.uvIndex.forecast[i].time = hourlyTime(
+          let indexes = getUvTimes(data.uvIndex1hour);
+          for (let i = 0; i < 3; i++) {
+            uvIndex.forecast[i].uv = data.uvIndex1hour.uvIndex[indexes[i]];
+            uvIndex.forecast[i].word = data.uvIndex1hour.uvDesc[indexes[i]];
+            uvIndex.forecast[i].time = hourlyTime(
               data.uvIndex1hour.fcstValidLocal[indexes[i]]
             ).toUpperCase();
-            weatherData.uvIndex.forecast[i].day = dateFns
+            uvIndex.forecast[i].day = dateFns
               .format(
                 new Date(data.uvIndex1hour.fcstValidLocal[indexes[i]]),
                 "ddd"
@@ -1544,26 +1479,26 @@ if (window.Worker) {
               .toUpperCase();
           }
         } catch (error) {
-          for (var i = 0; i < 3; i++) {
-            weatherData.uvIndex.forecast[i].uv = "noreport";
-            weatherData.uvIndex.forecast[i].word = "";
-            weatherData.uvIndex.forecast[i].time = "";
-            weatherData.uvIndex.forecast[i].day = "";
+          for (let i = 0; i < 3; i++) {
+            uvIndex.forecast[i].uv = "noreport";
+            uvIndex.forecast[i].word = "";
+            uvIndex.forecast[i].time = "";
+            uvIndex.forecast[i].day = "";
           }
         }
       }
     ).fail(function () {
-      for (var i = 0; i < 3; i++) {
-        weatherData.uvIndex.forecast[i].uv = "noreport";
-        weatherData.uvIndex.forecast[i].word = "";
-        weatherData.uvIndex.forecast[i].time = "";
-        weatherData.uvIndex.forecast[i].day = "";
+      for (let i = 0; i < 3; i++) {
+        uvIndex.forecast[i].uv = "noreport";
+        uvIndex.forecast[i].word = "";
+        uvIndex.forecast[i].time = "";
+        uvIndex.forecast[i].day = "";
       }
     });
   }
 
   function grabEXCurrentConditions() {
-    var url =
+    let url =
       "https://api.weather.com/v3/wx/observations/current?geocode=" +
       locationConfig.extraCity.lat +
       "," +
@@ -1572,55 +1507,54 @@ if (window.Worker) {
       api_key;
     $.getJSON(url, function (data) {
       try {
-        weatherData.extraLocal.currentConditions.cityname =
+        extraLocal.currentConditions.cityname =
           locationConfig.extraCity.displayname;
-        weatherData.extraLocal.currentConditions.cond = data.wxPhraseLong;
-        weatherData.extraLocal.currentConditions.gusts =
+        extraLocal.currentConditions.cond = data.wxPhraseLong;
+        extraLocal.currentConditions.gusts =
           data.windGust != null || data.windGust != undefined
             ? data.windGust + " mph"
             : "None";
-        weatherData.extraLocal.currentConditions.humidity =
-          data.relativeHumidity + "%";
-        weatherData.extraLocal.currentConditions.icon = data.iconCode;
-        weatherData.extraLocal.currentConditions.pressure =
+        extraLocal.currentConditions.humidity = data.relativeHumidity + "%";
+        extraLocal.currentConditions.icon = data.iconCode;
+        extraLocal.currentConditions.pressure =
           data.pressureAltimeter.toFixed(2);
-        weatherData.extraLocal.currentConditions.temp = data.temperature;
-        weatherData.extraLocal.currentConditions.wind =
+        extraLocal.currentConditions.temp = data.temperature;
+        extraLocal.currentConditions.wind =
           data.windDirectionCardinal == "CALM" || data.windSpeed == 0
             ? "Calm"
             : data.windDirectionCardinal + " " + data.windSpeed;
-        weatherData.extraLocal.currentConditions.windspeed = data.windSpeed;
-        weatherData.extraLocal.currentConditions.noReport = false;
+        extraLocal.currentConditions.windspeed = data.windSpeed;
+        extraLocal.currentConditions.noReport = false;
       } catch (error) {
-        weatherData.extraLocal.currentConditions.cityname =
+        extraLocal.currentConditions.cityname =
           locationConfig.extraCity.displayname;
-        weatherData.extraLocal.currentConditions.cond = "";
-        weatherData.extraLocal.currentConditions.gusts = "";
-        weatherData.extraLocal.currentConditions.humidity = "";
-        weatherData.extraLocal.currentConditions.icon = 44;
-        weatherData.extraLocal.currentConditions.pressure = "";
-        weatherData.extraLocal.currentConditions.temp = "";
-        weatherData.extraLocal.currentConditions.wind = "";
-        weatherData.extraLocal.currentConditions.windspeed = "";
-        weatherData.extraLocal.currentConditions.noReport = true;
+        extraLocal.currentConditions.cond = "";
+        extraLocal.currentConditions.gusts = "";
+        extraLocal.currentConditions.humidity = "";
+        extraLocal.currentConditions.icon = 44;
+        extraLocal.currentConditions.pressure = "";
+        extraLocal.currentConditions.temp = "";
+        extraLocal.currentConditions.wind = "";
+        extraLocal.currentConditions.windspeed = "";
+        extraLocal.currentConditions.noReport = true;
       }
     }).fail(function () {
-      weatherData.extraLocal.currentConditions.cityname =
+      extraLocal.currentConditions.cityname =
         locationConfig.extraCity.displayname;
-      weatherData.extraLocal.currentConditions.cond = "";
-      weatherData.extraLocal.currentConditions.gusts = "";
-      weatherData.extraLocal.currentConditions.humidity = "";
-      weatherData.extraLocal.currentConditions.icon = 44;
-      weatherData.extraLocal.currentConditions.pressure = "";
-      weatherData.extraLocal.currentConditions.temp = "";
-      weatherData.extraLocal.currentConditions.wind = "";
-      weatherData.extraLocal.currentConditions.windspeed = "";
-      weatherData.extraLocal.currentConditions.noReport = true;
+      extraLocal.currentConditions.cond = "";
+      extraLocal.currentConditions.gusts = "";
+      extraLocal.currentConditions.humidity = "";
+      extraLocal.currentConditions.icon = 44;
+      extraLocal.currentConditions.pressure = "";
+      extraLocal.currentConditions.temp = "";
+      extraLocal.currentConditions.wind = "";
+      extraLocal.currentConditions.windspeed = "";
+      extraLocal.currentConditions.noReport = true;
     });
   }
 
   function grabEXDayDesc() {
-    var url =
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
       locationConfig.extraCity.lat +
       "," +
@@ -1628,50 +1562,38 @@ if (window.Worker) {
       "&format=json&units=e&language=en-US&apiKey=" +
       api_key;
     $.getJSON(url, function (data) {
-      var ii = 0;
+      let ii = 0;
       try {
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
         }
-        weatherData.extraLocal.dayDesc.cityname =
-          locationConfig.extraCity.displayname;
-        weatherData.extraLocal.dayDesc.noReport = false;
-        for (
-          var i = 0;
-          i < weatherData.extraLocal.dayDesc.times.length;
-          i++, ii++
-        ) {
-          weatherData.extraLocal.dayDesc.times[i].timetitle =
+        extraLocal.dayDesc.cityname = locationConfig.extraCity.displayname;
+        extraLocal.dayDesc.noReport = false;
+        for (let i = 0; i < extraLocal.dayDesc.times.length; i++, ii++) {
+          extraLocal.dayDesc.times[i].timetitle =
             data.daypart[0].daypartName[ii];
-          weatherData.extraLocal.dayDesc.times[i].forecast =
-            data.daypart[0].narrative[ii];
+          extraLocal.dayDesc.times[i].forecast = data.daypart[0].narrative[ii];
         }
       } catch (error) {
-        weatherData.extraLocal.dayDesc.cityname =
-          locationConfig.extraCity.displayname;
-        weatherData.extraLocal.dayDesc.noReport = true;
-        for (
-          var i = 0;
-          i < weatherData.extraLocal.dayDesc.times.length;
-          i++, ii++
-        ) {
-          weatherData.extraLocal.dayDesc.times[i].timetitle = "";
-          weatherData.extraLocal.dayDesc.times[i].forecast = "";
+        extraLocal.dayDesc.cityname = locationConfig.extraCity.displayname;
+        extraLocal.dayDesc.noReport = true;
+        for (let i = 0; i < extraLocal.dayDesc.times.length; i++, ii++) {
+          extraLocal.dayDesc.times[i].timetitle = "";
+          extraLocal.dayDesc.times[i].forecast = "";
         }
       }
     }).fail(function () {
-      weatherData.extraLocal.dayDesc.cityname =
-        locationConfig.extraCity.displayname;
-      weatherData.extraLocal.dayDesc.noReport = true;
-      for (var i = 0; i < weatherData.extraLocal.dayDesc.times.length; i++) {
-        weatherData.extraLocal.dayDesc.times[i].timetitle = "";
-        weatherData.extraLocal.dayDesc.times[i].forecast = "";
+      extraLocal.dayDesc.cityname = locationConfig.extraCity.displayname;
+      extraLocal.dayDesc.noReport = true;
+      for (let i = 0; i < extraLocal.dayDesc.times.length; i++) {
+        extraLocal.dayDesc.times[i].timetitle = "";
+        extraLocal.dayDesc.times[i].forecast = "";
       }
     });
   }
 
   function grabEXExtended() {
-    var url =
+    let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
       locationConfig.extraCity.lat +
       "," +
@@ -1679,77 +1601,72 @@ if (window.Worker) {
       "&format=json&units=e&language=en-US&apiKey=" +
       api_key;
     $.getJSON(url, function (data) {
-      var daysDivs = ["one", "two", "three", "four", "five"];
+      let daysDivs = ["one", "two", "three", "four", "five"];
       try {
-        weatherData.extraLocal.extendedForecast.cityname =
+        extraLocal.extendedForecast.cityname =
           locationConfig.extraCity.displayname;
-        weatherData.extraLocal.extendedForecast.noReport = false;
-        var ii = 0;
-        var dpi = 0;
+        extraLocal.extendedForecast.noReport = false;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.extraLocal.extendedForecast.days.length;
+          let i = 0;
+          i < extraLocal.extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.extraLocal.extendedForecast.days[i].cond =
+          extraLocal.extendedForecast.days[i].cond =
             data.daypart[0].wxPhraseLong[dpi]
               .replaceAll("/", "/ ")
               .replaceAll("Thunderstorms", "T'storms")
               .replaceAll("Scattered", "Sct'd")
               .replaceAll("Thundershowers", "T'showers");
-          weatherData.extraLocal.extendedForecast.days[i].dayname =
-            data.dayOfWeek[ii].substring(0, 3).toUpperCase();
-          weatherData.extraLocal.extendedForecast.days[i].high =
-            data.temperatureMax[ii];
-          weatherData.extraLocal.extendedForecast.days[i].icon =
+          extraLocal.extendedForecast.days[i].dayname = data.dayOfWeek[ii]
+            .substring(0, 3)
+            .toUpperCase();
+          extraLocal.extendedForecast.days[i].high = data.temperatureMax[ii];
+          extraLocal.extendedForecast.days[i].icon =
             data.daypart[0].iconCode[dpi];
-          weatherData.extraLocal.extendedForecast.days[i].low =
-            data.temperatureMin[ii];
-          weatherData.extraLocal.extendedForecast.days[i].windspeed =
+          extraLocal.extendedForecast.days[i].low = data.temperatureMin[ii];
+          extraLocal.extendedForecast.days[i].windspeed =
             data.daypart[0].windSpeed[dpi];
         }
       } catch (error) {
-        weatherData.extraLocal.extendedForecast.cityname =
+        extraLocal.extendedForecast.cityname =
           locationConfig.extraCity.displayname;
-        weatherData.extraLocal.extendedForecast.noReport = true;
-        var ii = 0;
-        var dpi = 0;
+        extraLocal.extendedForecast.noReport = true;
+        let ii = 0;
+        let dpi = 0;
         if (data.daypart[0].daypartName[0] == null) {
           ii = 1;
           dpi = 2;
         }
         for (
-          var i = 0;
-          i < weatherData.extraLocal.extendedForecast.days.length;
+          let i = 0;
+          i < extraLocal.extendedForecast.days.length;
           i++, ii++, dpi = dpi + 2
         ) {
-          weatherData.extraLocal.extendedForecast.days[i].cond = "";
-          weatherData.extraLocal.extendedForecast.days[i].dayname = "";
-          weatherData.extraLocal.extendedForecast.days[i].high = "";
-          weatherData.extraLocal.extendedForecast.days[i].icon = 44;
-          weatherData.extraLocal.extendedForecast.days[i].low = "";
-          weatherData.extraLocal.extendedForecast.days[i].windspeed = "";
+          extraLocal.extendedForecast.days[i].cond = "";
+          extraLocal.extendedForecast.days[i].dayname = "";
+          extraLocal.extendedForecast.days[i].high = "";
+          extraLocal.extendedForecast.days[i].icon = 44;
+          extraLocal.extendedForecast.days[i].low = "";
+          extraLocal.extendedForecast.days[i].windspeed = "";
         }
       }
     }).fail(function () {
-      weatherData.extraLocal.extendedForecast.cityname =
+      extraLocal.extendedForecast.cityname =
         locationConfig.extraCity.displayname;
-      weatherData.extraLocal.extendedForecast.noReport = true;
-      for (
-        var i = 0;
-        i < weatherData.extraLocal.extendedForecast.days.length;
-        i++
-      ) {
-        weatherData.extraLocal.extendedForecast.days[i].cond = "";
-        weatherData.extraLocal.extendedForecast.days[i].dayname = "";
-        weatherData.extraLocal.extendedForecast.days[i].high = "";
-        weatherData.extraLocal.extendedForecast.days[i].icon = "";
-        weatherData.extraLocal.extendedForecast.days[i].low = "";
-        weatherData.extraLocal.extendedForecast.days[i].windspeed = "";
+      extraLocal.extendedForecast.noReport = true;
+      for (let i = 0; i < extraLocal.extendedForecast.days.length; i++) {
+        extraLocal.extendedForecast.days[i].cond = "";
+        extraLocal.extendedForecast.days[i].dayname = "";
+        extraLocal.extendedForecast.days[i].high = "";
+        extraLocal.extendedForecast.days[i].icon = "";
+        extraLocal.extendedForecast.days[i].low = "";
+        extraLocal.extendedForecast.days[i].windspeed = "";
       }
     });
   }
