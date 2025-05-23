@@ -29,35 +29,7 @@ function createMaps() {
 
   regradar = new mapboxgl.Map({
     container: "regradar",
-<<<<<<< HEAD
     style: "utilities/nomap.json",
-=======
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
->>>>>>> 2793b6b (Update radar.js)
     zoom: 5.4,
     center: [0, 0],
   });
@@ -68,35 +40,7 @@ function createMaps() {
 
   satradar = new mapboxgl.Map({
     container: "satradar",
-<<<<<<< HEAD
     style: "utilities/nomap.json",
-=======
-    style: {
-      version: 8,
-      sources: {
-        "raster-tiles": {
-          type: "raster",
-          tiles: [
-            "https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=" + map_key,
-          ],
-          tileSize: 512,
-        },
-      },
-      layers: [
-        {
-          id: "basemap",
-          type: "raster",
-          source: "raster-tiles",
-          layout: { visibility: "visible" },
-          minzoom: 0,
-          maxzoom: 22,
-          paint: {
-            "raster-opacity": 0.5,
-          },
-        },
-      ],
-    },
->>>>>>> 2793b6b (Update radar.js)
     zoom: 5.4,
     center: [0, 0],
   });

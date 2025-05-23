@@ -29,20 +29,32 @@ class AudioManager {
 
   playCC() {
     if (!this.audioconfig.narrations) return;
-    this.startPlaying(["narrations/Your_current_conditions.mp3"], false);
+    this.startPlaying(
+      [
+        "narrations/" +
+          this.audioconfig.narrator +
+          "/Your_current_conditions.mp3",
+      ],
+      false
+    );
   }
 
   playLF() {
     if (!this.audioconfig.narrations) return;
-    this.startPlaying(["narrations/Your_local_forecast.mp3"], false);
+    this.startPlaying(
+      ["narrations/" + this.audioconfig.narrator + "/Your_local_forecast.mp3"],
+      false
+    );
   }
 
   playWarningBeep() {
-    this.startPlaying(["narrations/warningbeep.wav"], false);
+    this.startPlaying(
+      ["narrations/" + this.audioconfig.narrator + "warningbeep.wav"],
+      false
+    );
   }
 
   buildPlaylist() {
-    var musicPath = "music/";
     this.audioconfig.songs.forEach((order) => {
       this.playlist.push(order);
     });

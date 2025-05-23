@@ -6,8 +6,8 @@ function providerConfigUpdateMain(config) {
 }
 
 $(function () {
-  document.getElementById("problem").style.display = "none";
-  document.getElementById("WScanWindow").style.display = "block";
+  document.getElementById("problem").style.display = "block";
+  document.getElementById("WScanWindow").style.display = "none";
   let $main = $("#WScanWindow"),
     $window = $(window),
     mainHeight = $main.outerHeight(),
