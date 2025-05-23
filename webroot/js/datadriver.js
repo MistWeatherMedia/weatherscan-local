@@ -517,3 +517,11 @@ var weatherData = {
     ],
   },
 };
+
+for (var i = 0; i < locationConfig.golf.coursesAmount; i++) {
+  grabCoursesData(i);
+}
+
+for (var i = 0; i < locationConfig.golf.resortsAmount; i++) {
+  //grabResortsData(i)
+}
