@@ -2,7 +2,7 @@
   "provider": {
     "providerName": "Mist Digital Cable",
     "providerImage": "images/tvproviders/Mist.png",
-    "pIWithTemplate": true,
+    "providerImageTemplate": true,
     "enableCrawl": true,
     "adMessage": [
       "If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!",
@@ -35,6 +35,168 @@
     ]
   },
   "appearance": {
-    "aspectRatio": [4, 3]
+    "aspectRatio": [4, 3],
+    "iconSet": "XL",
+    "narrator": "XL"
+  },
+  "locations": {
+    "mainCity": {
+      "autoFind": true,
+      "displayname": "Unkn. Loc",
+      "type": "",
+      "val": ""
+    },
+    "extraCity": {
+      "autoFind": true,
+      "displayname": "Unkn. Loc",
+      "type": "",
+      "val": ""
+    },
+    "eightCities": {
+      "autoFind": true,
+      "cities": [
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        }
+      ]
+    },
+    "airport": {
+      "autoFind": true,
+      "airports": [
+        {
+          "displayname": "",
+          "iataCode": ""
+        },
+        {
+          "displayname": "",
+          "iataCode": ""
+        }
+      ]
+    },
+    "golf": {
+      "coursesautoFind": true,
+      "courses": [
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        }
+      ],
+      "resortsautoFind": true,
+      "resorts": [
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        },
+        {
+          "displayname": "",
+          "type": "",
+          "val": ""
+        }
+      ]
+    },
+    "nationalAirports": [
+      {
+        "airportname": "Los Angeles Intl.",
+        "iataCode": "LAX",
+        "lat": "33.9422",
+        "lon": "-118.4036"
+      },
+      {
+        "airportname": "Denver Intl.",
+        "iataCode": "DEN",
+        "lat": "39.8494",
+        "lon": "-104.6729"
+      },
+      {
+        "airportname": "Dallas/Ft. Worth",
+        "iataCode": "DFW",
+        "lat": "32.8990",
+        "lon": "-97.0336"
+      },
+      {
+        "airportname": "Chicago/O'Hare",
+        "iataCode": "ORD",
+        "lat": "41.9803",
+        "lon": "-87.9090"
+      },
+      {
+        "airportname": "Atlanta Intl.",
+        "iataCode": "ATL",
+        "lat": "33.6324",
+        "lon": "-84.4333"
+      },
+      {
+        "airportname": "New York/JFK",
+        "iataCode": "JFK",
+        "lat": "40.6446",
+        "lon": "-73.7797"
+      },
+      {
+        "airportname": "San Francisco \nIntl.",
+        "iataCode": "SFO",
+        "lat": "37.6191",
+        "lon": "-122.3816"
+      },
+      {
+        "airportname": "Sea-Tac Intl.",
+        "iataCode": "SEA",
+        "lat": "47.4484",
+        "lon": "-122.3086"
+      }
+    ]
   }
 }

@@ -1,5 +1,7 @@
 class AudioManager {
   constructor(audioconfig) {
+    console.log(audioconfig);
+    this.audioconfig = audioconfig;
     this.playlist = [];
     this.$players = $('<div id="players">');
     this.isMobile = false;
@@ -26,12 +28,12 @@ class AudioManager {
   }
 
   playCC() {
-    if (!audioconfig.narrations) return;
+    if (!this.audioconfig.narrations) return;
     this.startPlaying(["narrations/Your_current_conditions.mp3"], false);
   }
 
   playLF() {
-    if (!audioconfig.narrations) return;
+    if (!this.audioconfig.narrations) return;
     this.startPlaying(["narrations/Your_local_forecast.mp3"], false);
   }
 
@@ -41,7 +43,7 @@ class AudioManager {
 
   buildPlaylist() {
     var musicPath = "music/";
-    audioconfig.songs.forEach((order) => {
+    this.audioconfig.songs.forEach((order) => {
       this.playlist.push(order);
     });
   }
