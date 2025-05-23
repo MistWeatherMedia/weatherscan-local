@@ -148,16 +148,6 @@ select {
   font-weight: 400;
 }
 
-/* Main Window */
-#WScanWindow {
-  width: 1620px;
-  height: 1080px;
-  overflow: hidden;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
 /*SETTINGS PANEL*/
 .location-warning {
   position: absolute;
