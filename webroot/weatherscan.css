@@ -119,6 +119,15 @@ html {
   font-size: 100%;
 }
 
+#WScanWindow {
+  width: 1620px;
+  height: 1080px;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
 /* BUTTONS AND UTILITIES*/
 button {
   background-color: #161418;
