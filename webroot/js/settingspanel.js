@@ -183,7 +183,7 @@ if (apperanceSettings.skipSettings == true) {
   }, 1000);
 } else {
   setTimeout(() => {
-    $("#version-number").text("Version " + apperanceSettings.version);
+    $("#version-number").text("Version " + simInfo.version);
     $("#setup-welcome").fadeIn(0);
   }, 1000);
 }

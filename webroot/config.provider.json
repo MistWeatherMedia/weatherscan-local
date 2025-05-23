@@ -1,0 +1,40 @@
+{
+  "provider": {
+    "providerName": "Mist Digital Cable",
+    "providerImage": "images/tvproviders/Mist.png",
+    "pIWithTemplate": true,
+    "enableCrawl": true,
+    "adMessage": [
+      "If you are interested in TWC, EAS, or anything weather/tech related, join Mist Weather Media! Visit mistwx.com/discord right now!",
+      "Want to watch Weatherscan and more from around the US? Visit live.weatherscan.net and search through the guide today!",
+      "If a tornado warning is issued will you get the call? Sign up now to recieve a phone call warning when severe weather is headed your way. Visit weather.com/notify to learn more.",
+      "Now Available! Get picture perfect weather with The Weather Channel HD."
+    ],
+    "crawlInterval": 48000
+  },
+  "audio": {
+    "enable": true,
+    "shuffle": true,
+    "narrations": true,
+    "songs": [
+      "music/Track 1.mp3",
+      "music/Track 2.mp3",
+      "music/Track 3.mp3",
+      "music/Track 4.mp3",
+      "music/Track 5.mp3",
+      "music/Track 6.mp3",
+      "music/Track 7.mp3",
+      "music/Track 8.mp3",
+      "music/Track 9.mp3",
+      "music/Track 10.mp3",
+      "music/Track 11.mp3",
+      "music/Track 12.mp3",
+      "music/Track 13.mp3",
+      "music/Track 14.mp3",
+      "music/Track 15.mp3"
+    ]
+  },
+  "appearance": {
+    "aspectRatio": [4, 3]
+  }
+}
