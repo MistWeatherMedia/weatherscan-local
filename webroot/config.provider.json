@@ -32,12 +32,12 @@
       "music/Track 13.mp3",
       "music/Track 14.mp3",
       "music/Track 15.mp3"
-    ]
+    ],
+    "narrator": "XL"
   },
   "appearance": {
     "aspectRatio": [4, 3],
-    "iconSet": "XL",
-    "narrator": "XL"
+    "iconSet": "XL"
   },
   "locations": {
     "mainCity": {
