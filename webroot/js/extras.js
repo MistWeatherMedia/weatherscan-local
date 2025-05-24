@@ -1,17 +1,17 @@
 //  Fisher-Yates shuffle
-function shuffle (array) {
-	var i = 0,
-	    j = 0,
-	    temp = null;
+function shuffle(array) {
+  var i = 0,
+    j = 0,
+    temp = null;
 
-	for (i = array.length - 1; i > 0; i -= 1) {
-		j = Math.floor(Math.random() * (i + 1));
-		temp = array[i];
-		array[i] = array[j];
-		array[j] = temp;
-	}
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
 
-	return array;
+  return array;
 }
 /*
 function getRandom(min, max) {
@@ -31,26 +31,26 @@ function getUrlParameter(e) {
 }
 */
 //convert minutes to hour and minutes
-function formatMinutes(m){
-  var hours = Math.trunc(m/60);
+function formatMinutes(m) {
+  var hours = Math.trunc(m / 60);
   var minutes = m % 60;
-  return (((hours != 0) ? (hours + ' h ') : '') + minutes +' min');
+  return (hours != 0 ? hours + " h " : "") + minutes + " min";
 }
 function differenceUTC(utcTime) {
-	currentEpoch = Date.now()
-	otherEpoch = new Date(utcTime)
-	otherEpoch = otherEpoch.getTime()
-	otherEpoch = Math.floor(otherEpoch)
-	diff = Math.round((otherEpoch - currentEpoch)/1000)
-	hours = Math.floor(diff / 3600)
-	minutes = Math.floor((diff % 3600) / 60)
-	if (hours == 0) {
-		hours = ""
-	} else {
-		hours = hours + " h "
-	}
-	minutes = minutes + " min"
-	return hours + minutes
+  currentEpoch = Date.now();
+  otherEpoch = new Date(utcTime);
+  otherEpoch = otherEpoch.getTime();
+  otherEpoch = Math.floor(otherEpoch);
+  diff = Math.round((otherEpoch - currentEpoch) / 1000);
+  hours = Math.floor(diff / 3600);
+  minutes = Math.floor((diff % 3600) / 60);
+  if (hours == 0) {
+    hours = "";
+  } else {
+    hours = hours + " h ";
+  }
+  minutes = minutes + " min";
+  return hours + minutes;
 }
 /*
 // convert celsius to farenheight
@@ -142,190 +142,221 @@ let pointsOnMapCircle = function(latitude, longitude, distance, numPoints) {
 }
 */
 function fadeSlideIn(div) {
-	$(div).css("z-index", "1")
-	try {
-		$(div + ' .slide-data').css("z-index", "1")
-	} catch (error) {}
-	$(div + ' .skeleton').css("z-index", "1")
-	$(div).fadeIn(0)
+  $(div).css("z-index", "1");
+  try {
+    $(div + " .slide-data").css("z-index", "1");
+  } catch (error) {}
+  $(div + " .skeleton").css("z-index", "1");
+  $(div).fadeIn(0);
 }
 
-function fadeSlideOut(div, time) {//this one you fade
-	time = time || 0
-	$(div).css("z-index", "3")
-	try {
-		$(div + ' .slide-data').css("z-index", "3")
-	} catch (error) {}
-		$(div + ' .skeleton').css("z-index", "3")
-	$(div).fadeOut(time)
+function fadeSlideOut(div, time) {
+  //this one you fade
+  time = time || 0;
+  $(div).css("z-index", "3");
+  try {
+    $(div + " .slide-data").css("z-index", "3");
+  } catch (error) {}
+  $(div + " .skeleton").css("z-index", "3");
+  $(div).fadeOut(time);
 }
 
 function getIcon(div, iconcode, wind, language) {
-	language = language || "english"
-	try {
-		if (iconcode == "blank") {
-			div.css('background-image', 'url("/images/icons/blank.png')
-		} else {
-			if (iconcode == 44 || iconcode == null || iconcode == undefined || iconcode == "") {
-				div.css('background-image', 'url("/images/icons/44.png')
-			} else {
-				if (wind >= 30) {
-					if (language == "spanish") {
-						div.css('background-image', 'url("/images/icons/24spanish.png')
-					} else {
-						div.css('background-image', 'url("/images/icons/24.png')
-					}
-				} else {
-					if (language == "spanish" && (iconcode == 8 || iconcode == 10 || iconcode == 19 || iconcode == 20 || iconcode == 21 || iconcode == 22 || iconcode == 23 || iconcode == 24 || iconcode == 25 || iconcode == 36)) {
-						div.css('background-image', 'url("/images/icons/'+iconcode+'spanish.png')
-					} else {
-						div.css('background-image', 'url("/images/icons/'+iconcode+'.png')
-					}
-				}
-			}
-		}
-		
-	} catch (error) {
-		div.css('background-image', 'url("/images/icons/44.png')
-	}
+  language = language || "english";
+  try {
+    if (iconcode == "blank") {
+      div.css("background-image", 'url("/images/icons/blank.png');
+    } else {
+      if (
+        iconcode == 44 ||
+        iconcode == null ||
+        iconcode == undefined ||
+        iconcode == ""
+      ) {
+        div.css("background-image", 'url("/images/icons/44.png');
+      } else {
+        if (wind >= 30) {
+          if (language == "spanish") {
+            div.css("background-image", 'url("/images/icons/24spanish.png');
+          } else {
+            div.css("background-image", 'url("/images/icons/24.png');
+          }
+        } else {
+          if (
+            language == "spanish" &&
+            (iconcode == 8 ||
+              iconcode == 10 ||
+              iconcode == 19 ||
+              iconcode == 20 ||
+              iconcode == 21 ||
+              iconcode == 22 ||
+              iconcode == 23 ||
+              iconcode == 24 ||
+              iconcode == 25 ||
+              iconcode == 36)
+          ) {
+            div.css(
+              "background-image",
+              'url("/images/icons/' + iconcode + "spanish.png"
+            );
+          } else {
+            div.css(
+              "background-image",
+              'url("/images/icons/' + iconcode + ".png"
+            );
+          }
+        }
+      }
+    }
+  } catch (error) {
+    div.css("background-image", 'url("/images/icons/44.png');
+  }
 }
 function getMapAdjustedCenters(lat, lon) {
-	//REGIONAL
-	//LON
-	if (lon > -75) {
-		locationConfig.radar.regionalCoords.lon = -75
-	} else if (lon < -122) {
-		locationConfig.radar.regionalCoords.lon = -117
-	} else {
-		locationConfig.radar.regionalCoords.lon = locationConfig.mainCity.lon
-	}
-	//LAT
-	if (lat < 28) {
-		locationConfig.radar.regionalCoords.lat = 28
-	} else if (lat > 45) {
-		locationConfig.radar.regionalCoords.lat = 45
-	} else {
-		locationConfig.radar.regionalCoords.lat = locationConfig.mainCity.lat
-	}
-	//LOCAL
-	//LON
-	if (lon > -67.9) {
-		locationConfig.radar.localCoords.lon = -67.9
-	} else if (lon < -124.1) {
-		locationConfig.radar.localCoords.lon = -124.1
-	} else {
-		locationConfig.radar.localCoords.lon = locationConfig.mainCity.lon
-	}
-	//LAT
-	if (lat < 24.559) {
-		locationConfig.radar.localCoords.lat = 24.559
-	} else if (lat > 49) {
-		locationConfig.radar.localCoords.lat = 49
-	} else {
-		locationConfig.radar.localCoords.lat = locationConfig.mainCity.lat
-	}
+  //REGIONAL
+  //LON
+  if (lon > -75) {
+    locationConfig.radar.regionalCoords.lon = -75;
+  } else if (lon < -122) {
+    locationConfig.radar.regionalCoords.lon = -117;
+  } else {
+    locationConfig.radar.regionalCoords.lon = locationConfig.mainCity.lon;
+  }
+  //LAT
+  if (lat < 28) {
+    locationConfig.radar.regionalCoords.lat = 28;
+  } else if (lat > 45) {
+    locationConfig.radar.regionalCoords.lat = 45;
+  } else {
+    locationConfig.radar.regionalCoords.lat = locationConfig.mainCity.lat;
+  }
+  //LOCAL
+  //LON
+  if (lon > -67.9) {
+    locationConfig.radar.localCoords.lon = -67.9;
+  } else if (lon < -124.1) {
+    locationConfig.radar.localCoords.lon = -124.1;
+  } else {
+    locationConfig.radar.localCoords.lon = locationConfig.mainCity.lon;
+  }
+  //LAT
+  if (lat < 24.559) {
+    locationConfig.radar.localCoords.lat = 24.559;
+  } else if (lat > 49) {
+    locationConfig.radar.localCoords.lat = 49;
+  } else {
+    locationConfig.radar.localCoords.lat = locationConfig.mainCity.lat;
+  }
+  centerBaseMap(
+    locationConfig.radar.localCoords.lat,
+    locationConfig.radar.localCoords.lon
+  );
+  centerBaseMapRegional(
+    locationConfig.radar.regionalCoords.lat,
+    locationConfig.radar.regionalCoords.lon
+  );
 }
 function adjustTimeZone(userTimeZone, locTimeZone) {
-	var timezones = {
-		"America/New_York":-5,
-		"America/Chicago":-6,
-		"Europe/London":0
-	}
-	var zone = timezones[userTimeZone] - timezones[locTimeZone];
-	timezoneDifference = zone;
+  var timezones = {
+    "America/New_York": -5,
+    "America/Chicago": -6,
+    "Europe/London": 0,
+  };
+  var zone = timezones[userTimeZone] - timezones[locTimeZone];
+  timezoneDifference = zone;
 }
 function crawlChooser(alert) {
-	var alerts = {
-		"Tornado Warning": true,
-		"Tornado Watch": true,
-		"Flash Flood Watch": true,
-		"Flash Flood Warning": true,
-		"Flash Flood Statement": true,
-		"Severe Thunderstorm Watch":true,
-		"Severe Thunderstorm Warning": true,
-		"Hurricane Warning": true,
-		"Hurricane Watch": true,
-		"Hurricane Local Statement": true,
-		"Storm Surge Warning": true,
-		"Winter Storm Warning": true,
-		"Winter Storm Watch": true,
-		"Blizzard Warning": true,
-		"Severe Weather Statement": true
-	}[alert]
-	if (alerts !== undefined) {
-		return alerts
-	} else {
-		return false
-	}
+  var alerts = {
+    "Tornado Warning": true,
+    "Tornado Watch": true,
+    "Flash Flood Watch": true,
+    "Flash Flood Warning": true,
+    "Flash Flood Statement": true,
+    "Severe Thunderstorm Watch": true,
+    "Severe Thunderstorm Warning": true,
+    "Hurricane Warning": true,
+    "Hurricane Watch": true,
+    "Hurricane Local Statement": true,
+    "Storm Surge Warning": true,
+    "Winter Storm Warning": true,
+    "Winter Storm Watch": true,
+    "Blizzard Warning": true,
+    "Severe Weather Statement": true,
+  }[alert];
+  if (alerts !== undefined) {
+    return alerts;
+  } else {
+    return false;
+  }
 }
 function beepWarning(alert) {
-	var alerts = {
-		"Tornado Warning": true,
-		"Flash Flood Warning": true,
-		"Flash Flood Statement": true,
-		"Severe Thunderstorm Warning": true,
-		"Hurricane Warning": true,
-		"Hurricane Local Statement": true,
-		"Storm Surge Warning": true,
-		"Winter Storm Warning": true,
-		"Blizzard Warning": true,
-	}[alert]
-	if (alerts !== undefined) {
-		return alerts
-	} else {
-		return false
-	}
+  var alerts = {
+    "Tornado Warning": true,
+    "Flash Flood Warning": true,
+    "Flash Flood Statement": true,
+    "Severe Thunderstorm Warning": true,
+    "Hurricane Warning": true,
+    "Hurricane Local Statement": true,
+    "Storm Surge Warning": true,
+    "Winter Storm Warning": true,
+    "Blizzard Warning": true,
+  }[alert];
+  if (alerts !== undefined) {
+    return alerts;
+  } else {
+    return false;
+  }
 }
 function beepWatch(alert) {
-	var alerts = {
-		"Tornado Watch": true,
-		"Flash Flood Watch": true,
-		"Severe Thunderstorm Watch":true,
-		"Hurricane Watch": true,
-		"Winter Storm Watch": true,
-	}[alert]
-	if (alerts !== undefined) {
-		return alerts
-	} else {
-		return false
-	}
+  var alerts = {
+    "Tornado Watch": true,
+    "Flash Flood Watch": true,
+    "Severe Thunderstorm Watch": true,
+    "Hurricane Watch": true,
+    "Winter Storm Watch": true,
+  }[alert];
+  if (alerts !== undefined) {
+    return alerts;
+  } else {
+    return false;
+  }
 }
 
 function sevalertNum(warningtitle) {
-	var alertstatus = {
-		"Tornado Warning": 15,
-		"Flash Flood Warning": 14,
-		"Severe Thunderstorm Warning": 13,
-		"Hurricane Warning": 12,
-		"Storm Surge Warning": 11,
-		"Blizzard Warning": 10,
-		"Winter Storm Warning": 9,
-		"Tornado Watch": 8,
-		"Flash Flood Watch": 7,
-		"Severe Thunderstorm Watch": 6,
-		"Hurricane Local Statement": 5,
-		"Severe Weather Statement": 4,
-		"Flash Flood Statement": 3,
-		"Hurricane Watch": 2,
-		"Winter Storm Watch": 1,
-	}[warningtitle]
-	if (alertstatus !== undefined) {
-		return alertstatus
-	} else {
-		return -1
-	}
-}
-function getCookie(name){
-    let cookies = decodeURIComponent(document.cookie);
-    let cookiesArr = cookies.split("; ");
-    for(var i = 0; i < cookiesArr.length; i++){
-      if(cookiesArr[i].split("=")[0] == name){
-        //console.log(cookiesArr[i]);
-        return cookiesArr[i].split("=")[1];
-      }
-    }
-    return "";
+  var alertstatus = {
+    "Tornado Warning": 15,
+    "Flash Flood Warning": 14,
+    "Severe Thunderstorm Warning": 13,
+    "Hurricane Warning": 12,
+    "Storm Surge Warning": 11,
+    "Blizzard Warning": 10,
+    "Winter Storm Warning": 9,
+    "Tornado Watch": 8,
+    "Flash Flood Watch": 7,
+    "Severe Thunderstorm Watch": 6,
+    "Hurricane Local Statement": 5,
+    "Severe Weather Statement": 4,
+    "Flash Flood Statement": 3,
+    "Hurricane Watch": 2,
+    "Winter Storm Watch": 1,
+  }[warningtitle];
+  if (alertstatus !== undefined) {
+    return alertstatus;
+  } else {
+    return -1;
   }
+}
+function getCookie(name) {
+  let cookies = decodeURIComponent(document.cookie);
+  let cookiesArr = cookies.split("; ");
+  for (var i = 0; i < cookiesArr.length; i++) {
+    if (cookiesArr[i].split("=")[0] == name) {
+      //console.log(cookiesArr[i]);
+      return cookiesArr[i].split("=")[1];
+    }
+  }
+  return "";
+}
 /*function getWarningPosition(warning) {
 var warnpos = { "Tsunami Warning":	1,
 "Tornado Warning":	2,
