@@ -1,4 +1,5 @@
 {
+  "version": 0,
   "provider": {
     "providerName": "Mist Digital Cable",
     "providerImage": "images/tvproviders/Mist.png",
@@ -38,6 +39,10 @@
   "appearance": {
     "aspectRatio": [4, 3],
     "iconSet": "XL"
+  },
+  "slides": {
+    "order": {},
+    "customPackages": {}
   },
   "locations": {
     "mainCity": {

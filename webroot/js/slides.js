@@ -1,4 +1,5 @@
 var extraCityName = "";
+var providerConfig = null;
 var slideDivs = {
   dopplerRadar: ".radar-doppler",
 
@@ -49,9 +50,47 @@ function slideCallBack() {
 }
 var slidePrograms = {
   /*RADAR*/
-  dopplerRadar() {
-    try {
-      if (weatherData.radarUnavailable == true) {
+  dopplerRadar: {
+    data: [],
+    func: function () {
+      try {
+        if (weatherData.radarUnavailable == true) {
+          //console.error(error);
+          $(".radar-doppler").fadeIn(0);
+          $(".radar-doppler .tempunavailable").fadeIn(0);
+          $(".locradar-cont").fadeOut(0);
+          $("#provider").css("margin-left", "15px");
+          $("#provider").css("margin-top", "5px");
+          setTimeout(function () {
+            slideCallBack();
+            $(".radar-doppler").fadeOut(0);
+            $(".radar-doppler .tempunavailable").fadeOut(0);
+            $(".locradar-cont").fadeIn(0);
+          }, slideLength * 2);
+        } else {
+          $(".radar-doppler").fadeIn(0);
+          startRadar(locradar);
+          $("#provider").css("margin-left", "15px");
+          $("#provider").css("margin-top", "5px");
+
+          if (providerConfig.appearance.aspectRatio == [3, 2]) {
+            $(".locradar-cont").attr(
+              "style",
+              "transform: scale(1.27, 1.35) translate3d(0,0,0);"
+            );
+          } else {
+            $("#locradar").attr(
+              "style",
+              "transform: scale(1.13, 1.335) translate3d(0,0,0);"
+            );
+          }
+          setTimeout(function () {
+            slideCallBack();
+            $(".radar-doppler").fadeOut(0);
+            $(".locradar-cont").attr("style", "");
+          }, slideLength * 2);
+        }
+      } catch (error) {
         //console.error(error);
         $(".radar-doppler").fadeIn(0);
         $(".radar-doppler .tempunavailable").fadeIn(0);
@@ -64,47 +103,48 @@ var slidePrograms = {
           $(".radar-doppler .tempunavailable").fadeOut(0);
           $(".locradar-cont").fadeIn(0);
         }, slideLength * 2);
-      } else {
-        $(".radar-doppler").fadeIn(0);
-        startRadar(locradar);
-        $("#provider").css("margin-left", "15px");
-        $("#provider").css("margin-top", "5px");
-
-        if (apperanceSettings.aspectRatio == 3 / 2) {
-          $(".locradar-cont").attr(
-            "style",
-            "transform: scale(1.27, 1.35) translate3d(0,0,0);"
-          );
-        } else {
-          $("#locradar").attr(
-            "style",
-            "transform: scale(1.13, 1.335) translate3d(0,0,0);"
-          );
-        }
-        setTimeout(function () {
-          slideCallBack();
-          $(".radar-doppler").fadeOut(0);
-          $(".locradar-cont").attr("style", "");
-        }, slideLength * 2);
       }
-    } catch (error) {
-      //console.error(error);
-      $(".radar-doppler").fadeIn(0);
-      $(".radar-doppler .tempunavailable").fadeIn(0);
-      $(".locradar-cont").fadeOut(0);
-      $("#provider").css("margin-left", "15px");
-      $("#provider").css("margin-top", "5px");
-      setTimeout(function () {
-        slideCallBack();
-        $(".radar-doppler").fadeOut(0);
-        $(".radar-doppler .tempunavailable").fadeOut(0);
-        $(".locradar-cont").fadeIn(0);
-      }, slideLength * 2);
-    }
+    },
   },
-  regionalSat() {
-    try {
-      if (weatherData.radarUnavailable == true) {
+  regionalSat: {
+    data: [],
+    func: function () {
+      try {
+        if (weatherData.radarUnavailable == true) {
+          $("#provider").css("margin-left", "15px");
+          $("#provider").css("margin-top", "5px");
+          $("#satradar").fadeOut(0);
+          $(".regional-sat").fadeIn(0);
+          $(".regional-sat .tempunavailable").fadeIn(0);
+          setTimeout(function () {
+            slideCallBack();
+            $(".regional-sat").fadeOut(0);
+            $(".regional-sat .tempunavailable").fadeOut(0);
+            $("#satradar").fadeIn(0);
+          }, slideLength * 2);
+        } else {
+          $(".regional-sat").fadeIn(0);
+          startRadar(satradar);
+          if (apperanceSettings.aspectRatio == 3 / 2) {
+            $(".satradar-cont").attr(
+              "style",
+              "transform: scale(1.28, 1.35) translate3d(0,0,0);"
+            );
+          } else {
+            $(".satradar-cont").attr(
+              "style",
+              "transform: scale(1.14, 1.335) translate3d(0,0,0);"
+            );
+          }
+          $("#provider").css("margin-left", "15px");
+          $("#provider").css("margin-top", "5px");
+          setTimeout(function () {
+            slideCallBack();
+            $(".regional-sat").fadeOut(0);
+            $(".satradar-cont").attr("style", "");
+          }, slideLength * 2);
+        }
+      } catch (error) {
         $("#provider").css("margin-left", "15px");
         $("#provider").css("margin-top", "5px");
         $("#satradar").fadeOut(0);
@@ -116,41 +156,8 @@ var slidePrograms = {
           $(".regional-sat .tempunavailable").fadeOut(0);
           $("#satradar").fadeIn(0);
         }, slideLength * 2);
-      } else {
-        $(".regional-sat").fadeIn(0);
-        startRadar(satradar);
-        if (apperanceSettings.aspectRatio == 3 / 2) {
-          $(".satradar-cont").attr(
-            "style",
-            "transform: scale(1.28, 1.35) translate3d(0,0,0);"
-          );
-        } else {
-          $(".satradar-cont").attr(
-            "style",
-            "transform: scale(1.14, 1.335) translate3d(0,0,0);"
-          );
-        }
-        $("#provider").css("margin-left", "15px");
-        $("#provider").css("margin-top", "5px");
-        setTimeout(function () {
-          slideCallBack();
-          $(".regional-sat").fadeOut(0);
-          $(".satradar-cont").attr("style", "");
-        }, slideLength * 2);
       }
-    } catch (error) {
-      $("#provider").css("margin-left", "15px");
-      $("#provider").css("margin-top", "5px");
-      $("#satradar").fadeOut(0);
-      $(".regional-sat").fadeIn(0);
-      $(".regional-sat .tempunavailable").fadeIn(0);
-      setTimeout(function () {
-        slideCallBack();
-        $(".regional-sat").fadeOut(0);
-        $(".regional-sat .tempunavailable").fadeOut(0);
-        $("#satradar").fadeIn(0);
-      }, slideLength * 2);
-    }
+    },
   },
   regionalRadar() {
     try {

@@ -35,23 +35,28 @@ var weatherData = {
     ],
   },
   almanac: {
-    noReport: false,
-    today: "",
-    tomorrow: "",
-    sunrisetoday: "",
-    sunrisetomorow: "",
-    sunsettoday: "",
-    sunsettomorrow: "",
-    moonphases: [
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-      { moon: "blank", date: "" },
-    ],
+    time: {
+      noReport: false,
+      today: "",
+      tomorrow: "",
+      sunrisetoday: "",
+      sunrisetomorow: "",
+      sunsettoday: "",
+      sunsettomorrow: "",
+    },
+    moonphases: {
+      noReport: false,
+      moons: [
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+        { moon: "blank", date: "" },
+      ],
+    },
   },
   alerts: { warnings: [] },
   radarUnavailable: false,
@@ -124,23 +129,28 @@ var weatherData = {
       ],
     },
     almanac: {
-      noReport: false,
-      today: "",
-      tomorrow: "",
-      sunrisetoday: "",
-      sunrisetomorow: "",
-      sunsettoday: "",
-      sunsettomorrow: "",
-      moonphases: [
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-        { moon: "blank", date: "" },
-      ],
+      time: {
+        noReport: false,
+        today: "",
+        tomorrow: "",
+        sunrisetoday: "",
+        sunrisetomorow: "",
+        sunsettoday: "",
+        sunsettomorrow: "",
+      },
+      moonphases: {
+        noReport: false,
+        moons: [
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+          { moon: "blank", date: "" },
+        ],
+      },
     },
   },
   golf: {
@@ -426,21 +436,18 @@ var weatherData = {
     ],
   },
   uvIndex: {
-    noReport: false,
-    cityname: "",
-    current: { uv: "", word: "" },
-    forecast: [
-      { day: "", time: "", uv: "", word: "" },
-      { day: "", time: "", uv: "", word: "" },
-      { day: "", time: "", uv: "", word: "" },
-    ],
+    current: { uv: "", word: "", noReport: false, cityname: "" },
+    forecast: {
+      noReport,
+      days: [
+        { day: "", time: "", uv: "", word: "" },
+        { day: "", time: "", uv: "", word: "" },
+        { day: "", time: "", uv: "", word: "" },
+      ],
+    },
   },
 };
 
-for (var i = 0; i < locationConfig.golf.coursesAmount; i++) {
-  grabCoursesData(i);
-}
+var providerConfig = null;
 
-for (var i = 0; i < locationConfig.golf.resortsAmount; i++) {
-  //grabResortsData(i)
-}
+function grabData() {}

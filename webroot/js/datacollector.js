@@ -466,73 +466,72 @@ if (window.Worker) {
             errmsg = `Almanac (Moon) failed proccessing: ${error}`;
           }
         }
-      )
-        .fail(function (xhr, status, error) {
-          for (let i = 0; i < 4; i++) {
-            almanac.moonphases[i].date = "";
-            almanac.moonphases[i].moon = "blank";
-          }
-          //console.log("first moon grab failed")
-          fail = true;
-          errmsg = `Alamanac (Moon) failed grabbing: ${error}`;
-        })
-        .always(function () {
-          try {
-            $.getJSON(
-              `https://www.icalendar37.net/lunar/api/?lang=en&month=${dateFns.format(
-                dateFns.addMonths(new Date(), 1),
-                "M"
-              )}&year=${dateFns.format(
-                dateFns.addMonths(new Date(), 1),
-                "YYYY"
-              )}`,
-              function (data) {
-                try {
-                  for (phase in data.phase) {
-                    if (data.phase[phase].isPhaseLimit != false) {
-                      almanac.moonphases[ii].moon = {
-                        "New Moon": "New",
-                        "First quarter": "First",
-                        "Full moon": "Full",
-                        "Last quarter": "Last",
-                      }[data.phase[phase].phaseName];
-                      almanac.moonphases[ii].date =
-                        String(data.monthName).slice(0, 3) + " " + phase;
-                      almanac.moonphases[ii].date =
-                        phase.toString().length == 1
-                          ? almanac.moonphases[ii].date
-                              .replace(" 1", " 01")
-                              .replace(" 2", " 02")
-                              .replace(" 3", " 03")
-                              .replace(" 4", " 04")
-                              .replace(" 5", " 05")
-                              .replace(" 6", " 06")
-                              .replace(" 7", " 07")
-                              .replace(" 8", " 08")
-                              .replace(" 9", " 09")
-                          : almanac.moonphases[ii].date;
-                      ii += 1;
-                    }
+      ).fail(function (xhr, status, error) {
+        for (let i = 0; i < 4; i++) {
+          almanac.moonphases[i].date = "";
+          almanac.moonphases[i].moon = "blank";
+        }
+        //console.log("first moon grab failed")
+        fail = true;
+        errmsg = `Alamanac (Moon) failed grabbing: ${error}`;
+      });
+      setTimeout(function () {
+        try {
+          $.getJSON(
+            `https://www.icalendar37.net/lunar/api/?lang=en&month=${dateFns.format(
+              dateFns.addMonths(new Date(), 1),
+              "M"
+            )}&year=${dateFns.format(
+              dateFns.addMonths(new Date(), 1),
+              "YYYY"
+            )}`,
+            function (data) {
+              try {
+                for (phase in data.phase) {
+                  if (data.phase[phase].isPhaseLimit != false) {
+                    almanac.moonphases[ii].moon = {
+                      "New Moon": "New",
+                      "First quarter": "First",
+                      "Full moon": "Full",
+                      "Last quarter": "Last",
+                    }[data.phase[phase].phaseName];
+                    almanac.moonphases[ii].date =
+                      String(data.monthName).slice(0, 3) + " " + phase;
+                    almanac.moonphases[ii].date =
+                      phase.toString().length == 1
+                        ? almanac.moonphases[ii].date
+                            .replace(" 1", " 01")
+                            .replace(" 2", " 02")
+                            .replace(" 3", " 03")
+                            .replace(" 4", " 04")
+                            .replace(" 5", " 05")
+                            .replace(" 6", " 06")
+                            .replace(" 7", " 07")
+                            .replace(" 8", " 08")
+                            .replace(" 9", " 09")
+                        : almanac.moonphases[ii].date;
+                    ii += 1;
                   }
-                  //console.log("second moons grabbed")
-                } catch (error) {
-                  fail = true;
-                  errmsg = `Almanac (Second Moon) failed processing: ${error}`;
                 }
+                //console.log("second moons grabbed")
+              } catch (error) {
+                fail = true;
+                errmsg = `Almanac (Second Moon) failed processing: ${error}`;
               }
-            ).fail(function () {
-              for (let i = 0; i < 4; i++) {
-                if (almanac.moonphases[i].date != "")
-                  almanac.moonphases[i].date = "";
-                almanac.moonphases[i].moon = "blank";
-              }
-              //console.log("second moon grab failed")
-            });
-          } catch (error) {
-            fail = true;
-            errmsg = `Almanac (Second Moon) failed grabbing: ${error}`;
-          }
-        });
+            }
+          ).fail(function () {
+            for (let i = 0; i < 4; i++) {
+              if (almanac.moonphases[i].date != "")
+                almanac.moonphases[i].date = "";
+              almanac.moonphases[i].moon = "blank";
+            }
+            //console.log("second moon grab failed")
+          });
+        } catch (error) {
+          fail = true;
+          errmsg = `Almanac (Second Moon) failed grabbing: ${error}`;
+        }
+      }, 500);
       //console.log(almanac.moonphases)
     } catch (error) {
       for (let i = 0; i < 8; i++) {
@@ -544,7 +543,14 @@ if (window.Worker) {
       //console.log(almanac.moonphases)
       //console.log("all moon grabs failed")
     }
-    return { fail: fail, msg: errmsg, data: almanac };
+    let newformat = {
+      noReport: false,
+      moons: almanac.moonphases,
+    };
+    if (fail) {
+      newformat.noReport = true;
+    }
+    return { fail: fail, msg: errmsg, data: newformat };
   }
 
   function getWarnings(lat, lon, key, alerts) {
@@ -775,7 +781,7 @@ if (window.Worker) {
                 airportsObj.delay = "No Delay";
               }
               //console.log("airport conditions grabbed")
-              airportConditions.airports.push(airportsObj);
+              airportConditions.push(airportsObj);
             } catch (error) {
               fail = true;
               errmsg = `Airport conditions processing failed: ${error}`;
@@ -793,7 +799,7 @@ if (window.Worker) {
             airportsObj.windspeed = "";
             airportsObj.delay = "No Report";
             //console.log("airport conditions grab failed")
-            airportConditions.airports.push(airportsObj);
+            airportConditions.push(airportsObj);
             fail = true;
             errmsg = `Airport conditions processing failed (ajaxedLoc is missing?): ${error}`;
           }
@@ -810,7 +816,7 @@ if (window.Worker) {
           airportsObj.windspeed = "";
           airportsObj.delay = "No Report";
           //console.log("airport conditions grab failed")
-          airportConditions.airports.push(airportsObj);
+          airportConditions.push(airportsObj);
           fail = true;
           errmsg = `Airport conditions processing failed: ${error}`;
         }
@@ -841,7 +847,7 @@ if (window.Worker) {
         airportsObj.windspeed = "";
         airportsObj.delay = "No Report";
         //console.log("airport conditions grab failed")
-        airportConditions.airports.push(airportsObj);
+        airportConditions.push(airportsObj);
         fail = true;
         errmsg = `Airport conditions grabbing failed: ${error}`;
       }
@@ -855,12 +861,8 @@ if (window.Worker) {
     let errmsg = "";
     let url =
       "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
-    for (let li = 0; li < nationalAirports.airports.length; li++) {
-      url +=
-        nationalAirports.airports[li].lat +
-        "," +
-        nationalAirports.airports[li].lon +
-        ";";
+    for (let li = 0; li < nationalAirports.length; li++) {
+      url += nationalAirports[li].lat + "," + nationalAirports[li].lon + ";";
     }
     url += "&language=en-US&units=e&format=json&apiKey=" + api_key;
     $.getJSON(url, function (data) {
@@ -921,8 +923,16 @@ if (window.Worker) {
   }
 
   //console.log("grabbed data")
-  function grabESCurrentConditions(lat, lon, units, key, name) {
-    let currentConditions = {};
+  function grabESCurrentConditions(
+    lat,
+    lon,
+    units,
+    key,
+    name,
+    currentConditions
+  ) {
+    let fail = false;
+    let errmsg = "";
     let url =
       "https://api.weather.com/v3/wx/observations/current?geocode=" +
       lat +
@@ -964,10 +974,12 @@ if (window.Worker) {
         currentConditions.wind = "";
         currentConditions.windspeed = "";
         currentConditions.noReport = true;
+        fail = true;
+        errmsg = `Processing current conditions failed: ${error}`;
         //console.log(spanish.currentConditions)
         //console.log("current conditions grab failed")
       }
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       currentConditions.cityname = name;
       currentConditions.cond = "";
       currentConditions.gusts = "";
@@ -980,11 +992,15 @@ if (window.Worker) {
       currentConditions.noReport = true;
       //console.log(spanish.currentConditions)
       //console.log("current conditions grab failed")
+      fail = true;
+      errmsg = `Grabbing current condtions failed: ${error}`;
     });
-    return currentConditions;
+    return { fail: fail, msg: errmsg, data: currentConditions };
   }
 
   function grabESNearbyConditions(eightCities, units, key) {
+    let fail = false;
+    let errmsg = "";
     let cities = [];
     let url =
       "https://api.weather.com/v3/aggcommon/v3-wx-observations-current?geocodes=";
@@ -1036,6 +1052,8 @@ if (window.Worker) {
             nearbyCitiesObj.wind = "";
             nearbyCitiesObj.windspeed = "";
             cities.push(nearbyCitiesObj);
+            fail = true;
+            errmsg = `Failed processing ${eightCities.cities[i].displayname}'s nearby location (spanish) data: ajaxedLoc is missing.`;
           }
         } catch (error) {
           nearbyCitiesObj.noReport = true;
@@ -1045,11 +1063,13 @@ if (window.Worker) {
           nearbyCitiesObj.wind = "";
           nearbyCitiesObj.windspeed = "";
           cities.push(nearbyCitiesObj);
+          fail = true;
+          errmsg = `Failed processing ${eightCities.cities[i].displayname}'s nearby location (spanish) data: ${error}`;
         }
       });
       //console.log(spanish.nearbyCities.cities)
       // console.log("nearby conditions grabbed")
-    }).fail(function (error) {
+    }).fail(function (xhr, status, error) {
       for (let i; i < eightCities.citiesAmount; i++) {
         let nearbyCitiesObj = {
           noReport: false,
@@ -1071,11 +1091,15 @@ if (window.Worker) {
       //console.log(spanish.nearbyCities.cities)
       //console.log("nearby conditions grab failed")
       //console.log(error)
+      fail = true;
+      errmsg = `Failed grabbing nearby location (spanish) data: ${error}`;
     });
-    return cities;
+    return { fail: fail, msg: errmsg, data: cities };
   }
 
   function grabESExtended(lat, lon, units, key, name) {
+    let fail = false;
+    let errmsg = "";
     let extendedForecast = {};
     let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
@@ -1141,8 +1165,10 @@ if (window.Worker) {
         }
         //console.log(spanish.extendedForecast)
         //console.log("extended forecast grab failed")
+        fail = true;
+        errmsg = `Extended Forecast (Spanish) data processing failed: ${error}`;
       }
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       extendedForecast.cityname = locationConfig.mainCity.displayname;
       extendedForecast.noReport = true;
       for (let i = 0; i < spanish.extendedForecast.days.length; i++) {
@@ -1155,11 +1181,15 @@ if (window.Worker) {
       }
       //console.log(spanish.extendedForecast)
       //console.log("extended forecast grab failed")
+      fail = true;
+      errmsg = `Extended Forecast (Spanish) data processing failed: ${error}`;
     });
-    return extendedForecast;
+    return { fail: fail, msg: errmsg, data: extendedForecast };
   }
 
   function grabESAlmanac(lat, lon, key, units) {
+    let fail = false;
+    let errmsg = "";
     let almanac = {};
     let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
@@ -1171,64 +1201,69 @@ if (window.Worker) {
       "&language=es-US&apiKey=" +
       key;
     $.getJSON(url, function (data) {
-      let ii = 0;
-      if (data.daypart[0].daypartName[0] == null) {
-        ii = 1;
+      try {
+        let ii = 0;
+        if (data.daypart[0].daypartName[0] == null) {
+          ii = 1;
+        }
+        almanac.noReport = false;
+        almanac.sunrisetoday = new Date(data.sunriseTimeLocal[ii]);
+        almanac.sunrisetoday = spanish.almanac.sunrisetoday
+          .toLocaleTimeString("es-US", {
+            hour: "numeric",
+            hour12: true,
+            minute: "numeric",
+          })
+          .replace(/ /g, " ")
+          .toLowerCase()
+          .replaceAll(".", "");
+        almanac.sunrisetomorow = new Date(data.sunriseTimeLocal[ii + 1]);
+        almanac.sunrisetomorow = spanish.almanac.sunrisetomorow
+          .toLocaleTimeString("es-US", {
+            hour: "numeric",
+            hour12: true,
+            minute: "numeric",
+          })
+          .replace(/ /g, " ")
+          .toLowerCase()
+          .replaceAll(".", "");
+        almanac.sunsettoday = new Date(data.sunsetTimeLocal[ii]);
+        almanac.sunsettoday = spanish.almanac.sunsettoday
+          .toLocaleTimeString("es-US", {
+            hour: "numeric",
+            hour12: true,
+            minute: "numeric",
+          })
+          .replace(/ /g, " ")
+          .toLowerCase()
+          .replaceAll(".", "");
+        almanac.sunsettomorrow = new Date(data.sunsetTimeLocal[ii + 1]);
+        almanac.sunsettomorrow = spanish.almanac.sunsettomorrow
+          .toLocaleTimeString("es-US", {
+            hour: "numeric",
+            hour12: true,
+            minute: "numeric",
+          })
+          .replace(/ /g, " ")
+          .toLowerCase()
+          .replaceAll(".", "");
+        almanac.today = data.dayOfWeek[ii]
+          .substring(0, 3)
+          .toUpperCase()
+          .replace("MIÉ", "MIERC")
+          .replace("SÁB", "SAB");
+        almanac.tomorrow = data.dayOfWeek[ii + 1]
+          .substring(0, 3)
+          .toUpperCase()
+          .replace("MIÉ", "MIERC")
+          .replace("SÁB", "SAB");
+        //console.log(spanish.almanac)
+        //console.log("almanac grabbed")
+      } catch (error) {
+        fail = true;
+        errmsg = `Alamanac (spanish) processing failed: ${error}`;
       }
-      almanac.noReport = false;
-      almanac.sunrisetoday = new Date(data.sunriseTimeLocal[ii]);
-      almanac.sunrisetoday = spanish.almanac.sunrisetoday
-        .toLocaleTimeString("es-US", {
-          hour: "numeric",
-          hour12: true,
-          minute: "numeric",
-        })
-        .replace(/ /g, " ")
-        .toLowerCase()
-        .replaceAll(".", "");
-      almanac.sunrisetomorow = new Date(data.sunriseTimeLocal[ii + 1]);
-      almanac.sunrisetomorow = spanish.almanac.sunrisetomorow
-        .toLocaleTimeString("es-US", {
-          hour: "numeric",
-          hour12: true,
-          minute: "numeric",
-        })
-        .replace(/ /g, " ")
-        .toLowerCase()
-        .replaceAll(".", "");
-      almanac.sunsettoday = new Date(data.sunsetTimeLocal[ii]);
-      almanac.sunsettoday = spanish.almanac.sunsettoday
-        .toLocaleTimeString("es-US", {
-          hour: "numeric",
-          hour12: true,
-          minute: "numeric",
-        })
-        .replace(/ /g, " ")
-        .toLowerCase()
-        .replaceAll(".", "");
-      almanac.sunsettomorrow = new Date(data.sunsetTimeLocal[ii + 1]);
-      almanac.sunsettomorrow = spanish.almanac.sunsettomorrow
-        .toLocaleTimeString("es-US", {
-          hour: "numeric",
-          hour12: true,
-          minute: "numeric",
-        })
-        .replace(/ /g, " ")
-        .toLowerCase()
-        .replaceAll(".", "");
-      almanac.today = data.dayOfWeek[ii]
-        .substring(0, 3)
-        .toUpperCase()
-        .replace("MIÉ", "MIERC")
-        .replace("SÁB", "SAB");
-      almanac.tomorrow = data.dayOfWeek[ii + 1]
-        .substring(0, 3)
-        .toUpperCase()
-        .replace("MIÉ", "MIERC")
-        .replace("SÁB", "SAB");
-      //console.log(spanish.almanac)
-      //console.log("almanac grabbed")
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       almanac.noReport = true;
       almanac.sunrisetoday = "";
       almanac.sunrisetomorow = "";
@@ -1238,11 +1273,15 @@ if (window.Worker) {
       almanac.tomorrow = "";
       //console.log(spanish.almanac)
       //console.log("almanac grab fail")
+      fail = true;
+      errmsg = `Alamanac (spanish) grabbing failed: ${error}`;
     });
-    return almanac;
+    return { fail: fail, msg: errmsg, data: almanac };
   }
 
   function grabESMoons() {
+    let fail = true;
+    let errmsg = "";
     let almanac = {};
     let ii = 0;
     try {
@@ -1252,55 +1291,60 @@ if (window.Worker) {
           "M"
         )}&year=${dateFns.format(new Date(), "YYYY")}`,
         function (data) {
-          for (phase in data.phase) {
-            if (phase < new Date().getDate()) {
-              continue;
+          try {
+            for (phase in data.phase) {
+              if (phase < new Date().getDate()) {
+                continue;
+              }
+              if (data.phase[phase].isPhaseLimit != false) {
+                almanac.moonphases[ii].moon = {
+                  "Luna nueva": "Nueva",
+                  "Cuarto creciente": "Creciente",
+                  "Luna llena": "Llena",
+                  "Cuarto menguante": "Menguante",
+                }[data.phase[phase].phaseName];
+                almanac.moonphases[ii].date =
+                  String(data.monthName).slice(0, 3) + " " + phase;
+                almanac.moonphases[ii].date =
+                  phase.toString().length == 1
+                    ? almanac.moonphases[ii].date
+                        .replace(" 1", " 01")
+                        .replace(" 2", " 02")
+                        .replace(" 3", " 03")
+                        .replace(" 4", " 04")
+                        .replace(" 5", " 05")
+                        .replace(" 6", " 06")
+                        .replace(" 7", " 07")
+                        .replace(" 8", " 08")
+                        .replace(" 9", " 09")
+                    : almanac.moonphases[ii].date;
+                ii += 1;
+              }
             }
-            if (data.phase[phase].isPhaseLimit != false) {
-              almanac.moonphases[ii].moon = {
-                "Luna nueva": "Nueva",
-                "Cuarto creciente": "Creciente",
-                "Luna llena": "Llena",
-                "Cuarto menguante": "Menguante",
-              }[data.phase[phase].phaseName];
-              almanac.moonphases[ii].date =
-                String(data.monthName).slice(0, 3) + " " + phase;
-              almanac.moonphases[ii].date =
-                phase.toString().length == 1
-                  ? almanac.moonphases[ii].date
-                      .replace(" 1", " 01")
-                      .replace(" 2", " 02")
-                      .replace(" 3", " 03")
-                      .replace(" 4", " 04")
-                      .replace(" 5", " 05")
-                      .replace(" 6", " 06")
-                      .replace(" 7", " 07")
-                      .replace(" 8", " 08")
-                      .replace(" 9", " 09")
-                  : almanac.moonphases[ii].date;
-              ii += 1;
-            }
+            //console.log("first moons grabbed")
+          } catch (error) {
+            fail = true;
+            errmsg = `Almanac (Moon (spanish)) processing failed: ${error}`;
           }
-          //console.log("first moons grabbed")
         }
-      )
-        .fail(function () {
-          for (let i = 0; i < 4; i++) {
-            almanac.moonphases[i].date = "";
-            almanac.moonphases[i].moon = "blank";
-          }
-          //console.log("first moon grab failed")
-        })
-        .always(function () {
-          $.getJSON(
-            `https://www.icalendar37.net/lunar/api/?lang=es&month=${dateFns.format(
-              dateFns.addMonths(new Date(), 1),
-              "M"
-            )}&year=${dateFns.format(
-              dateFns.addMonths(new Date(), 1),
-              "YYYY"
-            )}`,
-            function (data) {
+      ).fail(function () {
+        for (let i = 0; i < 4; i++) {
+          almanac.moonphases[i].date = "";
+          almanac.moonphases[i].moon = "blank";
+        }
+        fail = true;
+        errmsg = `Almanac (Moon (spanish)) grabbing failed: ${error}`;
+        //console.log("first moon grab failed")
+      });
+
+      setTimeout(function () {
+        $.getJSON(
+          `https://www.icalendar37.net/lunar/api/?lang=es&month=${dateFns.format(
+            dateFns.addMonths(new Date(), 1),
+            "M"
+          )}&year=${dateFns.format(dateFns.addMonths(new Date(), 1), "YYYY")}`,
+          function (data) {
+            try {
               for (phase in data.phase) {
                 if (data.phase[phase].isPhaseLimit != false) {
                   almanac.moonphases[ii].moon = {
@@ -1328,200 +1372,234 @@ if (window.Worker) {
                 }
               }
               //console.log("second moons grabbed")
+            } catch (error) {
+              fail = true;
+              errmsg = `Almanac (Second Moon (spanish)) processing failed: ${error}`;
             }
-          ).fail(function () {
-            for (let i = 0; i < 4; i++) {
-              if (almanac.moonphases[i].date != "")
-                almanac.moonphases[i].date = "";
-              almanac.moonphases[i].moon = "blank";
-            }
-            //console.log("second moon grab failed")
-          });
-          //console.log(spanish.almanac.moonphases)
+          }
+        ).fail(function (xhr, status, error) {
+          for (let i = 0; i < 4; i++) {
+            if (almanac.moonphases[i].date != "")
+              almanac.moonphases[i].date = "";
+            almanac.moonphases[i].moon = "blank";
+          }
+          fail = true;
+          errmsg = `Almanac (Second Moon (spanish)) grabbing failed: ${error}`;
+          //console.log("second moon grab failed")
         });
+        //console.log(spanish.almanac.moonphases)
+      }, 500);
     } catch (error) {
       for (let i = 0; i < 8; i++) {
         almanac.moonphases[i].date = "";
         almanac.moonphases[i].moon = "blank";
+        fail = true;
+        errmsg = `Almanac (All Moons (spanish)) grabbing failed: ${error}`;
       }
       //console.log(spanish.almanac.moonphases)
       //console.log("all moon grabs failed")
     }
+    let newformat = {
+      noReport: false,
+      moons: almanac.moonphases,
+    };
+    if (fail) {
+      newformat.noReport = true;
+    }
+    return { fail: fail, msg: errmsg, data: newformat };
   }
 
-  function grabCoursesData(ci, golf, units, key) {
+  function grabCoursesData(golf, units, key) {
+    let fail = false;
+    let errmsg = "";
     let golfData = {};
-    let url =
-      "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      golf.courses[ci].lat +
-      "," +
-      golf.courses[ci].lon +
-      "&format=json&units=" +
-      units +
-      "&language=en-US&apiKey=" +
-      key;
-    $.getJSON(url, function (data) {
-      try {
-        golfData.courseForecast[ci].cityname = golf.courses[ci].displayname;
-        golfData.courseForecast[ci].noReport = false;
-        let ii = 0;
-        let dpi = 0;
-        if (data.daypart[0].daypartName[0] == null) {
-          ii = 1;
-          dpi = 2;
+    golf.courses.forEach((ci) => {
+      let url =
+        "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
+        golf.courses[ci].lat +
+        "," +
+        golf.courses[ci].lon +
+        "&format=json&units=" +
+        units +
+        "&language=en-US&apiKey=" +
+        key;
+      $.getJSON(url, function (data) {
+        try {
+          golfData.courseForecast[ci].cityname = golf.courses[ci].displayname;
+          golfData.courseForecast[ci].noReport = false;
+          let ii = 0;
+          let dpi = 0;
+          if (data.daypart[0].daypartName[0] == null) {
+            ii = 1;
+            dpi = 2;
+          }
+          for (
+            let i = 0;
+            i < golfData.courseForecast[ci].days.length;
+            i++, ii++, dpi = dpi + 2
+          ) {
+            golfData.courseForecast[ci].days[i].cond =
+              data.daypart[0].wxPhraseLong[dpi]
+                .replaceAll("/", "/ ")
+                .replaceAll("Thunderstorms", "T'storms")
+                .replaceAll("Scattered", "Sct'd")
+                .replaceAll("Thundershowers", "T'showers");
+            golfData.courseForecast[ci].days[i].dayname = data.dayOfWeek[ii]
+              .substring(0, 3)
+              .toUpperCase();
+            golfData.courseForecast[ci].days[i].high = data.temperatureMax[ii];
+            golfData.courseForecast[ci].days[i].icon =
+              data.daypart[0].iconCode[dpi];
+            golfData.courseForecast[ci].days[i].low = data.temperatureMin[ii];
+            golfData.courseForecast[ci].days[i].windspeed =
+              data.daypart[0].windSpeed[dpi];
+          }
+          //console.log(golf.courseForecast[ci])
+          //console.log("golf courses forecast " + ci + " grabbed")
+        } catch (error) {
+          golfData.courseForecast[ci].cityname = golf.courses[ci].displayname;
+          golfData.courseForecast[ci].noReport = true;
+          let ii = 0;
+          let dpi = 0;
+          if (data.daypart[0].daypartName[0] == null) {
+            ii = 1;
+            dpi = 2;
+          }
+          for (
+            let i = 0;
+            i < golf.courseForecast[ci].days.length;
+            i++, ii++, dpi = dpi + 2
+          ) {
+            golfData.courseForecast[ci].days[i].cond = "";
+            golfData.courseForecast[ci].days[i].dayname = "";
+            golfData.courseForecast[ci].days[i].high = "";
+            golfData.courseForecast[ci].days[i].icon = 44;
+            golfData.courseForecast[ci].days[i].low = "";
+            golfData.courseForecast[ci].days[i].windspeed = "";
+          }
+          //console.log(golf.courseForecast[ci])
+          //console.log("golf courses forecast " + ci + " grab failed")
+          fail = true;
+          errmsg = `Golf (${ci}) data processing failed: ${error}`;
         }
-        for (
-          let i = 0;
-          i < golfData.courseForecast[ci].days.length;
-          i++, ii++, dpi = dpi + 2
-        ) {
-          golfData.courseForecast[ci].days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll("/", "/ ")
-              .replaceAll("Thunderstorms", "T'storms")
-              .replaceAll("Scattered", "Sct'd")
-              .replaceAll("Thundershowers", "T'showers");
-          golfData.courseForecast[ci].days[i].dayname = data.dayOfWeek[ii]
-            .substring(0, 3)
-            .toUpperCase();
-          golfData.courseForecast[ci].days[i].high = data.temperatureMax[ii];
-          golfData.courseForecast[ci].days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          golfData.courseForecast[ci].days[i].low = data.temperatureMin[ii];
-          golfData.courseForecast[ci].days[i].windspeed =
-            data.daypart[0].windSpeed[dpi];
-        }
-        //console.log(golf.courseForecast[ci])
-        //console.log("golf courses forecast " + ci + " grabbed")
-      } catch (error) {
+      }).fail(function (xhr, status, error) {
         golfData.courseForecast[ci].cityname = golf.courses[ci].displayname;
         golfData.courseForecast[ci].noReport = true;
-        let ii = 0;
-        let dpi = 0;
-        if (data.daypart[0].daypartName[0] == null) {
-          ii = 1;
-          dpi = 2;
-        }
-        for (
-          let i = 0;
-          i < golf.courseForecast[ci].days.length;
-          i++, ii++, dpi = dpi + 2
-        ) {
+        for (let i = 0; i < golf.courseForecast[ci].days.length; i++) {
           golfData.courseForecast[ci].days[i].cond = "";
           golfData.courseForecast[ci].days[i].dayname = "";
           golfData.courseForecast[ci].days[i].high = "";
-          golfData.courseForecast[ci].days[i].icon = 44;
+          golfData.courseForecast[ci].days[i].icon = "";
           golfData.courseForecast[ci].days[i].low = "";
           golfData.courseForecast[ci].days[i].windspeed = "";
         }
         //console.log(golf.courseForecast[ci])
         //console.log("golf courses forecast " + ci + " grab failed")
-      }
-    }).fail(function () {
-      golfData.courseForecast[ci].cityname = golf.courses[ci].displayname;
-      golfData.courseForecast[ci].noReport = true;
-      for (let i = 0; i < golf.courseForecast[ci].days.length; i++) {
-        golfData.courseForecast[ci].days[i].cond = "";
-        golfData.courseForecast[ci].days[i].dayname = "";
-        golfData.courseForecast[ci].days[i].high = "";
-        golfData.courseForecast[ci].days[i].icon = "";
-        golfData.courseForecast[ci].days[i].low = "";
-        golfData.courseForecast[ci].days[i].windspeed = "";
-      }
-      //console.log(golf.courseForecast[ci])
-      //console.log("golf courses forecast " + ci + " grab failed")
+        fail = true;
+        errmsg = `Golf (${ci}) data processing failed: ${error}`;
+      });
     });
     //}
-    return golfData;
+    return { fail: fail, msg: errmsg, data: golfData.courseForecast };
   }
 
-  function grabResortsData(ri, golf, units, key) {
+  function grabResortsData(golf, units, key) {
+    let fail = false;
+    let errmsg = "";
     let golfData = {};
-    let url =
-      "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
-      golf.resorts[ri].lat +
-      "," +
-      golf.resorts[ri].lon +
-      "&format=json&units=" +
-      units +
-      "&language=en-US&apiKey=" +
-      key;
-    $.getJSON(url, function (data) {
-      try {
-        golfData.resortForecast[ri].cityname = golf.resorts[ri].displayname;
-        golfData.resortForecast[ri].noReport = false;
-        let ii = 0;
-        let dpi = 0;
-        if (data.daypart[0].daypartName[0] == null) {
-          ii = 1;
-          dpi = 2;
+    golf.resorts.forEach((ri) => {
+      let url =
+        "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
+        golf.resorts[ri].lat +
+        "," +
+        golf.resorts[ri].lon +
+        "&format=json&units=" +
+        units +
+        "&language=en-US&apiKey=" +
+        key;
+      $.getJSON(url, function (data) {
+        try {
+          golfData.resortForecast[ri].cityname = golf.resorts[ri].displayname;
+          golfData.resortForecast[ri].noReport = false;
+          let ii = 0;
+          let dpi = 0;
+          if (data.daypart[0].daypartName[0] == null) {
+            ii = 1;
+            dpi = 2;
+          }
+          for (
+            let i = 0;
+            i < golfData.resortForecast[ci].days.length;
+            i++, ii++, dpi = dpi + 2
+          ) {
+            golfData.resortForecast[ri].days[i].cond =
+              data.daypart[0].wxPhraseLong[dpi]
+                .replaceAll("/", "/ ")
+                .replaceAll("Thunderstorms", "T'storms")
+                .replaceAll("Scattered", "Sct'd")
+                .replaceAll("Thundershowers", "T'showers");
+            golfData.resortForecast[ri].days[i].dayname = data.dayOfWeek[ii]
+              .substring(0, 3)
+              .toUpperCase();
+            golfData.resortForecast[ri].days[i].high = data.temperatureMax[ii];
+            golfData.resortForecast[ri].days[i].icon =
+              data.daypart[0].iconCode[dpi];
+            golfData.resortForecast[ri].days[i].low = data.temperatureMin[ii];
+            golfData.resortForecast[ri].days[i].windspeed =
+              data.daypart[0].windSpeed[dpi];
+          }
+          //console.log(golf.resortForecast[ri])
+          //console.log("golf resorts forecast " + ri + " grabbed")
+        } catch (error) {
+          golfData.resortForecast[ri].cityname = golf.resorts[ri].displayname;
+          golfData.resortForecast[ri].noReport = true;
+          let ii = 0;
+          let dpi = 0;
+          if (data.daypart[0].daypartName[0] == null) {
+            ii = 1;
+            dpi = 2;
+          }
+          for (
+            let i = 0;
+            i < golf.resortForecast[ri].days.length;
+            i++, ii++, dpi = dpi + 2
+          ) {
+            golfData.resortForecast[ri].days[i].cond = "";
+            golfData.resortForecast[ri].days[i].dayname = "";
+            golfData.resortForecast[ri].days[i].high = "";
+            golfData.resortForecast[ri].days[i].icon = 44;
+            golfData.resortForecast[ri].days[i].low = "";
+            golfData.resortForecast[ri].days[i].windspeed = "";
+          }
+          //console.log(golf.resortForecast[ri])
+          //console.log("golf resorts forecast " + ri + " grab failed")
+          fail = true;
+          errmsg = `Error processing golf resort ${ri} data: ${error}`;
         }
-        for (
-          let i = 0;
-          i < golfData.resortForecast[ci].days.length;
-          i++, ii++, dpi = dpi + 2
-        ) {
-          golfData.resortForecast[ri].days[i].cond =
-            data.daypart[0].wxPhraseLong[dpi]
-              .replaceAll("/", "/ ")
-              .replaceAll("Thunderstorms", "T'storms")
-              .replaceAll("Scattered", "Sct'd")
-              .replaceAll("Thundershowers", "T'showers");
-          golfData.resortForecast[ri].days[i].dayname = data.dayOfWeek[ii]
-            .substring(0, 3)
-            .toUpperCase();
-          golfData.resortForecast[ri].days[i].high = data.temperatureMax[ii];
-          golfData.resortForecast[ri].days[i].icon =
-            data.daypart[0].iconCode[dpi];
-          golfData.resortForecast[ri].days[i].low = data.temperatureMin[ii];
-          golfData.resortForecast[ri].days[i].windspeed =
-            data.daypart[0].windSpeed[dpi];
-        }
-        //console.log(golf.resortForecast[ri])
-        //console.log("golf resorts forecast " + ri + " grabbed")
-      } catch (error) {
+      }).fail(function (xhr, status, error) {
         golfData.resortForecast[ri].cityname = golf.resorts[ri].displayname;
         golfData.resortForecast[ri].noReport = true;
-        let ii = 0;
-        let dpi = 0;
-        if (data.daypart[0].daypartName[0] == null) {
-          ii = 1;
-          dpi = 2;
-        }
-        for (
-          let i = 0;
-          i < golf.resortForecast[ri].days.length;
-          i++, ii++, dpi = dpi + 2
-        ) {
+        for (let i = 0; i < golf.resortForecast[ri].days.length; i++) {
           golfData.resortForecast[ri].days[i].cond = "";
           golfData.resortForecast[ri].days[i].dayname = "";
           golfData.resortForecast[ri].days[i].high = "";
-          golfData.resortForecast[ri].days[i].icon = 44;
+          golfData.coursresortForecasteForecast[ri].days[i].icon = "";
           golfData.resortForecast[ri].days[i].low = "";
           golfData.resortForecast[ri].days[i].windspeed = "";
         }
         //console.log(golf.resortForecast[ri])
         //console.log("golf resorts forecast " + ri + " grab failed")
-      }
-    }).fail(function () {
-      golfData.resortForecast[ri].cityname = golf.resorts[ri].displayname;
-      golfData.resortForecast[ri].noReport = true;
-      for (let i = 0; i < golf.resortForecast[ri].days.length; i++) {
-        golfData.resortForecast[ri].days[i].cond = "";
-        golfData.resortForecast[ri].days[i].dayname = "";
-        golfData.resortForecast[ri].days[i].high = "";
-        golfData.coursresortForecasteForecast[ri].days[i].icon = "";
-        golfData.resortForecast[ri].days[i].low = "";
-        golfData.resortForecast[ri].days[i].windspeed = "";
-      }
-      //console.log(golf.resortForecast[ri])
-      //console.log("golf resorts forecast " + ri + " grab failed")
+        fail = true;
+        errmsg = `Error grabbing golf resort ${ri} data: ${error}`;
+      });
     });
     //}
-    return golfData;
+    return { fail: fail, msg: errmsg, data: golfData.resortForecast };
   }
 
   function grabHealthCurrentData(lat, lon, key, name) {
+    let fail = false;
+    let errmsg = "";
     let uvIndex = {};
     uvIndex.cityname = name;
     $.getJSON(
@@ -1538,13 +1616,17 @@ if (window.Worker) {
         } catch (error) {
           uvIndex.current.uv = "noreport";
           uvIndex.current.word = "";
+          fail = true;
+          errmsg = `Failed to process UV Index data: ${error}`;
         }
       }
-    ).fail(function () {
+    ).fail(function (xhr, status, error) {
       uvIndex.current.uv = "noreport";
       uvIndex.current.word = "";
+      fail = true;
+      errmsg = `Failed to process UV Index data: ${error}`;
     });
-    return uvIndex;
+    return { fail: fail, msg: errmsg, data: uvIndex };
   }
 
   function getUvTimes(uvdata) {
@@ -1589,6 +1671,8 @@ if (window.Worker) {
     return dateFns.format(time, "h a").replace(" ", "");
   }
   function getHealth24HrData(lat, lon, key) {
+    let fail = false;
+    let errmsg = false;
     let uvIndex = {};
     $.getJSON(
       "https://api.weather.com/v2/indices/uv/hourly/24hour?geocode=" +
@@ -1619,21 +1703,27 @@ if (window.Worker) {
             uvIndex.forecast[i].word = "";
             uvIndex.forecast[i].time = "";
             uvIndex.forecast[i].day = "";
+            fail = true;
+            errmsg = `Failed to process UV Index (24HR) data: ${error}`;
           }
         }
       }
-    ).fail(function () {
+    ).fail(function (xhr, status, error) {
       for (let i = 0; i < 3; i++) {
         uvIndex.forecast[i].uv = "noreport";
         uvIndex.forecast[i].word = "";
         uvIndex.forecast[i].time = "";
         uvIndex.forecast[i].day = "";
+        fail = true;
+        errmsg = `Failed to grab UV Index (24HR) data: ${error}`;
       }
     });
-    return uvIndex;
+    return { fail: fail, msg: errmsg, data: uvIndex.forecast };
   }
 
   function grabEXCurrentConditions(lat, lon, key, units, name) {
+    let fail = false;
+    let errmsg = "";
     let currentConditions = {};
     let url =
       "https://api.weather.com/v3/wx/observations/current?geocode=" +
@@ -1674,8 +1764,10 @@ if (window.Worker) {
         currentConditions.wind = "";
         currentConditions.windspeed = "";
         currentConditions.noReport = true;
+        fail = true;
+        errmsg = `Current Conditions (Extra Loc) data failed to process: ${error}`;
       }
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       currentConditions.cityname = name;
       currentConditions.cond = "";
       currentConditions.gusts = "";
@@ -1686,11 +1778,15 @@ if (window.Worker) {
       currentConditions.wind = "";
       currentConditions.windspeed = "";
       currentConditions.noReport = true;
+      fail = true;
+      errmsg = `Current Conditions (Extra Loc) data failed to grab: ${error}`;
     });
-    return currentConditions;
+    return { fail: fail, msg: errmsg, data: currentConditions };
   }
 
   function grabEXDayDesc(lat, lon, units, key, name) {
+    let fail = false;
+    let errmsg = "";
     let dayDesc = {};
     let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
@@ -1720,19 +1816,25 @@ if (window.Worker) {
           dayDesc.times[i].timetitle = "";
           dayDesc.times[i].forecast = "";
         }
+        fail = true;
+        errmsg = `DayDesc (Extra Loc) data failed to process: ${error}`;
       }
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       dayDesc.cityname = name;
       dayDesc.noReport = true;
       for (let i = 0; i < dayDesc.times.length; i++) {
         dayDesc.times[i].timetitle = "";
         dayDesc.times[i].forecast = "";
       }
+      fail = true;
+      errmsg = `DayDesc (Extra Loc) data failed to grab: ${error}`;
     });
-    return dayDesc;
+    return { fail: fail, msg: errmsg, data: dayDesc };
   }
 
   function grabEXExtended(lat, lon, units, key, name) {
+    let fail = false;
+    let errmsg = "";
     let extendedForecast = {};
     let url =
       "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
@@ -1793,8 +1895,10 @@ if (window.Worker) {
           extendedForecast.days[i].low = "";
           extendedForecast.days[i].windspeed = "";
         }
+        fail = true;
+        errmsg = `Failed to process Extended Forecast (Extra Loc) data: ${error}`;
       }
-    }).fail(function () {
+    }).fail(function (xhr, status, error) {
       extendedForecast.cityname = name;
       extendedForecast.noReport = true;
       for (let i = 0; i < extraLocal.extendedForecast.days.length; i++) {
@@ -1805,6 +1909,8 @@ if (window.Worker) {
         extendedForecast.days[i].low = "";
         extendedForecast.days[i].windspeed = "";
       }
+      fail = true;
+      errmsg = `Failed to grab Extended Forecast (Extra Loc) data: ${error}`;
     });
     return extendedForecast;
   }
@@ -1817,15 +1923,17 @@ if (window.Worker) {
     let data = null;
     let message = "";
     let fail = false;
+    let func = null;
 
     if (type == "mainCC") {
       try {
-        data = grabCurrentConditions(
+        func = grabCurrentConditions(
           attributes.lat,
           attributes.lon,
           attributes.unit,
           attributes.name,
-          attributes.key
+          attributes.key,
+          attributes.data
         );
       } catch (error) {
         fail = true;
@@ -1833,7 +1941,7 @@ if (window.Worker) {
       }
     } else if (type == "nearCC") {
       try {
-        data = grabNearbyConditions(
+        func = grabNearbyConditions(
           attributes.cities,
           attributes.unit,
           attributes.key
@@ -1844,12 +1952,13 @@ if (window.Worker) {
       }
     } else if (type == "dayDesc") {
       try {
-        data = grabDayDesc(
+        func = grabDayDesc(
           attributes.lat,
           attributes.lon,
           attributes.unit,
           attributes.key,
-          attributes.name
+          attributes.name,
+          attributes.data
         );
       } catch (error) {
         fail = true;
@@ -1857,7 +1966,192 @@ if (window.Worker) {
       }
     } else if (type == "exFcst") {
       try {
-        data = grabExtended(
+        func = grabExtended(
+          attributes.lat,
+          attributes.lon,
+          attributes.unit,
+          attributes.key,
+          attributes.name,
+          attributes.data
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "almanac") {
+      try {
+        func = grabAlmanac(
+          attributes.lat,
+          attributes.lon,
+          attributes.unit,
+          attributes.key,
+          attributes.data
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "moons") {
+      try {
+        func = grabMoons(attributes.data);
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "warnings") {
+      try {
+        func = getWarnings(
+          attributes.lat,
+          attributes.lon,
+          attributes.key,
+          attributes.data
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "airportdelays") {
+      try {
+        func = grabAirportDelays(attributes.data);
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "airportcond") {
+      try {
+        func = grabAPConditions(attributes.data);
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "natairport") {
+      try {
+        func = grabNationalAP(attributes.data);
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "mainCCes") {
+      try {
+        func = grabESCurrentConditions(
+          attributes.lat,
+          attributes.lon,
+          attributes.unit,
+          attributes.key,
+          attributes.name,
+          attributes.data
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "nearCCes") {
+      try {
+        func = grabESCurrentConditions(
+          attributes.lat,
+          attributes.lon,
+          attributes.unit,
+          attributes.key,
+          attributes.name,
+          attributes.data
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "exFcstES") {
+      try {
+        func = grabESExtended(
+          attributes.lat,
+          attributes.lon,
+          attributes.units,
+          attributes.key,
+          attributes.name
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "almanacES") {
+      try {
+        func = grabESAlmanac(
+          attributes.lat,
+          attributes.lon,
+          attributes.key,
+          attributes.unit
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "moonsES") {
+      try {
+        func = grabESMoons();
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "courses") {
+      try {
+        func = grabCoursesData(
+          attributes.data,
+          attributes.unit,
+          attributes.key
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "resorts") {
+      try {
+        func = grabResortsData(
+          attributes.data,
+          attributes.unit,
+          attributes.key
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "healthCur") {
+      try {
+        func = grabHealthCurrentData(
+          attributes.lat,
+          attributes.lon,
+          attributes.key,
+          attributes.name
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "health24hr") {
+      try {
+        func = getHealth24HrData(
+          attributes.lat,
+          attributes.lon,
+          attributes.key
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "exCC") {
+      try {
+        func = grabEXCurrentConditions(
+          attributes.lat,
+          attributes.lon,
+          attributes.key,
+          attributes.unit,
+          attributes.name
+        );
+      } catch (error) {
+        fail = true;
+        message = error;
+      }
+    } else if (type == "exDayDesc") {
+      try {
+        func = grabEXDayDesc(
           attributes.lat,
           attributes.lon,
           attributes.unit,
@@ -1868,9 +2162,9 @@ if (window.Worker) {
         fail = true;
         message = error;
       }
-    } else if (type == "almanac") {
+    } else if (type == "exExFcst") {
       try {
-        data = grabAlmanac(
+        func = grabEXExtended(
           attributes.lat,
           attributes.lon,
           attributes.unit,
@@ -1880,14 +2174,17 @@ if (window.Worker) {
         fail = true;
         message = error;
       }
-    } else if (type == "moons") {
-      try {
-        data = grabMoons();
-      } catch (error) {
-        fail = true;
-        message = error;
-      }
     }
+
+    // generate some magic
+
+    if (fail != true) {
+      data = func.data;
+      fail = func.fail;
+      message = func.msg;
+    }
+
+    postMessage({ fail: fail, msg: message, data: data });
   };
 } else {
   console.log(
