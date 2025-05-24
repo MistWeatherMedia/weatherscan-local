@@ -11,10 +11,12 @@ var simInfo = {
 var simPackages = {
   intro: {
     name: "Intro",
+    title: "Intro",
     slides: ["introSlide", "providerSlide"],
   },
   forecast: {
     name: "Forecast",
+    title: "Your Local Forecast",
     slides: [
       "upNext",
       "bulletin",
@@ -33,6 +35,7 @@ var simPackages = {
 
   extralocal: {
     name: "Extra Local",
+    title: "Forecast for Unkn.",
     slides: [
       "upNext",
       "extraCurrentConditions",
@@ -42,6 +45,7 @@ var simPackages = {
   },
   minicore: {
     name: "Mini Core",
+    title: "Your Local Forecast",
     slides: [
       "upNext",
       "dopplerRadar",
@@ -53,6 +57,7 @@ var simPackages = {
   },
   spanish: {
     name: "Spanish",
+    title: "Spanish Forecast",
     slides: [
       "upNext",
       "EScurrentConditions",
@@ -62,17 +67,24 @@ var simPackages = {
   },
   golf: {
     name: "Golf",
+    title: "Golf",
     slides: ["upNext", "courseForecast"],
   },
   health: {
     name: "Health",
+    title: "Health",
     slides: ["upNext", "healthTip", "uvIndex"],
   },
   airport: {
     name: "Airport",
+    title: "Airport",
     slides: ["upNext", "airportConditions", "nationalAirports"],
   },
 };
+
+function locationUpdateConfig() {
+  simPackages.extralocal.title = `Forecast for ${locationSettings.extraCity.displayname}`;
+}
 
 function loadProviderConfig(provider) {
   providerConfigUpdateMain(provider);

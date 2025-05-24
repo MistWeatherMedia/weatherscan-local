@@ -1,5 +1,6 @@
 var extraCityName = "";
 var providerConfig = null;
+var slideSettings = {};
 var slideDivs = {
   dopplerRadar: ".radar-doppler",
 
@@ -42,6 +43,12 @@ var satround = 0;
 var idx = 0;
 var gidx = 0;
 var htipidx = 0;
+
+function providerConfigUpdateSlides(provider) {
+  providerConfig = provider;
+  slideSettings.order = provider.slides.order;
+}
+
 function slideCallBack() {
   $("#provider").css("margin-left", "0px");
   $("#provider").css("margin-top", "0px");
@@ -2401,43 +2408,28 @@ function slideKickOff() {
     "background-size": "100% 100%",
   });
   showSlides();
-  slideTitles = {
-    forecast: "Your Local Forecast",
-    minicore: "Your Local Forecast",
-    intro: "intro",
-    airport: "Airport",
-    golf: "Golf",
-    spanish: "Spanish Forecast",
-    health: "Health",
-    extralocal: "Forecast For " + extraCityName,
-  };
 } //end of slideKickOff() function
 function showSlides() {
-  if (idx >= slideSettings.order[0].slideLineup[gidx].slides.length) {
+  if (idx >= simPackages[slideSettings.order[gidx]].slides.length) {
     idx = 0;
     gidx++;
-    if (gidx >= slideSettings.order[0].slideLineup.length) {
+    if (gidx >= slideSettings.order.length) {
       gidx = 0;
 
       setTimeout(() => {
         crawlCheck();
       }, 1000);
     }
-    if (slideSettings.order[0].slideLineup[gidx].group != "intro") {
+    if (slideSettings.order[gidx] != "intro") {
       $(".upnext-slide .skeleton").css({
         background:
           `transparent url(images/skeletons/upnext-slide-skeleton-` +
-          slideSettings.order[0].slideLineup[gidx].group +
+          slideSettings.order[gidx] +
           `.png) no-repeat`,
         "background-size": "100% 100%",
       });
     }
   }
-  currentProgram =
-    slidePrograms[
-      slideSettings.order[0].slideLineup[gidx].slides[idx].function
-    ];
-  currentDiv =
-    slideDivs[slideSettings.order[0].slideLineup[gidx].slides[idx].function];
-  currentProgram();
+  currentDiv = slideDivs[simPackages[slideSettings.order[gidx]].slides[idx]];
+  slidePrograms[simPackages[slideSettings.order[gidx]].slides[idx]].func();
 } //END OF showSlides() FUNCTION
