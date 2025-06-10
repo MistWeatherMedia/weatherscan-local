@@ -76,6 +76,7 @@ var slidePrograms = {
           $(".locradar-cont").attr("style","transform: scale(1.13, 1.335) translate3d(0,0,0);");
         }
         setTimeout(function () {
+          clearInterval(radarAnimation);
           slideCallBack();
           $(".radar-doppler").fadeOut(0);
           $(".locradar-cont").attr("style","");
@@ -121,6 +122,7 @@ var slidePrograms = {
         $("#provider").css("margin-left", "15px")
         $("#provider").css("margin-top", "5px")
         setTimeout(function () {
+          clearInterval(radarAnimation);
           slideCallBack();
           $(".regional-sat").fadeOut(0);
           $(".satradar-cont").attr("style","");
@@ -165,6 +167,7 @@ var slidePrograms = {
           $(".regradar-cont").attr("style","transform: scale(1.14, 1.335) translate3d(0,0,0);");
         }
         setTimeout(function () {
+          clearInterval(radarAnimation);
           slideCallBack();
           $(".regional-radar").fadeOut(0);
           $(".regradar-cont").attr("style","");

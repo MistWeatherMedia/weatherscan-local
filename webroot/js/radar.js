@@ -234,7 +234,7 @@ function animateRadar(map, timestamps) {
     }
   }, interval);
 
-  radarAnimation = setInterval(() => {
+  return setInterval(() => {
     animationInterval = setInterval(() => {
       setLayerVisibility(validLayers[currentIndex], "none");
       currentIndex = (currentIndex + 1) % validLayers.length;
@@ -294,7 +294,7 @@ async function startRadar(map) {
   clearInterval(radarAnimation);
   // timestamps = await fetchRadarTimestamps(map)
   // await addRadarLayers(map, timestamps)
-  const animation = animateRadar(map, timestamps);
+  radarAnimation = animateRadar(map, timestamps);
   map.resize();
 }
 /*

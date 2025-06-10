@@ -1,4 +1,6 @@
 Make sure to report any bugs or issues in the Issues tab!
+= Jun 10, 2025 | VERSION 1.23 =
+ -  Fixed radar from looping when slide isn't active
 = May 23, 2025 | VERSION 1.22 =
  -  Fixed wrong background for the main location setup
  -  Fixed airport delay grab
