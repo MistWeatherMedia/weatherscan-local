@@ -1,4 +1,4 @@
-![](https://media.discordapp.net/attachments/1339090268263157770/1367899479168122900/banner.png?ex=6816432a&is=6814f1aa&hm=61bea94dd7975435efd6e895f24f90375683b571b88a0b47fac2c7d1d5d33749&=&format=webp&quality=lossless&width=1100&height=200)
+![](https://media.discordapp.net/attachments/1059356760990826536/1367233544291614881/wslocalbannermist.png?ex=68644276&is=6862f0f6&hm=86800e66c65c8b01512b1615f511531b14405e04e60cc53f5b6c508a759649c0&=&format=webp&quality=lossless&width=1860&height=336)
 
 ------------
 
