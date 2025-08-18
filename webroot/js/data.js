@@ -1111,43 +1111,51 @@ function grabHealthData() {
     weatherData.uvIndex.current.uv = "noreport"
     weatherData.uvIndex.current.word = ""
   })
-  function getUvTimes(uvdata) {
-    var timestamps = [9, 12, 15, 18], currentstamp = dateFns.getHours(new Date()), now = new Date(), startstamp, hour, i=0;
-    var timearray = []
-    switch (true) {
-      case (currentstamp < 9):
-        startstamp = 9; break
-      case (currentstamp < 12):
-        startstamp = 12; break
-      case (currentstamp < 15):
-        startstamp = 15; break
-      case (currentstamp < 18):
-        startstamp = 18.; break
-      default:
-        startstamp = 9
-    }
-    while (timearray.length < 4) {
-      hour = dateFns.getHours(uvdata.fcstValidLocal[i])
-      if (dateFns.isAfter(uvdata.fcstValidLocal[i], now) && (hour==startstamp || timearray.length > 0)) {
-        if (timestamps.indexOf(hour) >= 0) {
-          timearray.push(i)
-        }
-      }
-      i++
-    }
-    return timearray;
-  }
   function hourlyTime(time) {
     return (dateFns.format(time, "h a")).replace(" ", "")
   }
-  $.getJSON("https://api.weather.com/v2/indices/uv/hourly/24hour?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
+  $.getJSON("https://api.weather.com/v2/indices/uv/hourly/48hour?geocode=" + locationConfig.mainCity.lat + "," + locationConfig.mainCity.lon + "&language=en-US&format=json&apiKey=" + api_key, function(data) {
     try {
-      var indexes = getUvTimes(data.uvIndex1hour)
-      for (var i = 0; i < 3; i++) {
-        weatherData.uvIndex.forecast[i].uv = data.uvIndex1hour.uvIndex[indexes[i]]
-        weatherData.uvIndex.forecast[i].word = data.uvIndex1hour.uvDesc[indexes[i]]
-        weatherData.uvIndex.forecast[i].time = hourlyTime(data.uvIndex1hour.fcstValidLocal[indexes[i]]).toUpperCase()
-        weatherData.uvIndex.forecast[i].day = dateFns.format(new Date(data.uvIndex1hour.fcstValidLocal[indexes[i]]), "ddd").toUpperCase()
+      var currenthr = dateFns.getHours(new Date())
+      var targetHours
+      switch (true) {
+        case (currenthr < 6):
+          targetHours = [9, 12, 15]; break
+        case (currenthr < 9):
+          targetHours = [12, 15, 18]; break
+        case (currenthr < 12):
+          targetHours = [15, 18, 9]; break
+        case (currenthr < 15):
+          targetHours = [18, 9, 12]; break
+        case (currenthr < 18):
+          targetHours = [9, 12, 15]; break
+        default:
+          targetHours = [9, 12, 15]
+      }
+      var ii = 0
+      for (var i = 0; i < data.uvIndex1hour.fcstValidLocal.length; i++) {
+        if (ii < 3) {
+          var uvTime = dateFns.getHours(data.uvIndex1hour.fcstValidLocal[i])
+          if (uvTime == targetHours[ii]) {
+            if (data.uvIndex1hour[i] >= 0) {
+              weatherData.uvIndex.forecast[ii].uv = data.uvIndex1hour.uvIndex[i]
+              weatherData.uvIndex.forecast[ii].word = data.uvIndex1hour.uvDesc[i]
+              weatherData.uvIndex.forecast[ii].time = hourlyTime(data.uvIndex1hour.fcstValidLocal[i])
+              weatherData.uvIndex.forecast[ii].day = dateFns.format(new Date(data.uvIndex1hour.fcstValidLocal[indexes[i]]), "ddd").toUpperCase()
+              ii++
+            } else {
+              for (var j = 0; j < 3; j++) {
+                weatherData.uvIndex.forecast[j].uv = "noreport"
+                weatherData.uvIndex.forecast[j].word = ""
+                weatherData.uvIndex.forecast[j].time = ""
+                weatherData.uvIndex.forecast[j].day = ""
+              }
+              break
+            }
+          }
+        } else {
+          break
+        }
       }
     } catch (error) {
       for (var i = 0; i < 3; i++) {
