@@ -226,9 +226,11 @@ function downloadTempJson() {
 
 }
 function jsonsaveButton() {
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(locationSettings));
+  var jsonText = {jsonLocationSettings: {}}
+  jsonText.jsonLocationSettings = locationSettings
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonText));
   var downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href",     dataStr);
+  downloadAnchorNode.setAttribute("href",      dataStr);
   downloadAnchorNode.setAttribute("download", "config.json");
   document.body.appendChild(downloadAnchorNode); // required for firefox
   downloadAnchorNode.click();
