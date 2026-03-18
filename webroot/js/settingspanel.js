@@ -161,6 +161,11 @@ if (apperanceSettings.skipSettings == true) {
     $("#setup-welcome").fadeIn(0);
   }, 1000);
 }
+if (apperanceSettings.adMessage[0] == "network") {
+      $.getJSON("https://mistwx.com/crawlnetwork.json", function(data) {
+        apperanceSettings.adMessage = data.crawls.scanlocal
+      })
+    }
 function welcomefuncs(type) {
   if (type == "proceed") {
     $("#setup-welcome").fadeOut(0);
