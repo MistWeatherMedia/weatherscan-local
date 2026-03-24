@@ -1106,18 +1106,16 @@ button {
   margin-left: 10%;
   transform: scale(1.1);
 }
-.extra-extended-forecast .slide-data .day .high {
-  position: absolute;
-  margin-left: 55%;
-  width: 27%;
-  text-align: right;
-  font-size: 99px;
-  top: 479px;
-  font-stretch: condensed;
-  text-shadow: 2px 2px #000;
-  font-weight: 400;
-  color: #ddc879;
-  left: -100px;
+.extended-forecast .slide-data .day .high {
+    position: absolute;
+    width: 44%;
+    text-align: right;
+    font-size: 99px;
+    top: 479px;
+    font-stretch: condensed;
+    text-shadow: 2px 2px #000;
+    font-weight: 400;
+    color: #ddc879;
 }
 .extra-extended-forecast .slide-data .day .divider {
   position: absolute;

@@ -1,4 +1,6 @@
 Make sure to report any bugs or issues in the Issues tab!
+= March 23, 2026 | VERSION 1.26 =
+ -  Fixed visual bug in extended forecast
 = March 17, 2026 | VERSION 1.25 = 
  -  Added support to the default website crawl. Set the adMessage array to "network"
 = March 16, 2026 | VERSION 1.24 =

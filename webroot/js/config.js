@@ -10,7 +10,7 @@ var apperanceSettings = {
   adMessage: ["network"],
   aspectRatio: 4/3, //3/2 or 4/3
   crawlInterval: 48000,
-  version: "1.25",
+  version: "1.26",
 };
 var slideSettings = {//Don't change this
   order: [
